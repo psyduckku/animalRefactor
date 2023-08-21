@@ -1,0 +1,63 @@
+*{
+    margin: 0 auto; padding: 0; box-sizing: border-box;
+}
+body{
+    height: 100vh;
+}
+.box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #ffc0cb;
+}
+.parent{
+    height: 100%;
+    display: grid;
+    grid-template-areas:
+				". animal1 info ."
+				". animal2 rList1 ."
+                ". animal3 rList2 ."
+                ". animal4 rList3 .";
+
+    grid-template-rows: 1fr 1fr 1fr 1fr; /*수직 행*/
+    grid-template-columns: 300px 1fr 400px 300px; /*수평 열*/
+    gap: 10px;
+}
+
+.box{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: pink;
+    text-align: center;
+}
+
+.info{
+    grid-area: info;
+}
+.animal1{
+    grid-area: animal1;
+}
+.animal2{
+    grid-area: animal2;
+}
+.animal3{
+    grid-area: animal3;
+}
+.animal4{
+    grid-area: animal4;
+}
+.rList1{
+    grid-area: rList1;
+}
+.rList2{
+    grid-area: rList2;
+}
+.rList3{
+    grid-area: rList3;
+}
+.animal_pic{
+    width: 25rem;
+}
