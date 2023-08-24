@@ -13,25 +13,21 @@ public class BaseController {
 
     @GetMapping("/")
     public String index(){
-        log.info("index접근");
         return "index";
     }
 
     @GetMapping("/login")
-    public String loginPage(){
-        log.info("login접근");
+    public String loginForm(){
         return "login";
     }
 
     @PostMapping("/login")
     public String login(){
-
         return "/";
     }
 
     @GetMapping("/join")
-    public String join(){
-        log.info("join접근");
+    public String joinForm(){
         return "join";
     }
 
