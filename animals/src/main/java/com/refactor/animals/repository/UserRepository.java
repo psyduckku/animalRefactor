@@ -1,6 +1,6 @@
 package com.refactor.animals.repository;
 
-import com.refactor.animals.dto.UserDTO;
+import com.refactor.animals.entity.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -12,25 +12,31 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Repository
+
 public class UserRepository {
 
-    private static Map<Long, UserDTO> store = new ConcurrentHashMap<>();
+    private static final Map<Long, Member> store = new ConcurrentHashMap<>();
     private static long sequence = 0L; // static 사용
-    public UserDTO save(UserDTO userDTO){
-        userDTO.setId(++sequence);
-        log.info("save: user={}", userDTO);
-        return userDTO;
+    public Member save(Member member){
+        member.setId(++sequence);
+        log.info("save: user={}", member);
+        return member;
     }
 
-    public Optional<UserDTO> findByLoginId(String password){
+    public Optional<Member> findByLoginId(String password){
         return findAll().stream()
                 .filter(u -> u.getPassword().equals(password))
                 .findFirst();
     }
 
-    public List<UserDTO> findAll(){
+    public List<Member> findAll(){
         return new ArrayList<>(store.values());
     }
+
+//    public UserDTO getUserInfo(String loginId, String password){
+//
+////        return
+//    }
 
     public void clearStore(){
         store.clear();

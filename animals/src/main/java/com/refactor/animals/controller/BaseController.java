@@ -30,6 +30,12 @@ public class BaseController {
     public String joinForm(){
         return "join";
     }
+    @PostMapping("/join")
+    public String join(){
+        //validation 실시
+
+        return "/";
+    }
 
 
 

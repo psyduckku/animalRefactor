@@ -11,18 +11,18 @@
 <header th:fragment="copy">
   <nav>
     <div class="logo_nav">
-      <a href="/">
+      <a href="/base/">
         <i class="fa-solid fa-shield-dog"></i>
         SaveAnimals
       </a>
     </div>
     <ul class="menu_nav">
-      <li><a href="#">소개</a></li>
-      <li><a href="getAnimalList.do">유기동물명단</a></li>
-      <li><a href="getAdoptBoardList.do">자유게시판</a></li>
+      <li><a href="#" th:text="#{nav.introduce}">소개</a></li>
+      <li><a href="getAnimalList.do" th:text="#{nav.animalList}">유기동물명단</a></li>
+      <li><a href="getAdoptBoardList.do" th:text="#{nav.freeBoard}">자유게시판</a></li>
     </ul>
     <ul class="login_bar">
-          <li class="login"><a href="/login"><i class="fa-solid fa-right-to-bracket"></i> 로그인</a></li>
+          <li class="login"><a href="/base/login"><i class="fa-solid fa-right-to-bracket"></i> 로그인</a></li>
     </ul>
 
     <a href="#" class="navbar_toggleBtn">

@@ -1,12 +1,12 @@
 package com.refactor.animals.service;
 
 
-import com.refactor.animals.dto.UserDTO;
+import com.refactor.animals.entity.Member;
 
 public interface UserService {
 
-    UserDTO login(String loginId, String password);
-    UserDTO getUserInfo(UserDTO userDTO);
-    void updateUserInfo(UserDTO userDTO);
+    Member login(String loginId, String password);
+//    UserDTO getUserInfo(UserDTO userDTO);
+    void updateUserInfo(Member member);
 
 }
