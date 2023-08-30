@@ -16,7 +16,8 @@
         <input type="hidden" name="joinDate">
         <ul>
           <li>
-            <div class="head" th:text="#{join.id}">아이디</div> <input type="text" name="id">
+            <div class="head" th:text="#{join.id}">아이디</div> <input type="text" name="id" id="idInput">
+            <button id="dupliCheck">중복확인</button>
           </li>
           <li>
             <div class="head" th:text="#{join.password}">비밀번호</div> <input type="password" name="pswd">
@@ -33,7 +34,7 @@
           <li>
             <div class="head" th:text="#{join.address}">주소</div>
             <input type="text" id="postcode" placeholder="우편번호">
-            <input type="button" onclick="DaumPostcode()" value="우편번호 찾기"><br>
+            <input type="button" onclick="sample6_execDaumPostcode()" id="search_addr" value="우편번호 찾기"><br>
             <input type="text" id="address" placeholder="주소"><br>
             <input type="text" id="detailAddress" placeholder="상세주소">
             <input type="text" id="extraAddress" placeholder="참고항목">
@@ -49,51 +50,43 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-  function DaumPostcode() {
+  //해당 코드는 정상적으로 데이터 값이 전달되면 팝업창은 close()되도록 되어있음
+  let postcodeInput = document.getElementById('postcode');
+  let detailAddressInput = document.getElementById('detailAddress');
+  let extraAddrInput = document.getElementById('extraAddress');
+  let addressInput = document.getElementById('address');
+
+  function sample6_execDaumPostcode() {
     new daum.Postcode({
       oncomplete: function(data) {
-        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-        const postcode = document.getElementById('postcode');
-        const address = document.getElementById('address');
-        const detailAddress = document.getElementById('detailAddress');
-        const extraAddress = document.getElementById('extraAddress');
-        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-
-        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-          addr = data.roadAddress;
-        } else { // 사용자가 지번 주소를 선택했을 경우(J)
-          addr = data.jibunAddress;
+      var address='';
+      var extraAddr='';
+        console.log(data);
+        if (data.userSelectedType === 'R') {
+          address = data.roadAddress;
+        } else {
+          address = data.jibunAddress;
         }
 
-        // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
         if(data.userSelectedType === 'R'){
-          // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-          // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
           if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
             extraAddr += data.bname;
           }
-          // 건물명이 있고, 공동주택일 경우 추가한다.
           if(data.buildingName !== '' && data.apartment === 'Y'){
-            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+            extraAddrInput += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
           }
-          // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
           if(extraAddr !== ''){
             extraAddr = ' (' + extraAddr + ')';
           }
-          // 조합된 참고항목을 해당 필드에 넣는다.
-          document.getElementById("sample6_extraAddress").value = extraAddr;
+          extraAddrInput.value = extraAddr;
 
         } else {
-          document.getElementById("sample6_extraAddress").value = '';
+          extraAddrInput.value = '';
         }
-
-        // 우편번호와 주소 정보를 해당 필드에 넣는다.
-        document.getElementById('sample6_postcode').value = data.zonecode;
-        document.getElementById("sample6_address").value = addr;
-        // 커서를 상세주소 필드로 이동한다.
-        document.getElementById("sample6_detailAddress").focus();
+        postcodeInput.value = data.zonecode;
+        addressInput.value = address;
+        console.log(address);
+        detailAddressInput.focus();
       }
     }).open();
   }

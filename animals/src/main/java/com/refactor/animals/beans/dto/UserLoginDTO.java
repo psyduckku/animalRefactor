@@ -1,4 +1,4 @@
-package com.refactor.animals.dto;
+package com.refactor.animals.beans.dto;
 
 public class UserLoginDTO {
     String loginId;

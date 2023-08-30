@@ -1,7 +1,7 @@
 package com.refactor.animals.service;
 
 
-import com.refactor.animals.entity.Member;
+import com.refactor.animals.beans.entity.Member;
 
 public interface UserService {
 

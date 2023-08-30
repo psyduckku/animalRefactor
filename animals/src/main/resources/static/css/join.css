@@ -14,7 +14,6 @@
     border: 1px solid  #e3e3e3;
     padding: 82px 69px;
     border-radius: 20px;
-
 }
 li{
     list-style-type: none;
@@ -32,6 +31,9 @@ input{
     height: 47px;
     outline: 0.3px solid gray;
 }
+#idInput{
+    width: 200px;
+}
 .join{
     width: 435px;
     margin-top: 25px;
@@ -40,4 +42,21 @@ input{
 .submit{
     margin-top: 10px;
     width: 402px;
+}
+#postcode, #search_addr{
+    width: 130px;
+    height: 40px;
+}
+#dupliCheck{
+    width: 120px;
+    height: 40px;
+}
+#address{
+    width: 450px;
+}
+#detailAddress{
+    width: 290px;
+}
+#extraAddress{
+    width: 155px;
 }
