@@ -5,8 +5,10 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.Optional;
+
 @Data
-public class JoinDTO {
+public class JoinFormDTO {
 
     @NotNull
     @Size(min = 5, max = 15, message = "아이디는 5~20자 이내여야 합니다.")
@@ -25,24 +27,9 @@ public class JoinDTO {
     @Pattern(regexp = "^[0-9]+$", message = "핸드폰 번호는 숫자만 입력해야 합니다.")
     private String phone;
 
-    @NotNull
-    private String postcode;
-
-    @NotNull
-    private String address;
-    @NotNull
-    private String detailAddress;
+    private String postcode; //생략가능
+    private String address; //생략가능
+    private String detailAddress; //생략가능
     private String extraAddress; //생략가능
 
-    public JoinDTO(String loginId, String password, String name, String nickName, String phone, String postcode, String address, String detailAddress, String extraAddress) {
-        this.loginId = loginId;
-        this.password = password;
-        this.name = name;
-        this.nickName = nickName;
-        this.phone = phone;
-        this.postcode = postcode;
-        this.address = address;
-        this.detailAddress = detailAddress;
-        this.extraAddress = extraAddress;  //Optional사용..?
-    }
 }
