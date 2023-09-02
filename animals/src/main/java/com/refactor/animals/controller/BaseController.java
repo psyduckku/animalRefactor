@@ -4,15 +4,20 @@ import com.refactor.animals.beans.dto.JoinFormDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Slf4j
 @Controller
-@RequestMapping("/base")
+@RequestMapping("/base")  //시발!!! getMapping에 /하나 안넣었다고 이지랄!!
 public class BaseController {
 
     @GetMapping("/")
@@ -34,24 +39,50 @@ public class BaseController {
     }
 
     @GetMapping("/join")
-    public String joinForm(){
+    public String joinForm(@ModelAttribute JoinFormDTO joinFormDTO){
+        log.info("회원가입창 이동");
+        log.info("joinFormDTO.getLoginId={}", joinFormDTO.getLoginId());
         return "join";
     }
     @PostMapping("/join")
-    public String join(@Validated @ModelAttribute("member") JoinFormDTO joinFormDTO){
-        //validation 실시
+    public String joinStringUtilsValidator(@Validated @ModelAttribute JoinFormDTO joinFormDTO){
+        //StringUtils을 사용한 회원가입
+        //Map을 만들기
+
+        log.info("joinFormDTO.getLoginId() = {}",joinFormDTO.getLoginId());
 
 
-        //dto를 entity로 변환시키기(변환시 joinDto, joinEntity 개별 클래스로 넣어주자)
-        //여기서 form dto validtion 검증 후 error발견시 빠꾸시키기
-        //근데 애초에 값이 컨트롤러로 넘어오기전에 클라이언트에서 해당 값을 입력 못하게(특수문자같은)
-        //처리하고 마지막으로 컨트롤러에서 validation 작업을 하는게 좋을 것 같다.
-        //
+        //ConcurrentHashMap은 나중에 쓰기
+//        Map<String, String> errors = new HashMap<>();
+//        if(!StringUtils.hasText(joinFormDTO.getLoginId())){
+//            errors.put("loginId", "사용하실 아이디를 입력해주세요");
+//        }
+//        if(joinFormDTO.getPassword()==null ||
+//                joinFormDTO.getPassword().length() < 7 || joinFormDTO.getPassword().length() > 15){
+//            errors.put("password", "비밀번호는 7자 이상 또는 15자 이하로 입력해주세요");
+//        }
+//        if(joinFormDTO.getName()==null){
+//            errors.put("name", "이름을 입력해주세요.");
+//        }
+//        if(joinFormDTO.getPhone()==null){
+//            errors.put("phone", "핸드폰번호를 입력해주세요");
+//        }
+//        if(joinFormDTO.getAddress()==null){
+//            errors.put("address", "주소를 입력해주세요.");
+//        }
+//        if (joinFormDTO.getDetailAddress()==null) {
+//            errors.put("detailAddress", "상세주소를 입력해주세요");
+//        }
+//
+//        //검증실패시 errors정보를 담아 회원가입창으로 재이동
+//        if (!errors.isEmpty()) {
+//            model.addAttribute("errors", errors);
+//            log.info("errors = {}", errors);
+//            return "/base/join";
+//        }
 
-//        Member member = new Member();
 
-
-        return "/";
+        return "join";
     }
 
 

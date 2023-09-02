@@ -1,5 +1,6 @@
 package com.refactor.animals.beans.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -11,6 +12,7 @@ import java.util.Optional;
 public class JoinFormDTO {
 
     @NotNull
+
     @Size(min = 5, max = 15, message = "아이디는 5~20자 이내여야 합니다.")
     private String loginId;
     @NotNull
@@ -18,7 +20,7 @@ public class JoinFormDTO {
     @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).+$",
             message = "패스워드는 영문, 숫자, 특수문자를 포함해야 합니다.")
     private String password;
-    @NotNull
+    @NotBlank
     private String name;
     @NotNull
     private String nickName;
