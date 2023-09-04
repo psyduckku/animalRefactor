@@ -17,8 +17,8 @@ public class JoinFormDTO {
     private String loginId;
     @NotNull
     @Size(min = 8, max = 20, message = "패스워드는 8~20자 이내여야 합니다.")
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).+$",
-            message = "패스워드는 영문, 숫자, 특수문자를 포함해야 합니다.")
+//    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).+$",
+//            message = "패스워드는 영문, 숫자, 특수문자를 포함해야 합니다.")
     private String password;
     @NotBlank
     private String name;

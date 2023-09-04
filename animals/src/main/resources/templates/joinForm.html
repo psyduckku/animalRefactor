@@ -3,7 +3,15 @@
 <head>
   <link rel="stylesheet" th:href="@{/css/join.css}">
   <meta charset="UTF-8">
-  <title>Insert title here</title>
+<style>
+  .field-error{
+    border-color: #dc3545;
+    color: #dc3545;
+  }
+  li{
+    /*height: 130px;*/
+  }
+</style>
 </head>
 <body>
 <div class="top_section"> </div>
@@ -11,41 +19,72 @@
   <div class="wrap_form">
     <div class="join_box">
       <div class="title" align="center"> <h1 th:text="#{join.signUp}">회원가입</h1></div>
-      <form action="base/join" th:action method="post">
+      <form action="loginForm.html" th:action th:object="${joinFormDTO}" method="post">
 <!--        <input type="hidden" name="grade">-->
 <!--        <input type="hidden" name="joinDate">-->
         <ul>
           <li>
+
             <div class="head" th:text="#{join.id}">아이디</div>
-            <input type="text" id="idInput" th:value="${joinFormDTO.loginId}">
+            <input type="text" id="loginId" th:field="*{loginId}">
             <button id="dupliCheck">중복확인</button>
+            <div th:if="${errors?.containsKey('loginId')}">
+              <p class="field-error" th:text="${errors['loginId']}">필드 오류 메시지</p>
+            </div>
           </li>
           <li>
             <div class="head" th:text="#{join.password}">비밀번호</div>
-            <input type="password" th:value="${joinFormDTO.password}">
+            <input type="password" th:field="*{password}">
+            <div th:if="${errors?.containsKey('password')}">
+              <p class="field-error" th:text="${errors['password']}">필드 오류 메시지</p>
+            </div>
           </li>
           <li>
             <div class="head" th:text="#{join.name}">이름</div>
-            <input type="text" th:value="${joinFormDTO.name}">
+            <input type="text" th:field="*{name}">
+            <div th:if="${errors?.containsKey('name')}">
+              <p class="field-error" th:text="${errors['name']}">필드 오류 메시지</p>
+            </div>
+
           </li>
           <li>
             <div class="head" th:text="#{join.nickname}">닉네임</div>
-            <input type="text" th:value="${joinFormDTO.nickName}">
+            <input type="text" th:field="*{nickName}">
           </li>
           <li>
             <div class="head" th:text="#{join.phone}">연락처</div>
-            <input type="text" th:value="${joinFormDTO.phone}">
+            <input type="text" th:field="*{phone}">
+            <div th:if="${errors?.containsKey('phone')}">
+              <p class="field-error" th:text="${errors['phone']}">필드 오류 메시지</p>
+            </div>
           </li>
+
           <li>
             <div class="head" th:text="#{join.address}">주소</div>
-            <input type="text" id="postcode" placeholder="우편번호" th:value="${joinFormDTO.postcode}">
+            <input type="text" id="postcode" placeholder="우편번호" th:field="*{postcode}">
             <input type="button" onclick="sample6_execDaumPostcode()"
                    id="search_addr" value="우편번호 찾기"><br>
-            <input type="text" id="address" placeholder="주소" th:value="${joinFormDTO.address}"><br>
-            <input type="text" id="detailAddress" placeholder="상세주소" th:value="${joinFormDTO.detailAddress}">
-            <input type="text" id="extraAddress" placeholder="참고항목" th:value="${joinFormDTO.extraAddress}">
           </li>
-          <li> <input type="submit" value="회원가입" class="join"></li>
+
+          <li>
+            <input type="text" id="address" placeholder="주소" th:field="*{address}"><br>
+            <div th:if="${errors?.containsKey('address')}">
+              <p class="field-error" th:text="${errors['address']}">필드 오류 메시지</p>
+            </div>
+          </li>
+
+          <li>
+            <input type="text" id="detailAddress" placeholder="상세주소" th:field="*{detailAddress}">
+            <input type="text" id="extraAddress" placeholder="참고항목" th:field="*{extraAddress}">
+            <div th:if="${errors?.containsKey('detailAddress')}">
+              <p class="field-error" th:text="${errors['detailAddress']}"></p>
+
+            </div>
+          </li>
+
+          <li>
+            <input type="submit" value="회원가입" class="join">
+          </li>
         </ul>
       </form>
     </div>

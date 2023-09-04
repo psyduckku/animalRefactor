@@ -10,13 +10,14 @@
 .join_box{
     margin-top: 30px;
     width: 600px;
-    height: 691px;
+    height: 1000px;
     border: 1px solid  #e3e3e3;
     padding: 82px 69px;
     border-radius: 20px;
 }
 li{
     list-style-type: none;
+    height: 75px;
 }
 .head{
     display: inline-block;
@@ -31,7 +32,7 @@ input{
     height: 47px;
     outline: 0.3px solid gray;
 }
-#idInput{
+#loginId{
     width: 200px;
 }
 .join{
@@ -55,7 +56,7 @@ input{
     width: 450px;
 }
 #detailAddress{
-    width: 290px;
+    width: 280px;
 }
 #extraAddress{
     width: 155px;
