@@ -4,7 +4,7 @@
   <link rel="stylesheet" th:href="@{/css/join.css}">
   <meta charset="UTF-8">
 <style>
-  .field-error{
+  .field-error, #noticeId{
     border-color: #dc3545;
     color: #dc3545;
   }
@@ -20,68 +20,76 @@
     <div class="join_box">
       <div class="title" align="center"> <h1 th:text="#{join.signUp}">회원가입</h1></div>
       <form action="loginForm.html" th:action th:object="${joinFormDTO}" method="post">
-<!--        <input type="hidden" name="grade">-->
-<!--        <input type="hidden" name="joinDate">-->
         <ul>
           <li>
-
             <div class="head" th:text="#{join.id}">아이디</div>
-            <input type="text" id="loginId" th:field="*{loginId}">
+            <input type="text" id="loginId" th:field="*{loginId}" placeholder="아이디를 입력하세요"
+              th:classerror="field-error" class="form-control" oninput="idCheck(this)">
             <button id="dupliCheck">중복확인</button>
-            <div th:if="${errors?.containsKey('loginId')}">
-              <p class="field-error" th:text="${errors['loginId']}">필드 오류 메시지</p>
+            <div id="noticeId"></div>
+            <div class="field-error" th:errors="*{loginId}">
+              아이디 오류
             </div>
           </li>
           <li>
             <div class="head" th:text="#{join.password}">비밀번호</div>
-            <input type="password" th:field="*{password}">
-            <div th:if="${errors?.containsKey('password')}">
-              <p class="field-error" th:text="${errors['password']}">필드 오류 메시지</p>
+            <input type="password" th:field="*{password}" placeholder="비밀번호를 입력하세요" class="form-control"
+                th:errorclass="field-error">
+            <div class="field-error" th:errors="*{password}">
+              비밀번호 오류
             </div>
           </li>
           <li>
             <div class="head" th:text="#{join.name}">이름</div>
-            <input type="text" th:field="*{name}">
-            <div th:if="${errors?.containsKey('name')}">
-              <p class="field-error" th:text="${errors['name']}">필드 오류 메시지</p>
+            <input type="text" th:field="*{name}" placeholder="이름을 입력하세요" class="form-control"
+                th:errorclass="field-error">
+            <div class="field-error" th:errors="*{name}">
+               이름 오류
             </div>
 
           </li>
           <li>
             <div class="head" th:text="#{join.nickname}">닉네임</div>
-            <input type="text" th:field="*{nickName}">
+            <input type="text" th:field="*{nickName}" class="form-control" placeholder="닉네임을 입력하세요"
+                th:errorclass="field-error">
+            <div class="field-error" th:errors="*{nickName}">
+              닉네임 오류
+            </div>
           </li>
           <li>
-            <div class="head" th:text="#{join.phone}">연락처</div>
-            <input type="text" th:field="*{phone}">
-            <div th:if="${errors?.containsKey('phone')}">
-              <p class="field-error" th:text="${errors['phone']}">필드 오류 메시지</p>
+
+
+            <div class="head" th:text="#{join.phone}"> 번호 </div>
+            <input type="text" th:field="*{phone}" class="form-control"
+                th:errorclass="field-error">
+            <div class="field-error" th:errors="*{phone}">
+              번호 오류
             </div>
           </li>
 
           <li>
             <div class="head" th:text="#{join.address}">주소</div>
-            <input type="text" id="postcode" placeholder="우편번호" th:field="*{postcode}">
+            <input type="text" id="postcode" placeholder="우편번호" class="form-control">
             <input type="button" onclick="sample6_execDaumPostcode()"
                    id="search_addr" value="우편번호 찾기"><br>
           </li>
 
           <li>
-            <input type="text" id="address" placeholder="주소" th:field="*{address}"><br>
-            <div th:if="${errors?.containsKey('address')}">
-              <p class="field-error" th:text="${errors['address']}">필드 오류 메시지</p>
+            <input type="text" id="address" placeholder="주소" th:field="*{address}" class="form-control"
+            th:errorclass="field-error"><br>
+            <div class="field-error" th:errors="*{address}">
+              주소 오류
             </div>
           </li>
 
           <li>
-            <input type="text" id="detailAddress" placeholder="상세주소" th:field="*{detailAddress}">
+            <input type="text" id="detailAddress" placeholder="상세주소" th:field="*{detailAddress}" class="form-control"
+            th:errorclass="field-error">
             <input type="text" id="extraAddress" placeholder="참고항목" th:field="*{extraAddress}">
-            <div th:if="${errors?.containsKey('detailAddress')}">
-              <p class="field-error" th:text="${errors['detailAddress']}"></p>
-
+            <div class="field-error" th:errors="*{extraAddress}">
+              상세주소 오류
             </div>
           </li>
-
           <li>
             <input type="submit" value="회원가입" class="join">
           </li>
@@ -95,6 +103,19 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+
+  // function idCheck(id){
+  //
+  //   let loginId = id.value;
+  //   let limit = /^[a-zA-Z]{5,15}$/;
+  //   if(!limit.test(loginId)){
+  //     document.getElementById("noticeId").textContent ="영문자만 입력해주세요.";
+  //     id.value='';
+  //   }else{
+  //     document.getElementById("noticeId").textContent='';
+  //   }
+  // }
+
   //해당 코드는 정상적으로 데이터 값이 전달되면 팝업창은 close()되도록 되어있음
   let postcodeInput = document.getElementById('postcode');
   let detailAddressInput = document.getElementById('detailAddress');

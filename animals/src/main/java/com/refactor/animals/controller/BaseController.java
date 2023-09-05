@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,49 +47,53 @@ public class BaseController {
         return "joinForm";
     }
     @PostMapping("/join")
-    public String joinStringUtilsValidator(@ModelAttribute JoinFormDTO joinFormDTO, Model model){
+    public String joinStringUtilsValidator(@ModelAttribute JoinFormDTO joinFormDTO, BindingResult bindingResult, Model model){
         //StringUtils을 사용한 회원가입
         //Map을 만들기
         //@Validated annotation이 있어서 오류로 빠졌음
 
 //        log.info("joinFormDTO.getLoginId() = {}",joinFormDTO.getLoginId());
         //ConcurrentHashMap은 나중에 쓰기
-        Map<String, String> errors = new HashMap<>();
-        if(!StringUtils.hasText(joinFormDTO.getLoginId())){
-            errors.put("loginId", "사용하실 아이디를 입력해주세요");
-            log.info("loginId");
+        if(!StringUtils.hasText(joinFormDTO.getLoginId()) || joinFormDTO.getLoginId().length() < 5 ||
+            joinFormDTO.getLoginId().length() > 16){
+            bindingResult.addError(new FieldError("joinFormDTO", "loginId", joinFormDTO.getLoginId(),
+                    false, null, null,"아이디는 5자 이상 15자 이내로 작성해주세요"));
         }
         if(!StringUtils.hasText(joinFormDTO.getPassword())||
-                joinFormDTO.getPassword().length() < 7 || joinFormDTO.getPassword().length() > 15){
-            errors.put("password", "비밀번호는 7자 이상 또는 15자 이하로 입력해주세요");
+                joinFormDTO.getPassword().length() < 7 || joinFormDTO.getPassword().length() > 16){
+            bindingResult.addError(new FieldError("joinFormDTO", "password", joinFormDTO.getPassword(),
+                    false, null, null, "비밀번호는 7자 이상 또는 15자 이내로 입력해주세요"));
+        }
+        if(!StringUtils.hasText(joinFormDTO.getNickName()) || joinFormDTO.getNickName().length() < 2 ||
+                joinFormDTO.getNickName().length() > 10){
+            bindingResult.addError(new FieldError("joinFormDTO", "nickName", joinFormDTO.getNickName(),
+                    false, null, null, "닉네임은 2자 이상 10자 이내로 입력하세요"));
         }
         if(!StringUtils.hasText(joinFormDTO.getName())){
-            log.info("name");
-            errors.put("name", "이름을 입력해주세요.");
+            bindingResult.addError(new FieldError("joinFormDTO", "name", joinFormDTO.getName(),
+                    false, null, null, "이름을 입력해주세요."));
         }
         if(!StringUtils.hasText(joinFormDTO.getPhone())){
-            log.info("phone");
-            errors.put("phone", "핸드폰번호를 입력해주세요");
+            bindingResult.addError(new FieldError("joinFormDTO", "phone", joinFormDTO.getPhone(),
+                    false, null, null, "핸드폰번호를 입력해주세요"));
         }
         if(!StringUtils.hasText(joinFormDTO.getAddress())){
-            log.info("address");
-            errors.put("address", "주소를 입력해주세요.");
+            bindingResult.addError(new FieldError("joinFormDTO", "address", joinFormDTO.getAddress(),
+                    false, null, null, "주소를 입력해주세요"));
         }
         if (!StringUtils.hasText(joinFormDTO.getDetailAddress())) {
-            log.info("detailAddress");
-            errors.put("detailAddress", "상세주소를 입력해주세요");
+            bindingResult.addError(new FieldError("joinFormDTO","detailAddress", joinFormDTO.getDetailAddress(),
+                    false, null, null, "상세주소를 입력해주세요"));
         }
 
         //검증실패시 errors정보를 담아 회원가입창으로 재이동
-        if (!errors.isEmpty()) {
-//            log.info("에러발생");
-            model.addAttribute("errors", errors);
-            log.info("errors = {}", errors);
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {}", bindingResult);
             return "joinForm";
         }
         log.info("joinFormDTO={}",joinFormDTO);
 
-        return "aa";
+        return "joinForm";
     }
 
 
