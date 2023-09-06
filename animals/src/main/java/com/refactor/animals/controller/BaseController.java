@@ -1,12 +1,15 @@
 package com.refactor.animals.controller;
 
 import com.refactor.animals.beans.dto.JoinFormDTO;
+import com.refactor.animals.controller.validator.JoinDTOValidator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,9 +20,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@RequiredArgsConstructor //기본생성자 생성 private final이 여러개여도 기본생성자는 생성해줌(파라메터에 validator 등 여러개올수있으니)
 @Controller
-@RequestMapping("/base")  //시발!!! getMapping에 /하나 안넣었다고 이지랄!!
+@RequestMapping("/base")  //시발!!! getMapping에 /하나 안넣어서 개고생..
 public class BaseController {
+
+    //생성자 하나에 여러 파라미터를 넣을 수 있음 생성자 하나에는 @AutoWired 생략가능
+    private final JoinDTOValidator joinDTOValidator;
+
 
     @GetMapping("/")
     public String index(){
@@ -52,50 +60,14 @@ public class BaseController {
         //Map을 만들기
         //@Validated annotation이 있어서 오류로 빠졌음
 
-//        log.info("joinFormDTO.getLoginId() = {}",joinFormDTO.getLoginId());
-        //ConcurrentHashMap은 나중에 쓰기
-        if(!StringUtils.hasText(joinFormDTO.getLoginId()) || joinFormDTO.getLoginId().length() < 5 ||
-            joinFormDTO.getLoginId().length() > 16){
-            bindingResult.addError(new FieldError("joinFormDTO", "loginId", joinFormDTO.getLoginId(),
-                    false, null, null,"아이디는 5자 이상 15자 이내로 작성해주세요"));
+        if(joinDTOValidator.supports(joinFormDTO.getClass())){
+            joinDTOValidator.validate(joinFormDTO, bindingResult);  //target, bindingResult
         }
-        if(!StringUtils.hasText(joinFormDTO.getPassword())||
-                joinFormDTO.getPassword().length() < 7 || joinFormDTO.getPassword().length() > 16){
-            bindingResult.addError(new FieldError("joinFormDTO", "password", joinFormDTO.getPassword(),
-                    false, null, null, "비밀번호는 7자 이상 또는 15자 이내로 입력해주세요"));
-        }
-        if(!StringUtils.hasText(joinFormDTO.getNickName()) || joinFormDTO.getNickName().length() < 2 ||
-                joinFormDTO.getNickName().length() > 10){
-            bindingResult.addError(new FieldError("joinFormDTO", "nickName", joinFormDTO.getNickName(),
-                    false, null, null, "닉네임은 2자 이상 10자 이내로 입력하세요"));
-        }
-        if(!StringUtils.hasText(joinFormDTO.getName())){
-            bindingResult.addError(new FieldError("joinFormDTO", "name", joinFormDTO.getName(),
-                    false, null, null, "이름을 입력해주세요."));
-        }
-        if(!StringUtils.hasText(joinFormDTO.getPhone())){
-            bindingResult.addError(new FieldError("joinFormDTO", "phone", joinFormDTO.getPhone(),
-                    false, null, null, "핸드폰번호를 입력해주세요"));
-        }
-        if(!StringUtils.hasText(joinFormDTO.getAddress())){
-            bindingResult.addError(new FieldError("joinFormDTO", "address", joinFormDTO.getAddress(),
-                    false, null, null, "주소를 입력해주세요"));
-        }
-        if (!StringUtils.hasText(joinFormDTO.getDetailAddress())) {
-            bindingResult.addError(new FieldError("joinFormDTO","detailAddress", joinFormDTO.getDetailAddress(),
-                    false, null, null, "상세주소를 입력해주세요"));
-        }
-
-        //검증실패시 errors정보를 담아 회원가입창으로 재이동
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
             return "joinForm";
         }
         log.info("joinFormDTO={}",joinFormDTO);
-
         return "joinForm";
     }
-
-
-
 }

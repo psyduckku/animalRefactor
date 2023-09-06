@@ -43,7 +43,7 @@
             <div class="head" th:text="#{join.name}">이름</div>
             <input type="text" th:field="*{name}" placeholder="이름을 입력하세요" class="form-control"
                 th:errorclass="field-error">
-            <div class="field-error" th:errors="*{name}">
+            <div class="field-error" th:errors="*{name}"> <!--bindingResult.hasErrors()가 가지고 있는 해당 오류 값을 뱉음-->
                이름 오류
             </div>
 
