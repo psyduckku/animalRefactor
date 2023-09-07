@@ -13,7 +13,7 @@ import org.springframework.validation.ValidationUtils;
 public class JoinDTOValidator implements org.springframework.validation.Validator {
     @Override
     public boolean supports(Class<?> clazz) {
-        log.info("clazz={}", clazz);
+//        log.info("clazz={}", clazz);
         return JoinFormDTO.class.isAssignableFrom(clazz); //parameter로 넘어오는 클래스가 지원이 되냐.(자식클래스도 지원)
     }
 
@@ -23,16 +23,18 @@ public class JoinDTOValidator implements org.springframework.validation.Validato
 
         if(!StringUtils.hasText(joinFormDTO.getLoginId()) || joinFormDTO.getLoginId().length() < 5 ||
                 joinFormDTO.getLoginId().length() > 16){ //rejectValue 필드, reject 오브젝트
-            errors.rejectValue("loginId", "required", new Object[]{5,15}, "아이디 입력");
+            errors.rejectValue("loginId", "required.loginId", new Object[]{5,15}, null);
         }
         if(!StringUtils.hasText(joinFormDTO.getPassword())||
                 joinFormDTO.getPassword().length() < 7 || joinFormDTO.getPassword().length() > 16){
-            errors.rejectValue("password", "required", new Object[]{7,15}, "비밀번호 입력");
+            errors.rejectValue("password", "required.password", new Object[]{7,15}, null);
         }
         if(!StringUtils.hasText(joinFormDTO.getNickName()) || joinFormDTO.getNickName().length() < 2 ||
                 joinFormDTO.getNickName().length() > 10){
-            errors.rejectValue("nickName","required",new Object[]{2, 7}, "닉네임 입력");
+            errors.rejectValue("nickName","required.nickName",new Object[]{2, 7}, null);
         }
+
+
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"name", "name");
 

@@ -11,10 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,9 +23,18 @@ import java.util.Map;
 @RequestMapping("/base")  //시발!!! getMapping에 /하나 안넣어서 개고생..
 public class BaseController {
 
+    /**
+     * aano validation을 등록함에 따라 validator 객체 및 init바인더를 등록필요가 없음
+     * @return
+     */
     //생성자 하나에 여러 파라미터를 넣을 수 있음 생성자 하나에는 @AutoWired 생략가능
-    private final JoinDTOValidator joinDTOValidator;
-
+//    private final JoinDTOValidator joinDTOValidator;
+    //컨트롤러가 요청될때마다 작동되며, 해당 클래스의 모든 메서드에 적용이 됨
+//    @InitBinder
+//    public void init(WebDataBinder dataBinder){
+//        dataBinder.addValidators(joinDTOValidator);
+//    }
+    //하나의 컨트롤러에서만 작동됨. 글로벌하게 x.
 
     @GetMapping("/")
     public String index(){
@@ -55,14 +62,20 @@ public class BaseController {
         return "joinForm";
     }
     @PostMapping("/join")
-    public String joinStringUtilsValidator(@ModelAttribute JoinFormDTO joinFormDTO, BindingResult bindingResult, Model model){
+    public String joinStringUtilsValidator(@Validated @ModelAttribute JoinFormDTO joinFormDTO, BindingResult bindingResult, Model model){
         //StringUtils을 사용한 회원가입
         //Map을 만들기
         //@Validated annotation이 있어서 오류로 빠졌음
 
-        if(joinDTOValidator.supports(joinFormDTO.getClass())){
-            joinDTOValidator.validate(joinFormDTO, bindingResult);  //target, bindingResult
+        //@Validated사용시 필요해당 validator필요x
+//        if(joinDTOValidator.supports(joinFormDTO.getClass())){
+//            joinDTOValidator.validate(joinFormDTO, bindingResult);  //target, bindingResult
+//        }
+
+        if(!StringUtils.hasText(joinFormDTO.getAddress()) && !StringUtils.hasText(joinFormDTO.getDetailAddress())){
+            bindingResult.reject("addressIsNull");
         }
+
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
             return "joinForm";

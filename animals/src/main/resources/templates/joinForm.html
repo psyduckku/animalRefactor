@@ -83,6 +83,9 @@
           </li>
 
           <li>
+            <div th:if="${#fields.hasGlobalErrors()}">
+              <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌오류메시지</p>
+            </div>
             <input type="text" id="detailAddress" placeholder="상세주소" th:field="*{detailAddress}" class="form-control"
             th:errorclass="field-error">
             <input type="text" id="extraAddress" placeholder="참고항목" th:field="*{extraAddress}">
