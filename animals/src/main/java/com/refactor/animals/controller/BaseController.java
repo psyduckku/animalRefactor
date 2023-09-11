@@ -1,5 +1,7 @@
 package com.refactor.animals.controller;
 
+import com.refactor.animals.beans.converter.JoinFormConverter;
+import com.refactor.animals.beans.dto.AddressDTO;
 import com.refactor.animals.beans.dto.JoinFormDTO;
 import com.refactor.animals.controller.validator.JoinDTOValidator;
 import lombok.RequiredArgsConstructor;
@@ -63,14 +65,6 @@ public class BaseController {
     }
     @PostMapping("/join")
     public String joinStringUtilsValidator(@Validated @ModelAttribute JoinFormDTO joinFormDTO, BindingResult bindingResult, Model model){
-        //StringUtils을 사용한 회원가입
-        //Map을 만들기
-        //@Validated annotation이 있어서 오류로 빠졌음
-
-        //@Validated사용시 필요해당 validator필요x
-//        if(joinDTOValidator.supports(joinFormDTO.getClass())){
-//            joinDTOValidator.validate(joinFormDTO, bindingResult);  //target, bindingResult
-//        }
 
         //복합룰검증 만들기. .reject로.. (.rejectValue는 필드검증
 //        if(!StringUtils.hasText(joinFormDTO.getAddress())){
@@ -80,9 +74,12 @@ public class BaseController {
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
             return "joinForm";
-        }      //문제생기면 form으로 넘김
+        }
         log.info("joinFormDTO={}",joinFormDTO);
+        AddressDTO addressDTO new AddressDTO();
 
+        //Address객체는 어떻게 받아오지? 흠;;
+        JoinFormConverter joinFormConverter = new JoinFormConverter(joinFormDTO);
         //변환 클래스 넣기
 
 

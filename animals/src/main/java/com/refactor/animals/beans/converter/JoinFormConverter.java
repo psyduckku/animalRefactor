@@ -1,14 +1,31 @@
 package com.refactor.animals.beans.converter;
 
+import com.refactor.animals.beans.dto.AddressDTO;
+import com.refactor.animals.beans.dto.JoinFormDTO;
 import com.refactor.animals.beans.dto.Member;
-import lombok.AllArgsConstructor;
 
 
-@AllArgsConstructor
+// 해당 Converter에 어떻게 값을 넣고 Member에 담을 것인가.
 public class JoinFormConverter {
-//얘내들은 회원가입시 회원가입 컨트롤러에서 사용될 예정임
-    public final Member member;
 
+    public Member convertToMemberDTO(JoinFormDTO joinFormDTO, AddressDTO addressDTO){
+        return new Member(joinFormDTO.getLoginId(),
+                joinFormDTO.getPassword(),
+                joinFormDTO.getName(),
+                joinFormDTO.getNickName(),
+                joinFormDTO.getPhone(),
+                new AddressDTO(
+                    addressDTO.getAddress(),
+                    addressDTO.getPostcode(),
+                    addressDTO.getDetailAddress(),
+                    addressDTO.getExtraAddress()
+                )
+
+        );
+    }
+
+//얘내들은 회원가입시 회원가입 컨트롤러에서 사용될 예정임
+//    Member member = new Member();
 
 
     private static String getBeanNullCheck(String bean){

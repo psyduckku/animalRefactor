@@ -22,8 +22,7 @@ public class Member {
     /**
      * 회원가입 생성자
      */
-    public Member(Long id, String loginId, String password, String name, String nickName, String phone, AddressDTO addressDTO) {
-        this.id = id;
+    public Member(String loginId, String password, String name, String nickName, String phone, AddressDTO addressDTO) {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
