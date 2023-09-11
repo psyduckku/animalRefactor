@@ -72,15 +72,20 @@ public class BaseController {
 //            joinDTOValidator.validate(joinFormDTO, bindingResult);  //target, bindingResult
 //        }
 
-        if(!StringUtils.hasText(joinFormDTO.getAddress()) && !StringUtils.hasText(joinFormDTO.getDetailAddress())){
-            bindingResult.reject("addressIsNull");
-        }
+        //복합룰검증 만들기. .reject로.. (.rejectValue는 필드검증
+//        if(!StringUtils.hasText(joinFormDTO.getAddress())){
+//            bindingResult.reject("addressIsNull");
+//        }
 
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
             return "joinForm";
-        }
+        }      //문제생기면 form으로 넘김
         log.info("joinFormDTO={}",joinFormDTO);
+
+        //변환 클래스 넣기
+
+
         return "joinForm";
     }
 }

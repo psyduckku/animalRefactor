@@ -1,6 +1,6 @@
 package com.refactor.animals.repository;
 
-import com.refactor.animals.beans.entity.Member;
+import com.refactor.animals.beans.dto.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

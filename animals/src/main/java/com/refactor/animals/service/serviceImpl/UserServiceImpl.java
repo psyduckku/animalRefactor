@@ -1,6 +1,6 @@
 package com.refactor.animals.service.serviceImpl;
 
-import com.refactor.animals.beans.entity.Member;
+import com.refactor.animals.beans.dto.Member;
 import com.refactor.animals.repository.UserRepository;
 import com.refactor.animals.service.UserService;
 import lombok.RequiredArgsConstructor;
