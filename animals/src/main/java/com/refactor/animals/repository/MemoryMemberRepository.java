@@ -13,19 +13,26 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Repository
 
-public class UserRepository {
+public class MemoryMemberRepository implements MemberRepository{
 
-    private static final Map<Long, Member> store = new ConcurrentHashMap<>();
+    private static final Map<String, Member> store = new ConcurrentHashMap<>();
     private static long sequence = 0L; // static 사용
     public Member save(Member member){
         member.setId(++sequence);
         log.info("save: user={}", member);
+        store.put(member.getLoginId(), member);
         return member;
     }
 
-    public Optional<Member> findByLoginId(String password){
+//    @Override
+//    public Optional<Member> findById(String loginId) {
+//        return Optional.ofNullable(store.get(loginId));
+//    }
+
+    //아이디 추가 변경하기
+    public Optional<Member>findMember(String loginId){
         return findAll().stream()
-                .filter(u -> u.getPassword().equals(password))
+                .filter(u -> u.getLoginId().equals(loginId))
                 .findFirst();
     }
 

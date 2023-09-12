@@ -8,19 +8,16 @@ import com.refactor.animals.beans.dto.Member;
 // 해당 Converter에 어떻게 값을 넣고 Member에 담을 것인가.
 public class JoinFormConverter {
 
-    public Member convertToMemberDTO(JoinFormDTO joinFormDTO, AddressDTO addressDTO){
+    public Member convertToMemberDTO(JoinFormDTO joinFormDTO){
         return new Member(joinFormDTO.getLoginId(),
                 joinFormDTO.getPassword(),
                 joinFormDTO.getName(),
                 joinFormDTO.getNickName(),
                 joinFormDTO.getPhone(),
-                new AddressDTO(
-                    addressDTO.getAddress(),
-                    addressDTO.getPostcode(),
-                    addressDTO.getDetailAddress(),
-                    addressDTO.getExtraAddress()
-                )
-
+                joinFormDTO.getAddress(),
+                joinFormDTO.getPostcode(),
+                joinFormDTO.getDetailAddress(),
+                joinFormDTO.getExtraAddress()
         );
     }
 

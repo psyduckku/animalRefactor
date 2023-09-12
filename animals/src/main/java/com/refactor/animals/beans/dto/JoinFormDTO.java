@@ -36,4 +36,7 @@ public class JoinFormDTO {
     private String detailAddress; //생략가능
     private String extraAddress; //생략가능
 
+    public JoinFormDTO(){
+
+    }
 }

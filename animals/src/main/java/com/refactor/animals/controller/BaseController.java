@@ -1,23 +1,16 @@
 package com.refactor.animals.controller;
 
 import com.refactor.animals.beans.converter.JoinFormConverter;
-import com.refactor.animals.beans.dto.AddressDTO;
 import com.refactor.animals.beans.dto.JoinFormDTO;
-import com.refactor.animals.controller.validator.JoinDTOValidator;
+import com.refactor.animals.beans.dto.Member;
+import com.refactor.animals.repository.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor //기본생성자 생성 private final이 여러개여도 기본생성자는 생성해줌(파라메터에 validator 등 여러개올수있으니)
@@ -29,6 +22,7 @@ public class BaseController {
      * aano validation을 등록함에 따라 validator 객체 및 init바인더를 등록필요가 없음
      * @return
      */
+    private final MemoryMemberRepository memoryMemberRepository;
     //생성자 하나에 여러 파라미터를 넣을 수 있음 생성자 하나에는 @AutoWired 생략가능
 //    private final JoinDTOValidator joinDTOValidator;
     //컨트롤러가 요청될때마다 작동되며, 해당 클래스의 모든 메서드에 적용이 됨
@@ -71,17 +65,21 @@ public class BaseController {
 //            bindingResult.reject("addressIsNull");
 //        }
 
+
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
             return "joinForm";
         }
         log.info("joinFormDTO={}",joinFormDTO);
-        AddressDTO addressDTO new AddressDTO();
 
-        //Address객체는 어떻게 받아오지? 흠;;
-        JoinFormConverter joinFormConverter = new JoinFormConverter(joinFormDTO);
-        //변환 클래스 넣기
+        JoinFormConverter joinFormConverter = new JoinFormConverter();
 
+        Member member = joinFormConverter.convertToMemberDTO(joinFormDTO);
+
+        log.info("member={}", member);
+
+        memoryMemberRepository.save(member);
+        log.info("memberRepository.findAll={}", memoryMemberRepository.findAll());
 
         return "joinForm";
     }
