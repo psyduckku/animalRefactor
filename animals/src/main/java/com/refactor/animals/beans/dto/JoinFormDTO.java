@@ -4,12 +4,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.validator.constraints.ScriptAssert;
 
 import java.util.Optional;
 
-@Data
+@ToString
+@NoArgsConstructor
+@Setter @Getter
 //@ScriptAssert(lang = "javascript", script="_this.address")
 public class JoinFormDTO {
 
@@ -22,6 +24,10 @@ public class JoinFormDTO {
 //    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).+$",
 //            message = "패스워드는 영문, 숫자, 특수문자를 포함해야 합니다.")
     private String password;
+
+    @NotNull
+    private String confirmPassword;
+
     @NotBlank
     private String name;
     @NotNull
@@ -36,7 +42,4 @@ public class JoinFormDTO {
     private String detailAddress; //생략가능
     private String extraAddress; //생략가능
 
-    public JoinFormDTO(){
-
-    }
 }

@@ -64,8 +64,6 @@ public class BaseController {
 //        if(!StringUtils.hasText(joinFormDTO.getAddress())){
 //            bindingResult.reject("addressIsNull");
 //        }
-
-
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
             return "joinForm";
@@ -81,6 +79,6 @@ public class BaseController {
         memoryMemberRepository.save(member);
         log.info("memberRepository.findAll={}", memoryMemberRepository.findAll());
 
-        return "joinForm";
+        return "loginForm";
     }
 }

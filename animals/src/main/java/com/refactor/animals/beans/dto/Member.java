@@ -3,10 +3,11 @@ package com.refactor.animals.beans.dto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Data
+//Data 핵심 도메인에서 사용X
+@NoArgsConstructor
+@Getter @Setter
 public class Member {
 
 //    @NotBlank

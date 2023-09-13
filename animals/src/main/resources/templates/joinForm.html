@@ -19,13 +19,13 @@
   <div class="wrap_form">
     <div class="join_box">
       <div class="title" align="center"> <h1 th:text="#{join.signUp}">회원가입</h1></div>
-      <form action="loginForm.html" th:action th:object="${joinFormDTO}" method="post">
+      <form th:object="${joinFormDTO}" method="post" id="joinForm">
         <ul>
           <li>
             <div class="head" th:text="#{join.id}">아이디</div>
             <input type="text" id="loginId" th:field="*{loginId}" placeholder="아이디를 입력하세요"
-              th:classerror="field-error" class="form-control" oninput="idCheck(this)">
-            <button id="dupliCheck">중복확인</button>
+              th:classerror="field-error" class="form-control">
+            <button type="button" id="duplicationCheck">중복확인</button>
             <div id="noticeId"></div>
             <div class="field-error" th:errors="*{loginId}">
               아이디 오류
@@ -34,10 +34,14 @@
           <li>
             <div class="head" th:text="#{join.password}">비밀번호</div>
             <input type="password" th:field="*{password}" placeholder="비밀번호를 입력하세요" class="form-control"
-                th:errorclass="field-error">
+                th:errorclass="field-error" id="password">
             <div class="field-error" th:errors="*{password}">
               비밀번호 오류
             </div>
+          </li>
+          <li>
+            <div class="head" th:text="#{join.confirmPassword}">비밀번호확인</div>
+            <input type="password" th:field="*{confirmPassword}" id="confirmPassword" placeholder="동일한 비밀번호를 입력하세요" class="form-control">
           </li>
           <li>
             <div class="head" th:text="#{join.name}">이름</div>
@@ -58,7 +62,6 @@
           </li>
           <li>
 
-
             <div class="head" th:text="#{join.phone}"> 번호 </div>
             <input type="text" th:field="*{phone}" class="form-control"
                 th:errorclass="field-error">
@@ -69,7 +72,7 @@
 
           <li>
             <div class="head" th:text="#{join.address}">주소</div>
-            <input type="text" id="postcode" placeholder="우편번호" class="form-control">
+            <input type="text" th:field="*{postcode}" id="postcode" placeholder="우편번호" class="form-control">
             <input type="button" onclick="sample6_execDaumPostcode()"
                    id="search_addr" value="우편번호 찾기"><br>
           </li>
@@ -106,6 +109,22 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+  const validateDuplication = () => {
+    let loginId = document.querySelector('#loginId');
+    alert(loginId.value);
+  }
+   validateSame = () =>{
+    let password =document.getElementById('password');
+    let confirmPassword = document.getElementById('confirmPassword');
+    if(password.value!==confirmPassword.value){
+      alert('동일한 비밀번호를 사용해주세요');
+      confirmPassword.value='';
+    }
+  }
+
+  document.querySelector('#duplicationCheck').addEventListener('click', validateDuplication);
+  document.querySelector('#confirmPassword').addEventListener('change', validateSame);
+
 
   // function idCheck(id){
   //
