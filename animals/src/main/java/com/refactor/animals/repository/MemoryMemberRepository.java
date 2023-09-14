@@ -40,6 +40,12 @@ public class MemoryMemberRepository implements MemberRepository{
         return new ArrayList<>(memberRepository.values());
     }
 
+    @Override
+    public boolean isLoginIdDuplicate(String loginId) {
+        Member member = memberRepository.get(loginId);
+        return (member != null);
+    }
+
 //    public UserDTO getUserInfo(String loginId, String password){
 //
 ////        return

@@ -8,9 +8,6 @@
     border-color: #dc3545;
     color: #dc3545;
   }
-  li{
-    /*height: 130px;*/
-  }
 </style>
 </head>
 <body>
@@ -109,21 +106,37 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-  const validateDuplication = () => {
+  const isLoginIdDuplicate = () => {
     let loginId = document.querySelector('#loginId');
-    alert(loginId.value);
-  }
-   validateSame = () =>{
+    fetch('/base/isLoginIdDuplicate',{
+      method : "POST",
+      headers : {
+        'Content-Type':'text/plain',
+      },
+      body: loginId.value,
+    }).then(response=>{
+      if(response.ok){
+        return response.text();
+      }else{
+        alert('에러발생'); // 오류처리해주기
+      }
+    }).then(data=>{
+      data===true?alert('사용할 수 없는 아이디입니다.'):alert('사용할 수 있는아이디입니다.');
+    }).catch(error=>{
+      alert('오류 발생 : ' + error.message); //오류처리해주기
+    })
+  };
+   const isPasswordSame = () =>{
     let password =document.getElementById('password');
     let confirmPassword = document.getElementById('confirmPassword');
     if(password.value!==confirmPassword.value){
       alert('동일한 비밀번호를 사용해주세요');
       confirmPassword.value='';
     }
-  }
+  };
 
-  document.querySelector('#duplicationCheck').addEventListener('click', validateDuplication);
-  document.querySelector('#confirmPassword').addEventListener('change', validateSame);
+  document.querySelector('#duplicationCheck').addEventListener('click', isLoginIdDuplicate);
+  document.querySelector('#confirmPassword').addEventListener('change', isPasswordSame);
 
 
   // function idCheck(id){

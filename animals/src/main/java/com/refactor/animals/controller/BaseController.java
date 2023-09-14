@@ -81,4 +81,12 @@ public class BaseController {
 
         return "loginForm";
     }
+    @ResponseBody
+    @PostMapping("/isLoginIdDuplicate")
+    public String isLoginIdDuplicate(@RequestBody String checkId){
+
+        log.info("requestBody={}",checkId);
+        boolean result = memoryMemberRepository.isLoginIdDuplicate(checkId);
+        return result==true?"true":"false";
+    }
 }
