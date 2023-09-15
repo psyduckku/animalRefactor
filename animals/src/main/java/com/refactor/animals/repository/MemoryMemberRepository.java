@@ -43,7 +43,13 @@ public class MemoryMemberRepository implements MemberRepository{
     @Override
     public boolean isLoginIdDuplicate(String loginId) {
         Member member = memberRepository.get(loginId);
-        return (member != null);
+         log.info("member={}",member);
+         if(member!=null){
+             log.info("true닷");
+             return true;
+         }
+         log.info("false닷");
+         return false;
     }
 
 //    public UserDTO getUserInfo(String loginId, String password){

@@ -39,6 +39,7 @@ public class BaseController {
 
     @GetMapping("/login")
     public String loginForm(){
+        log.info("loginForm");
         return "loginForm";
     }
 
@@ -78,8 +79,8 @@ public class BaseController {
 
         memoryMemberRepository.save(member);
         log.info("memberRepository.findAll={}", memoryMemberRepository.findAll());
-
-        return "loginForm";
+        //회원 가입
+        return "/base/login";
     }
     @ResponseBody
     @PostMapping("/isLoginIdDuplicate")
@@ -87,6 +88,7 @@ public class BaseController {
 
         log.info("requestBody={}",checkId);
         boolean result = memoryMemberRepository.isLoginIdDuplicate(checkId);
+        log.info("result={}", result);
         return result==true?"true":"false";
     }
 }
