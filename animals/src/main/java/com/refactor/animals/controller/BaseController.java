@@ -4,6 +4,7 @@ import com.refactor.animals.beans.converter.JoinFormConverter;
 import com.refactor.animals.beans.dto.JoinFormDTO;
 import com.refactor.animals.beans.dto.Member;
 import com.refactor.animals.repository.MemoryMemberRepository;
+import com.refactor.animals.service.serviceImpl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequiredArgsConstructor //기본생성자 생성 private final이 여러개여도 기본생성자는 생성해줌(파라메터에 validator 등 여러개올수있으니)
 @Controller
-@RequestMapping("/base")  //시발!!! getMapping에 /하나 안넣어서 개고생..
+@RequestMapping("/base/member")  //시발!!! getMapping에 /하나 안넣어서 개고생..
 public class BaseController {
 
     /**
@@ -23,6 +24,7 @@ public class BaseController {
      * @return
      */
     private final MemoryMemberRepository memoryMemberRepository;
+    private final UserServiceImpl userService;
     //생성자 하나에 여러 파라미터를 넣을 수 있음 생성자 하나에는 @AutoWired 생략가능
 //    private final JoinDTOValidator joinDTOValidator;
     //컨트롤러가 요청될때마다 작동되며, 해당 클래스의 모든 메서드에 적용이 됨
@@ -69,26 +71,30 @@ public class BaseController {
             log.info("errors = {}", bindingResult);
             return "joinForm";
         }
-        log.info("joinFormDTO={}",joinFormDTO);
+        //log.info("joinFormDTO={}",joinFormDTO);
 
-        JoinFormConverter joinFormConverter = new JoinFormConverter();
+        //이부분 서비스로직에 넣기 넣기
 
-        Member member = joinFormConverter.convertToMemberDTO(joinFormDTO);
+        //
+        Member member = userService.join(joinFormDTO);
 
-        log.info("member={}", member);
-
+        //log.info("member={}", member);
+        log.info(member.getPassword());
         memoryMemberRepository.save(member);
-        log.info("memberRepository.findAll={}", memoryMemberRepository.findAll());
+        //log.info("memberRepository.findAll={}", memoryMemberRepository.findAll());
         //회원 가입
-        return "/base/login";
+        return "redirect:/base/member/login?welcome=welcome";
     }
     @ResponseBody
     @PostMapping("/isLoginIdDuplicate")
     public String isLoginIdDuplicate(@RequestBody String checkId){
 
         log.info("requestBody={}",checkId);
-        boolean result = memoryMemberRepository.isLoginIdDuplicate(checkId);
+        String result = memoryMemberRepository.isLoginIdDuplicate(checkId);
         log.info("result={}", result);
-        return result==true?"true":"false";
+        //여기서 분기 필요. result가 오류(404)가 나도 true를 보냄.
+
+
+        return result;
     }
 }

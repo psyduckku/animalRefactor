@@ -3,14 +3,20 @@ package com.refactor.animals.beans.converter;
 import com.refactor.animals.beans.dto.AddressDTO;
 import com.refactor.animals.beans.dto.JoinFormDTO;
 import com.refactor.animals.beans.dto.Member;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 // 해당 Converter에 어떻게 값을 넣고 Member에 담을 것인가.
+
+@Slf4j
+@NoArgsConstructor
 public class JoinFormConverter {
 
-    public Member convertToMemberDTO(JoinFormDTO joinFormDTO){
+    public Member convertToMemberDTO(JoinFormDTO joinFormDTO, BCryptPasswordEncoder encoder){
         return new Member(joinFormDTO.getLoginId(),
-                joinFormDTO.getPassword(),
+                 encoder.encode(joinFormDTO.getPassword()),
                 joinFormDTO.getName(),
                 joinFormDTO.getNickName(),
                 joinFormDTO.getPhone(),
@@ -18,7 +24,9 @@ public class JoinFormConverter {
                 joinFormDTO.getPostcode(),
                 joinFormDTO.getDetailAddress(),
                 joinFormDTO.getExtraAddress()
+
         );
+
     }
 
 //얘내들은 회원가입시 회원가입 컨트롤러에서 사용될 예정임

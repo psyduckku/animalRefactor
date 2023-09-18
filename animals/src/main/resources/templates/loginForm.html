@@ -26,12 +26,18 @@
             <input type="submit" class="submit" value="로그인">
           </form>
           <div class="info_user">
-            <a th:href="@{/base/join}" class="join_a">회원가입</a>
+            <a th:href="@{/base/member/join}" class="join_a">회원가입</a>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<script th:inline="javascript">
+  const welcome = /*[[${param.welcome}]]*/ '';
+  if(welcome){
+    alert(welcome);
+  }
+</script>
 </body>
 </html>
