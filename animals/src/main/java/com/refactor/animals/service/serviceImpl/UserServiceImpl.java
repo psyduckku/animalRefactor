@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
+    //
     private final MemoryMemberRepository memoryMemberRepository;
     private final BCryptPasswordEncoder encoder;
     //optional이 있는 값을 반환하려면 get()이 필요.
@@ -24,6 +24,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean login(String loginId, String password) {
         //encoder필요
+        //session 추가.
+        //UUID만들기
+
                Optional<Member> member = memoryMemberRepository.findMember(loginId);
                if(member.isPresent()){
                    return password.equals(member.get().getPassword());
