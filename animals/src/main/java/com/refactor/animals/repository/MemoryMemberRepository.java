@@ -14,7 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 
 public class MemoryMemberRepository implements MemberRepository{
-
     private static final Map<String, Member> memberRepository = new ConcurrentHashMap<>();
     private static long sequence = 0L; // static 사용
     public Member save(Member member){

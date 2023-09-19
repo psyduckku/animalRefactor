@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
         //UUID만들기
 
                Optional<Member> member = memoryMemberRepository.findMember(loginId);
-               if(member.isPresent()){
-                   return password.equals(member.get().getPassword());
+               if(member.isPresent() && encoder.encode(password).equals(member.get().getPassword())){
+                   return true;
                }
                return false;
     }
