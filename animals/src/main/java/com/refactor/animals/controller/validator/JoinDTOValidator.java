@@ -1,6 +1,6 @@
 package com.refactor.animals.controller.validator;
 
-import com.refactor.animals.beans.dto.JoinFormDTO;
+import com.refactor.animals.beans.dto.joinForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -14,23 +14,23 @@ public class JoinDTOValidator implements org.springframework.validation.Validato
     @Override
     public boolean supports(Class<?> clazz) {
 //        log.info("clazz={}", clazz);
-        return JoinFormDTO.class.isAssignableFrom(clazz); //parameter로 넘어오는 클래스가 지원이 되냐.(자식클래스도 지원)
+        return joinForm.class.isAssignableFrom(clazz); //parameter로 넘어오는 클래스가 지원이 되냐.(자식클래스도 지원)
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        JoinFormDTO joinFormDTO = (JoinFormDTO) target;
+        joinForm joinForm = (joinForm) target;
 
-        if(!StringUtils.hasText(joinFormDTO.getLoginId()) || joinFormDTO.getLoginId().length() < 5 ||
-                joinFormDTO.getLoginId().length() > 16){ //rejectValue 필드, reject 오브젝트
+        if(!StringUtils.hasText(joinForm.getLoginId()) || joinForm.getLoginId().length() < 5 ||
+                joinForm.getLoginId().length() > 16){ //rejectValue 필드, reject 오브젝트
             errors.rejectValue("loginId", "required.loginId", new Object[]{5,15}, null);
         }
-        if(!StringUtils.hasText(joinFormDTO.getPassword())||
-                joinFormDTO.getPassword().length() < 7 || joinFormDTO.getPassword().length() > 16){
+        if(!StringUtils.hasText(joinForm.getPassword())||
+                joinForm.getPassword().length() < 7 || joinForm.getPassword().length() > 16){
             errors.rejectValue("password", "required.password", new Object[]{7,15}, null);
         }
-        if(!StringUtils.hasText(joinFormDTO.getNickName()) || joinFormDTO.getNickName().length() < 2 ||
-                joinFormDTO.getNickName().length() > 10){
+        if(!StringUtils.hasText(joinForm.getNickName()) || joinForm.getNickName().length() < 2 ||
+                joinForm.getNickName().length() > 10){
             errors.rejectValue("nickName","required.nickName",new Object[]{2, 7}, null);
         }
 

@@ -16,7 +16,7 @@
   <div class="wrap_form">
     <div class="join_box">
       <div class="title" align="center"> <h1 th:text="#{join.signUp}">회원가입</h1></div>
-      <form th:object="${joinFormDTO}" th:action method="post" id="joinForm">
+      <form th:object="${joinForm}" th:action method="post" id="joinForm">
         <ul>
           <li>
             <div class="head" th:text="#{join.id}">아이디</div>
@@ -127,7 +127,7 @@
       }
     }).then(data=>{
       console.log(data);
-      if(data==='true'){
+      if(data==='true'){ //서버>클라 boolean타입은 String으로 변환됨
         alert('사용할 수 없는 아이디입니다.');
         loginId.value='';
       }else{

@@ -1,7 +1,7 @@
 package com.refactor.animals.beans.converter;
 
-import com.refactor.animals.beans.dto.AddressDTO;
-import com.refactor.animals.beans.dto.JoinFormDTO;
+import com.refactor.animals.beans.dto.AddressForm;
+import com.refactor.animals.beans.dto.joinForm;
 import com.refactor.animals.beans.dto.Member;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,22 +11,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 // 해당 Converter에 어떻게 값을 넣고 Member에 담을 것인가.
 
 @Slf4j
-@NoArgsConstructor
+//@NoArgsConstructor
 public class JoinFormConverter {
 
-    public Member convertToMemberDTO(JoinFormDTO joinFormDTO, BCryptPasswordEncoder encoder){
-        return new Member(joinFormDTO.getLoginId(),
-                 encoder.encode(joinFormDTO.getPassword()),
-                joinFormDTO.getName(),
-                joinFormDTO.getNickName(),
-                joinFormDTO.getPhone(),
-                joinFormDTO.getAddress(),
-                joinFormDTO.getPostcode(),
-                joinFormDTO.getDetailAddress(),
-                joinFormDTO.getExtraAddress()
-
+    public Member converter(joinForm joinForm, BCryptPasswordEncoder encoder){
+        return new Member(joinForm.getLoginId(),
+                 encoder.encode(joinForm.getPassword()),
+                joinForm.getName(),
+                joinForm.getNickName(),
+                joinForm.getPhone(),
+                joinForm.getAddress(),
+                joinForm.getPostcode(),
+                joinForm.getDetailAddress(),
+                joinForm.getExtraAddress()
         );
-
     }
 
 //얘내들은 회원가입시 회원가입 컨트롤러에서 사용될 예정임

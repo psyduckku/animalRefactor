@@ -9,7 +9,7 @@ public interface MemberRepository {
     Member save(Member member);
     Optional<Member> findMember(String loginId);
     List<Member> findAll();
-    String isLoginIdDuplicate(String loginId);
+    Optional<Member> isLoginIdDuplicate(String loginId);
 
 
 

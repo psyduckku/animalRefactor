@@ -15,9 +15,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MemoryMemberRepository implements MemberRepository{
     private static final Map<String, Member> memberRepository = new ConcurrentHashMap<>();
-    private static long sequence = 0L; // static 사용
+    //private static long sequence = 0L; // static 사용
     public Member save(Member member){
-        member.setId(++sequence);
+      //  member.setId(++sequence);
         log.info("save: user={}", member);
         memberRepository.put(member.getLoginId(), member);
         return member;
@@ -40,19 +40,9 @@ public class MemoryMemberRepository implements MemberRepository{
     }
 
     @Override
-    public String isLoginIdDuplicate(String loginId) {
-        Member member = memberRepository.get(loginId);
-         log.info("member={}",member);
-         if(member!=null){
-             return "true";
-         }
-         return "false";
+    public Optional<Member> isLoginIdDuplicate(String loginId) {
+        return findMember(loginId);
     }
-
-//    public UserDTO getUserInfo(String loginId, String password){
-//
-////        return
-//    }
 
     public void clearStore(){
         memberRepository.clear();

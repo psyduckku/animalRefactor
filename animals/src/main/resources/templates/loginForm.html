@@ -14,7 +14,7 @@
         <div class="logo_bar"> <h1>로그인</h1> </div>
 
         <div class="user_box">
-          <form action="getUser.do" method="post">
+          <form>
             <ul>
               <li>
                 <div class="head">아이디</div> <input type="text" name="id" value="admin">
@@ -23,7 +23,7 @@
                 <div class="head">비밀번호</div> <input type="password" name="password" value="qwe123">
               </li>
             </ul>
-            <input type="submit" class="submit" value="로그인">
+            <button type="button" id="loginBtn">로그인</button>
           </form>
           <div class="info_user">
             <a th:href="@{/base/member/join}" class="join_a">회원가입</a>
@@ -34,6 +34,12 @@
   </div>
 </div>
 <script th:inline="javascript">
+  login = () => {
+
+  }
+
+  document.getElementById('loginBtn').addEventListener('click', login);
+
   const welcome = /*[[${param.welcome}]]*/ '';
   if(welcome){
     alert(welcome);

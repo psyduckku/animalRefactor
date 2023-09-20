@@ -1,12 +1,12 @@
 package com.refactor.animals.controller;
 
-import com.refactor.animals.beans.converter.JoinFormConverter;
-import com.refactor.animals.beans.dto.JoinFormDTO;
+import com.refactor.animals.beans.dto.joinForm;
 import com.refactor.animals.beans.dto.Member;
-import com.refactor.animals.beans.dto.UserLoginFormDTO;
+import com.refactor.animals.beans.dto.loginForm;
 import com.refactor.animals.common.UuidGenerator;
-import com.refactor.animals.repository.MemoryMemberRepository;
 import com.refactor.animals.service.serviceImpl.UserServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -25,7 +25,6 @@ public class BaseController {
      * aano validation을 등록함에 따라 validator 객체 및 init바인더를 등록필요가 없음
      *
      */
-    private final MemoryMemberRepository memoryMemberRepository;
     private final UserServiceImpl userService;
     private final UuidGenerator uuidGenerator;
     //생성자 하나에 여러 파라미터를 넣을 수 있음 생성자 하나에는 @AutoWired 생략가능
@@ -49,40 +48,46 @@ public class BaseController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute UserLoginFormDTO loginFormDTO, BindingResult bindingResult, Model model){
+    public String login(@ModelAttribute loginForm loginFormDTO, BindingResult bindingResult, Model model,
+                        @RequestParam(defaultValue="/") String redirectURL,
+                        HttpServletRequest request){
         //로그인하였을 경우 model에 000님 반갑습니다. 나오도록
-        userService.login(loginFormDTO.getLoginId(), loginFormDTO.getPassword());
-        model.addAttribute("welcome", "반갑습니다");
-        return "index";
+        //세션 추가
+     //   userService.login(loginFormDTO.getLoginId(), loginFormDTO.getPassword());
+        HttpSession session = request.getSession();
+        session.setAttribute(uuidGenerator.generateSessionId(), loginFormDTO);
+
+        model.addAttribute("welcome", "반갑습니다"); //얘를 모델말고 다른방법으로?
+        return "redirect:" + redirectURL; //home으로 재호출하도록함. redirect가 아닌 form이동은 url이 변경되지않기때문.?
     }
 
     @GetMapping("/join")
     public String joinForm(Model model){
         log.info("회원가입창 이동");
-        model.addAttribute("joinFormDTO", new JoinFormDTO());
+        model.addAttribute("joinForm", new joinForm());
         //검증 실패시 form의 object, field 데이터를 담아서 다시 뿌려줌
         return "joinForm";
     }
     @PostMapping("/join")
-    public String joinStringUtilsValidator(@Validated @ModelAttribute JoinFormDTO joinFormDTO, BindingResult bindingResult, Model model){
+    public String joinStringUtilsValidator(@Validated @ModelAttribute joinForm joinForm, BindingResult bindingResult, Model model){
 
         //복합룰검증 추가 뭘로하지?
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
             return "joinForm";
         }
-        Member member = userService.join(joinFormDTO);
-
+        Member member = userService.join(joinForm);
         log.info(member.getPassword());
-        memoryMemberRepository.save(member);
+
         return "redirect:/base/member/login?welcome=welcome";
     }
     @ResponseBody
     @PostMapping("/isLoginIdDuplicate")
-    public String isLoginIdDuplicate(@RequestBody String checkId){
+    public boolean isLoginIdDuplicate(@RequestBody String checkId){
 
         log.info("requestBody={}",checkId);
-        String result = memoryMemberRepository.isLoginIdDuplicate(checkId);
+        boolean result = userService.isLoginIdDuplicate(checkId);
+
         log.info("result={}", result);
         //여기서 분기 필요. result가 오류(404)가 나도 true를 보냄.
 

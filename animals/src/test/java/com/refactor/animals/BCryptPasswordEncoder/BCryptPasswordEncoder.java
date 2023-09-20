@@ -1,7 +1,7 @@
 package com.refactor.animals.BCryptPasswordEncoder;
 
 import com.refactor.animals.beans.converter.JoinFormConverter;
-import com.refactor.animals.beans.dto.JoinFormDTO;
+import com.refactor.animals.beans.dto.joinForm;
 import com.refactor.animals.beans.dto.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,18 +15,18 @@ public class BCryptPasswordEncoder {
 
     @Test
     void encoderTest(){
-        JoinFormDTO joinFormDTO = new JoinFormDTO();
+        joinForm joinForm = new joinForm();
         JoinFormConverter joinFormConverter = new JoinFormConverter();
-        joinFormDTO.setLoginId("test1");
-        joinFormDTO.setPassword("qwe123");
-        joinFormDTO.setName("qwe123");
-        joinFormDTO.setNickName("test");
-        joinFormDTO.setAddress("test");
-        joinFormDTO.setPostcode("12345");
-        joinFormDTO.setDetailAddress("test");
-        joinFormDTO.setExtraAddress("test");
+        joinForm.setLoginId("test1");
+        joinForm.setPassword("qwe123");
+        joinForm.setName("qwe123");
+        joinForm.setNickName("test");
+        joinForm.setAddress("test");
+        joinForm.setPostcode("12345");
+        joinForm.setDetailAddress("test");
+        joinForm.setExtraAddress("test");
 
-        Member member = joinFormConverter.convertToMemberDTO(joinFormDTO,encoder);
+        Member member = joinFormConverter.converter(joinForm,encoder);
         //validator 어떻게 돌려야하지?
 
     }

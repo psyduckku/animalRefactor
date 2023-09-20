@@ -40,4 +40,14 @@ public class Member {
         this.extraAddress = (extraAddress!=null)?extraAddress:"미기입";
     }
 
+    /**
+     * 로그인 생성자
+     * @param loginId
+     * @param password
+     */
+    public Member(String loginId, String password){
+        this.loginId = loginId;
+        this.password = password;
+    }
+
 }
