@@ -24,12 +24,12 @@ public class ApiController {
         String loginId = loginForm.getLoginId();
         String password = loginForm.getPassword();
         log.info("loginForm ={}", loginForm);
-        Member member = userService.login(loginForm);
-        log.info("member = {}", member);
-        if(member==null){
-            return "false";
+        boolean result = userService.login(loginForm);
+        log.info("result={}", result);
+        if(result==true){
+            return "true";
         }
-        return "true";
+        return "false";
     }
 
 }

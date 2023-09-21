@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -22,13 +24,14 @@ public class UserServiceImpl implements UserService {
     //optional이 있는 값을 반환하려면 get()이 필요.
     //또한 get()사용하기전에 isPresent()로 값이 있는지 확인이 필요
     @Override
-    public Member login(LoginForm loginForm) {
+    public boolean login(LoginForm loginForm) {
         LoginFormConverter loginFormConverter = new LoginFormConverter();
         Member memberDTO = loginFormConverter.converter(loginForm, encoder);
-        return memoryMemberRepository
-                .findMember(loginForm.getLoginId()).filter
-                        (m -> m.getPassword().equals(encoder.encode(loginForm.getPassword())))
-                .orElse(null);
+        Optional<Member> member = memoryMemberRepository.findMember(memberDTO.getLoginId());
+        if(member.isPresent()){
+            return true;
+        }
+        return false;
     }
     @Override
     public Member join(joinForm joinForm) {
