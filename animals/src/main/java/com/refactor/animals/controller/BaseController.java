@@ -2,7 +2,7 @@ package com.refactor.animals.controller;
 
 import com.refactor.animals.beans.dto.joinForm;
 import com.refactor.animals.beans.dto.Member;
-import com.refactor.animals.beans.dto.loginForm;
+import com.refactor.animals.beans.dto.LoginForm;
 import com.refactor.animals.common.UuidGenerator;
 import com.refactor.animals.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,7 +48,7 @@ public class BaseController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute loginForm loginFormDTO, BindingResult bindingResult, Model model,
+    public String login(@ModelAttribute LoginForm loginFormDTO, BindingResult bindingResult, Model model,
                         @RequestParam(defaultValue="/") String redirectURL,
                         HttpServletRequest request){
         //로그인하였을 경우 model에 000님 반갑습니다. 나오도록

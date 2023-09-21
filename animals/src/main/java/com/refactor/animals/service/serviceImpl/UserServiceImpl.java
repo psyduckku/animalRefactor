@@ -4,15 +4,13 @@ import com.refactor.animals.beans.converter.JoinFormConverter;
 import com.refactor.animals.beans.converter.LoginFormConverter;
 import com.refactor.animals.beans.dto.joinForm;
 import com.refactor.animals.beans.dto.Member;
-import com.refactor.animals.beans.dto.loginForm;
+import com.refactor.animals.beans.dto.LoginForm;
 import com.refactor.animals.repository.MemoryMemberRepository;
 import com.refactor.animals.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -24,7 +22,7 @@ public class UserServiceImpl implements UserService {
     //optional이 있는 값을 반환하려면 get()이 필요.
     //또한 get()사용하기전에 isPresent()로 값이 있는지 확인이 필요
     @Override
-    public Member login(loginForm loginForm) {
+    public Member login(LoginForm loginForm) {
         LoginFormConverter loginFormConverter = new LoginFormConverter();
         Member memberDTO = loginFormConverter.converter(loginForm, encoder);
         return memoryMemberRepository

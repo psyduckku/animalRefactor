@@ -2,6 +2,7 @@
 <html xmlns:th="http//thymeleaf.org">
 <head>
   <link rel="stylesheet" th:href="@{/css/login.css}"/>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <meta charset="UTF-8">
   <title>Insert title here</title>
 </head>
@@ -17,13 +18,13 @@
           <form>
             <ul>
               <li>
-                <div class="head">아이디</div> <input type="text" name="id" value="admin">
+                <div class="head">아이디</div> <input type="text" id="loginId">
               </li>
               <li>
-                <div class="head">비밀번호</div> <input type="password" name="password" value="qwe123">
+                <div class="head">비밀번호</div> <input type="password" id="password">
               </li>
             </ul>
-            <button type="button" id="loginBtn">로그인</button>
+            <button type="submit" id="loginBtn">로그인</button>
           </form>
           <div class="info_user">
             <a th:href="@{/base/member/join}" class="join_a">회원가입</a>
@@ -35,7 +36,37 @@
 </div>
 <script th:inline="javascript">
   login = () => {
+    const loginData = { // loginId, password 의 속성을 가지고 있는 loginData.자바스크립트 객체
+      loginId : document.getElementById('loginId').value,
+      password : document.getElementById('password').value
+    };
 
+    const data = {
+      method: 'POST',
+      body: JSON.stringify(loginData), //js객체를 json 문자열로 직렬화함
+      headers: {
+        'Content-Type' : 'application/json'
+      }
+    };
+    //Promise. 비동기 작업의 결과나 상태를 다루는 객체.
+    // 하나의 비동기 작업 = Promise 해당 작업의 성공 실패 결과나 상태 정보를 제공함
+    fetch('/animal/api/login', data)
+      .then((res) => res.text())
+      .then((result)=>{
+        if(result ==='true'){
+          alert('로그인 성공');
+          window.location.href = '/';
+        }else if(result==='false'){
+          alert('아이디, 비밀번호가 일치하지 않습니다.');
+        }else{
+          console.log('기타오류'); //여기 어떻게 처리하지..?
+        }
+      })
+      .catch((error)=>{
+        console.error('로그인에러', error);
+        alert('서버와 통신중 오류가 발생했습니다.');
+      });
+    //Promise method changing
   }
 
   document.getElementById('loginBtn').addEventListener('click', login);
