@@ -1,6 +1,6 @@
 package com.refactor.animals;
 
-import com.refactor.animals.beans.dto.joinForm;
+import com.refactor.animals.beans.dto.JoinForm;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -16,7 +16,7 @@ public class BeanValidationTest {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
-        joinForm dto = new joinForm();
+        JoinForm dto = new JoinForm();
 
         dto.setLoginId("paulk");
         dto.setPassword("123");
@@ -28,8 +28,8 @@ public class BeanValidationTest {
         dto.setDetailAddress("신갈123");
         dto.setExtraAddress("aiejf");
 
-        Set<ConstraintViolation<joinForm>> violations = validator.validate(dto);
-        for (ConstraintViolation<joinForm> violation : violations) {
+        Set<ConstraintViolation<JoinForm>> violations = validator.validate(dto);
+        for (ConstraintViolation<JoinForm> violation : violations) {
             System.out.println("violation = " + violation);
             System.out.println("violation.getMessage() = " + violation.getMessage());
         }

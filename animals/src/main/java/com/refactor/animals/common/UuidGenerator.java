@@ -8,7 +8,7 @@ import java.util.UUID;
 @Component
 public class UuidGenerator {
 
-    public String generateSessionId(){
+    public String createId(){
         return UUID.randomUUID().toString();
     }
 

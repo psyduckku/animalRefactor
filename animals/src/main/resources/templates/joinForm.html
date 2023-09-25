@@ -94,7 +94,7 @@
             </div>
           </li>
           <li>
-            <input type="submit" value="회원가입" class="join">
+            <input type="submit" value="회원가입" class="join" id="joinBtn">
           </li>
         </ul>
       </form>
@@ -106,6 +106,12 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+
+  const joinProcess = () =>{
+    location.replace()
+    document.getElementById('joinForm').submit();
+  }
+
   const isLoginIdDuplicate = () => {
     let loginId = document.querySelector('#loginId');
     if(!loginId.value){
@@ -148,7 +154,7 @@
 
   document.querySelector('#duplicationCheck').addEventListener('click', isLoginIdDuplicate);
   document.querySelector('#confirmPassword').addEventListener('change', isPasswordSame);
-
+  document.getElementById('joinBtn').addEventListener('click', joinProcess);
 
   // function idCheck(id){
   //

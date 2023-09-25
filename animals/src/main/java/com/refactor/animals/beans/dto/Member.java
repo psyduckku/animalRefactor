@@ -25,6 +25,7 @@ public class Member {
     /**
      * 회원가입 생성자
      * Address를 분리시켜 객체로 받고 싶지만, 일단 단순하게 가자.
+     * 비즈니스 모델에 들어가는건 Entity임
      */
     public Member(String loginId, String password, String name, String nickName, String phone,
                   String address, String postcode, String detailAddress, String extraAddress)

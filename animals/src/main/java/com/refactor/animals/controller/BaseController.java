@@ -1,11 +1,12 @@
 package com.refactor.animals.controller;
 
-import com.refactor.animals.beans.dto.joinForm;
+import com.refactor.animals.beans.dto.JoinForm;
 import com.refactor.animals.beans.dto.Member;
 import com.refactor.animals.beans.dto.LoginForm;
 import com.refactor.animals.common.UuidGenerator;
 import com.refactor.animals.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,7 @@ public class BaseController {
 //        dataBinder.addValidators(joinDTOValidator);
 //    }
     //하나의 컨트롤러에서만 작동됨. 글로벌하게 x.
+    //모든 post요청 이후 해당 페이지 만료 처리 https://trandent.com/article/spring/detail/638
 
     @GetMapping("/")
     public String index(){
@@ -42,12 +44,16 @@ public class BaseController {
     }
 
     @GetMapping("/login")
-    public String loginForm(){
+    public String loginForm(HttpServletRequest request){
+
+        String referer = request.getHeader("Referer");
+        log.info("referer={}",referer);
+
         log.info("loginForm");
         return "loginForm";
     }
 
-    @PostMapping("/login")
+//    @PostMapping("/login")
     public String login(@ModelAttribute LoginForm loginFormDTO, BindingResult bindingResult, Model model,
                         @RequestParam(defaultValue="/") String redirectURL,
                         HttpServletRequest request){
@@ -55,30 +61,43 @@ public class BaseController {
         //세션 추가
      //   userService.login(loginFormDTO.getLoginId(), loginFormDTO.getPassword());
         HttpSession session = request.getSession();
-        session.setAttribute(uuidGenerator.generateSessionId(), loginFormDTO);
+        session.setAttribute(uuidGenerator.createId(), loginFormDTO);
 
         model.addAttribute("welcome", "반갑습니다"); //얘를 모델말고 다른방법으로?
         return "redirect:" + redirectURL; //home으로 재호출하도록함. redirect가 아닌 form이동은 url이 변경되지않기때문.?
     }
 
     @GetMapping("/join")
-    public String joinForm(Model model){
+    public String joinForm(Model model, HttpServletRequest request, HttpServletResponse response){
         log.info("회원가입창 이동");
-        model.addAttribute("joinForm", new joinForm());
+        Model redirectionCheck = model.addAttribute("joinForm", new JoinForm());
+        log.info("redirectionCheck={}",redirectionCheck);
+        String referer = request.getHeader("referer");
+        log.info("referer={}", referer);
+        String dispatcherType = String.valueOf(request.getDispatcherType());
+        log.info("dispatcherType={}", dispatcherType);
+        //회원가입 요청시 vs redirect 요청시 구분해서 redirect요청시 form날리기.
+
         //검증 실패시 form의 object, field 데이터를 담아서 다시 뿌려줌
         return "joinForm";
     }
     @PostMapping("/join")
-    public String joinStringUtilsValidator(@Validated @ModelAttribute joinForm joinForm, BindingResult bindingResult, Model model){
+    public String joinStringUtilsValidator(@Validated @ModelAttribute JoinForm joinForm, BindingResult bindingResult, Model model,
+                                           HttpServletResponse response){
+        /***
+         * 회원가입 이후 이전 페이지 form을 날리는 방법 구현하기 interceptor로 ㄱ
+         */
 
-        //복합룰검증 추가 뭘로하지?
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
             return "joinForm";
         }
         Member member = userService.join(joinForm);
         log.info(member.getPassword());
-
+//        안먹힘
+//        response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+//        response.setHeader("Location", "/base/member/login?welcome=welcome");
+//        response.setHeader("Referrer-Policy", "no-referrer");
         return "redirect:/base/member/login?welcome=welcome";
     }
     @ResponseBody

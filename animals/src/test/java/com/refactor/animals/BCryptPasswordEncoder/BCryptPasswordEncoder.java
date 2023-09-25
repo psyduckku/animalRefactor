@@ -1,9 +1,8 @@
 package com.refactor.animals.BCryptPasswordEncoder;
 
 import com.refactor.animals.beans.converter.JoinFormConverter;
-import com.refactor.animals.beans.dto.joinForm;
+import com.refactor.animals.beans.dto.JoinForm;
 import com.refactor.animals.beans.dto.Member;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +14,7 @@ public class BCryptPasswordEncoder {
 
     @Test
     void encoderTest(){
-        joinForm joinForm = new joinForm();
+        JoinForm joinForm = new JoinForm();
         JoinFormConverter joinFormConverter = new JoinFormConverter();
         joinForm.setLoginId("test1");
         joinForm.setPassword("qwe123");

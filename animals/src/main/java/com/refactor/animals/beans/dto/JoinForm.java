@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Setter @Getter
 //@ScriptAssert(lang = "javascript", script="_this.address")
-public class joinForm {
+public class JoinForm {
 
     @NotNull
 

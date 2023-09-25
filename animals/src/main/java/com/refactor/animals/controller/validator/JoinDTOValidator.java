@@ -1,8 +1,7 @@
 package com.refactor.animals.controller.validator;
 
-import com.refactor.animals.beans.dto.joinForm;
+import com.refactor.animals.beans.dto.JoinForm;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
@@ -14,12 +13,12 @@ public class JoinDTOValidator implements org.springframework.validation.Validato
     @Override
     public boolean supports(Class<?> clazz) {
 //        log.info("clazz={}", clazz);
-        return joinForm.class.isAssignableFrom(clazz); //parameter로 넘어오는 클래스가 지원이 되냐.(자식클래스도 지원)
+        return JoinForm.class.isAssignableFrom(clazz); //parameter로 넘어오는 클래스가 지원이 되냐.(자식클래스도 지원)
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        joinForm joinForm = (joinForm) target;
+        JoinForm joinForm = (JoinForm) target;
 
         if(!StringUtils.hasText(joinForm.getLoginId()) || joinForm.getLoginId().length() < 5 ||
                 joinForm.getLoginId().length() > 16){ //rejectValue 필드, reject 오브젝트

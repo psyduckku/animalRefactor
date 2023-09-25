@@ -2,7 +2,7 @@ package com.refactor.animals.service.serviceImpl;
 
 import com.refactor.animals.beans.converter.JoinFormConverter;
 import com.refactor.animals.beans.converter.LoginFormConverter;
-import com.refactor.animals.beans.dto.joinForm;
+import com.refactor.animals.beans.dto.JoinForm;
 import com.refactor.animals.beans.dto.Member;
 import com.refactor.animals.beans.dto.LoginForm;
 import com.refactor.animals.repository.MemoryMemberRepository;
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
         return false;
     }
     @Override
-    public Member join(joinForm joinForm) {
+    public Member join(JoinForm joinForm) {
         //encoder필요
         JoinFormConverter joinFormConverter = new JoinFormConverter();
         Member member = joinFormConverter.converter(joinForm, encoder);
