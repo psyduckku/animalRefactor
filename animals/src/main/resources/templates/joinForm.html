@@ -21,7 +21,7 @@
           <li>
             <div class="head" th:text="#{join.id}">아이디</div>
             <input type="text" id="loginId" th:field="*{loginId}" placeholder="아이디를 입력하세요"
-              th:classerror="field-error" class="form-control">
+              th:classerror="field-error" class="form-control" value="joajoayoman123">
             <button type="button" id="duplicationCheck">중복확인</button>
             <div id="noticeId"></div>
             <div class="field-error" th:errors="*{loginId}">
@@ -31,19 +31,20 @@
           <li>
             <div class="head" th:text="#{join.password}">비밀번호</div>
             <input type="password" th:field="*{password}" placeholder="비밀번호를 입력하세요" class="form-control"
-                th:errorclass="field-error" id="password">
+                th:errorclass="field-error" id="password" value="joajoayoman123">
             <div class="field-error" th:errors="*{password}">
               비밀번호 오류
             </div>
           </li>
           <li>
             <div class="head" th:text="#{join.confirmPassword}">비밀번호확인</div>
-            <input type="password" th:field="*{confirmPassword}" id="confirmPassword" placeholder="동일한 비밀번호를 입력하세요" class="form-control">
+            <input type="password" th:field="*{confirmPassword}" id="confirmPassword" placeholder="동일한 비밀번호를 입력하세요" class="form-control"
+            value="joajoayoman123">
           </li>
           <li>
             <div class="head" th:text="#{join.name}">이름</div>
-            <input type="text" th:field="*{name}" placeholder="이름을 입력하세요" class="form-control"
-                th:errorclass="field-error">
+            <input type="text" th:field="*{name}" placeholder="이름을 입력하세요" class="form-control" id="name"
+                th:errorclass="field-error" value="김뭉지">
             <div class="field-error" th:errors="*{name}"> <!--bindingResult.hasErrors()가 가지고 있는 해당 오류 값을 뱉음-->
                이름 오류
             </div>
@@ -51,8 +52,8 @@
           </li>
           <li>
             <div class="head" th:text="#{join.nickname}">닉네임</div>
-            <input type="text" th:field="*{nickName}" class="form-control" placeholder="닉네임을 입력하세요"
-                th:errorclass="field-error">
+            <input type="text" th:field="*{nickName}" class="form-control" placeholder="닉네임을 입력하세요" id="nickName"
+                th:errorclass="field-error" value="뭉지">
             <div class="field-error" th:errors="*{nickName}">
               닉네임 오류
             </div>
@@ -60,8 +61,8 @@
           <li>
 
             <div class="head" th:text="#{join.phone}"> 번호 </div>
-            <input type="text" th:field="*{phone}" class="form-control"
-                th:errorclass="field-error">
+            <input type="text" th:field="*{phone}" class="form-control" id="phone"
+                th:errorclass="field-error" value="01067785555">
             <div class="field-error" th:errors="*{phone}">
               번호 오류
             </div>
@@ -94,7 +95,7 @@
             </div>
           </li>
           <li>
-            <input type="submit" value="회원가입" class="join" id="joinBtn">
+            <input type="button" value="회원가입" class="join" id="joinBtn">
           </li>
         </ul>
       </form>
@@ -108,12 +109,38 @@
 <script>
 
   const joinProcess = () =>{
-    location.replace()
-    document.getElementById('joinForm').submit();
+    let member = {
+      loginId : document.querySelector('#loginId').value,
+      password : document.querySelector('#password').value,
+      confirmPassword : document.querySelector('#confirmPassword').value,
+      name : document.querySelector('#name').value,
+      nickName : document.querySelector('#nickName').value,
+      phone : document.querySelector('#phone').value,
+      postcode : document.querySelector('#postcode').value,
+      address : document.querySelector('#address').value,
+      detailAddress : document.querySelector('#detailAddress').value,
+      extraAddress : document.querySelector('#extraAddress').value,
+    }
+
+    const data ={
+      method: 'POST',
+      body: JSON.stringify(member),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    let errorObject;
+    fetch('/animal/api/join', data)
+            .then((res) => res.json()) //HttpStatus 반환도 성공으로 처리됨
+            .then((json)=>{
+              errorObject=json; //await동기처리하기
+            })
+            .catch((error) => error.text())
+            .catch(console.log)
   }
 
   const isLoginIdDuplicate = () => {
-    let loginId = document.querySelector('#loginId');
+    let loginId = document.getElementById('loginId');
     if(!loginId.value){
       alert('아이디를 입력해주세요');
       return;
@@ -154,7 +181,7 @@
 
   document.querySelector('#duplicationCheck').addEventListener('click', isLoginIdDuplicate);
   document.querySelector('#confirmPassword').addEventListener('change', isPasswordSame);
-  document.getElementById('joinBtn').addEventListener('click', joinProcess);
+  document.querySelector('#joinBtn').addEventListener('click', joinProcess);
 
   // function idCheck(id){
   //

@@ -9,9 +9,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.function.EntityResponse;
 
@@ -48,15 +51,20 @@ public class ApiController {
     }
 
     @PostMapping("/join")
-    public EntityResponse join(@RequestBody JoinForm joinForm, BindingResult bindingResult){
+    public ResponseEntity join(@Validated @RequestBody JoinForm joinForm, BindingResult bindingResult){
+        //1. join회원가입 버튼 클릭시 form데이터를 받아와야함
+        //2. validation을 진행
+        //3. errors에 담기
+        //4. bindingResult.getAllErrors(), HttpStatus.Bad_Request 반환
+        //    <-> HttpStatus.ok반환
+        //5.
 
-        Map<String, String> error = new ConcurrentHashMap<>();
 
         if(bindingResult.hasErrors()){
-            error.put()
+            log.info("errors={}", bindingResult);
+            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-
-
+        return ResponseEntity.ok().body("회원가입이 성공적으로 완료되었습니다.");
     }
 
 }
