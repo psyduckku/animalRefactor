@@ -4,6 +4,7 @@ import com.refactor.animals.beans.dto.JoinForm;
 import com.refactor.animals.beans.dto.LoginForm;
 import com.refactor.animals.beans.dto.Member;
 import com.refactor.animals.common.UuidGenerator;
+import com.refactor.animals.controller.validator.JoinDTOValidator;
 import com.refactor.animals.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.function.EntityResponse;
 
@@ -30,7 +32,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ApiController {
 
     private final UserServiceImpl userService;
+    private final JoinDTOValidator joinDTOValidator;
 
+    @InitBinder
+    public void init(WebDataBinder dataBinder){
+        dataBinder.addValidators(joinDTOValidator);
+    }
 
     @PostMapping("/login")            //RequestBody => mediaType이 application/json임(json요청만받는다)
     public String login(@RequestBody LoginForm loginForm, HttpServletRequest request){
@@ -58,7 +65,7 @@ public class ApiController {
         //4. bindingResult.getAllErrors(), HttpStatus.Bad_Request 반환
         //    <-> HttpStatus.ok반환
         //5.
-
+        joinDTOValidator.validate(joinForm, bindingResult);
 
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);

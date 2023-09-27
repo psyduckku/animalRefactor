@@ -14,10 +14,10 @@ public class JoinForm {
 
     @NotNull
 
-    @Size(min = 5, max = 15, message = "아이디는 5~20자 이내여야 합니다.")
+    @Size(min = 5, max = 15)
     private String loginId;
     @NotNull
-    @Size(min = 8, max = 20, message = "패스워드는 8~20자 이내여야 합니다.")
+    @Size(min = 8, max = 20)
 //    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).+$",
 //            message = "패스워드는 영문, 숫자, 특수문자를 포함해야 합니다.")
     private String password;

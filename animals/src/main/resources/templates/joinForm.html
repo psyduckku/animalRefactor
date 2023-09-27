@@ -90,7 +90,7 @@
             <input type="text" id="detailAddress" placeholder="상세주소" th:field="*{detailAddress}" class="form-control"
             th:errorclass="field-error">
             <input type="text" id="extraAddress" placeholder="참고항목" th:field="*{extraAddress}">
-            <div class="field-error" th:errors="*{extraAddress}">
+            <div class="field-error" th:errors="*{extraAddress}" id="field.extraAddress">
               상세주소 오류
             </div>
           </li>
@@ -107,9 +107,14 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+  let errors;
+
+
+
+
 
   const joinProcess = () =>{
-    let member = {
+    let joinForm = {
       loginId : document.querySelector('#loginId').value,
       password : document.querySelector('#password').value,
       confirmPassword : document.querySelector('#confirmPassword').value,
@@ -124,19 +129,29 @@
 
     const data ={
       method: 'POST',
-      body: JSON.stringify(member),
+      body: JSON.stringify(joinForm),
       headers: {
         'Content-Type': 'application/json'
       }
     };
-    let errorObject;
+
     fetch('/animal/api/join', data)
-            .then((res) => res.json()) //HttpStatus 반환도 성공으로 처리됨
-            .then((json)=>{
-              errorObject=json; //await동기처리하기
+            .then(async(res) =>{
+              return res.json();
+              // return errorCode = await res.json() //return시 다음 then으로 값 넘겨줌
+            }) //HttpStatus 반환도 성공으로 처리됨
+            .then((jsObject)=>{
+              errors = jsObject.map((error) => {
+                  return {
+                    codes: error.codes,
+                    defaultMessage: error.defaultMessage
+                  };
+                });
+                console.log('errors:', errors);
             })
-            .catch((error) => error.text())
-            .catch(console.log)
+            .catch((error) => {
+              console.error('fetch error', error)
+            })
   }
 
   const isLoginIdDuplicate = () => {
@@ -230,7 +245,6 @@
         }
         postcodeInput.value = data.zonecode;
         addressInput.value = address;
-        console.log(address);
         detailAddressInput.focus();
       }
     }).open();
