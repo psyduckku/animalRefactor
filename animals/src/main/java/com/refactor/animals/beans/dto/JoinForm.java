@@ -8,12 +8,12 @@ import lombok.*;
 
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @Setter @Getter
 //@ScriptAssert(lang = "javascript", script="_this.address")
 public class JoinForm {
 
     @NotNull
-
     @Size(min = 5, max = 15)
     private String loginId;
     @NotNull
@@ -29,9 +29,10 @@ public class JoinForm {
     private String name;
     @NotNull
     private String nickName;
-    @NotNull
+
 //    @Size(min = 10, max = 11, message = "핸드폰 번호는 10~11자 이내여야 합니다.")
-    @Pattern(regexp = "^[0-9]+$", message = "핸드폰 번호는 숫자만 입력해야 합니다.")
+//    @Pattern(regexp = "^[0-9]+$", message = "핸드폰 번호는 숫자만 입력해야 합니다.")
+    @NotNull
     private String phone;
 
     private String postcode; //생략가능

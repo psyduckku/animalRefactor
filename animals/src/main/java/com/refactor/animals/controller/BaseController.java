@@ -38,6 +38,8 @@ public class BaseController {
     //하나의 컨트롤러에서만 작동됨. 글로벌하게 x.
     //모든 post요청 이후 해당 페이지 만료 처리 https://trandent.com/article/spring/detail/638
 
+
+    //홈에서, 로그인 정보를 받아와서 @SessionAttribute(name=, required=)로 세션 꺼내기. 물론 false로
     @GetMapping("/")
     public String index(){
         return "index";
@@ -113,4 +115,15 @@ public class BaseController {
 
         return result;
     }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if(session!=null){
+            session.invalidate();
+        }
+
+        return "redirect:/";
+    }
+
 }

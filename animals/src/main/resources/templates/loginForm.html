@@ -50,6 +50,7 @@
     };
     //Promise. 비동기 작업의 결과나 상태를 다루는 객체.
     // 하나의 비동기 작업 = Promise 해당 작업의 성공 실패 결과나 상태 정보를 제공함
+    // ☆★ 로그인시 bindingResult로 불일치시 reject처리하기
     fetch('/animal/api/login', data)
       .then((res) => res.text())
       .then((result)=>{

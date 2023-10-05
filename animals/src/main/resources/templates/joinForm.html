@@ -21,7 +21,7 @@
           <li>
             <div class="head" th:text="#{join.id}">아이디</div>
             <input type="text" id="loginId" th:field="*{loginId}" placeholder="아이디를 입력하세요"
-              th:classerror="field-error" class="form-control" value="joajoayoman123">
+              th:classerror="field-error" class="form-control">
             <button type="button" id="duplicationCheck">중복확인</button>
             <div id="noticeId"></div>
             <div class="field-error" th:errors="*{loginId}">
@@ -31,15 +31,14 @@
           <li>
             <div class="head" th:text="#{join.password}">비밀번호</div>
             <input type="password" th:field="*{password}" placeholder="비밀번호를 입력하세요" class="form-control"
-                th:errorclass="field-error" id="password" value="joajoayoman123">
+                th:errorclass="field-error" id="password">
             <div class="field-error" th:errors="*{password}">
               비밀번호 오류
             </div>
           </li>
           <li>
             <div class="head" th:text="#{join.confirmPassword}">비밀번호확인</div>
-            <input type="password" th:field="*{confirmPassword}" id="confirmPassword" placeholder="동일한 비밀번호를 입력하세요" class="form-control"
-            value="joajoayoman123">
+            <input type="password" th:field="*{confirmPassword}" id="confirmPassword" placeholder="동일한 비밀번호를 입력하세요" class="form-control">
           </li>
           <li>
             <div class="head" th:text="#{join.name}">이름</div>
@@ -62,7 +61,7 @@
 
             <div class="head" th:text="#{join.phone}"> 번호 </div>
             <input type="text" th:field="*{phone}" class="form-control" id="phone"
-                th:errorclass="field-error" value="01067785555">
+                th:errorclass="field-error">
             <div class="field-error" th:errors="*{phone}">
               번호 오류
             </div>
@@ -114,18 +113,21 @@
 
 
   const joinProcess = () =>{
-    let joinForm = {
-      loginId : document.querySelector('#loginId').value,
-      password : document.querySelector('#password').value,
-      confirmPassword : document.querySelector('#confirmPassword').value,
-      name : document.querySelector('#name').value,
-      nickName : document.querySelector('#nickName').value,
-      phone : document.querySelector('#phone').value,
-      postcode : document.querySelector('#postcode').value,
-      address : document.querySelector('#address').value,
-      detailAddress : document.querySelector('#detailAddress').value,
-      extraAddress : document.querySelector('#extraAddress').value,
-    }
+
+     const joinForm = document.getElementById('joinForm');
+
+    // let joinForm = {
+    //   loginId : document.querySelector('#loginId').value,
+    //   password : document.querySelector('#password').value,
+    //   confirmPassword : document.querySelector('#confirmPassword').value,
+    //   name : document.querySelector('#name').value,
+    //   nickName : document.querySelector('#nickName').value,
+    //   phone : document.querySelector('#phone').value,
+    //   postcode : document.querySelector('#postcode').value,
+    //   address : document.querySelector('#address').value,
+    //   detailAddress : document.querySelector('#detailAddress').value,
+    //   extraAddress : document.querySelector('#extraAddress').value,
+    // }
 
     const data ={
       method: 'POST',
@@ -140,6 +142,7 @@
               return res.json();
               // return errorCode = await res.json() //return시 다음 then으로 값 넘겨줌
             }) //HttpStatus 반환도 성공으로 처리됨
+            //then부분 , 컨트롤러에서 true, false(가입성공/에러발생) 분기. false시
             .then((jsObject)=>{
               errors = jsObject.map((error) => {
                   return {
