@@ -14,7 +14,7 @@ public class Main {
 
         int[] arr = new int[26]; //배열값을 int로 해서 char를 담아도 asc값으로 변환됨
         int max=0;
-        int result;
+        char result='/';
         //어떻게 인덱스에 값을 값을 세지..?
         Scanner sc = new Scanner(System.in);
         String sentence = sc.next();
@@ -26,10 +26,11 @@ public class Main {
         for(int i=0; i<arr.length;i++){
             //하나씩 꺼내서. 제일 높은값만 max에 담음. max=0; if(max<arr[i]){ max = arr[i]}
 
-//            if(max<arr[i]){
-//                max=arr[i];
-//            }
-            System.out.println(arr[i]);
+            if(max<arr[i]){
+                max=i; //각 배열index 값이 max보다 높다면 max에 해당 인덱스 위치의 값을 반환
+            }
         }
+        result = (char)(65+max);
+        System.out.println(result); //많이나오는것가진 성공. 하지만 중복되었을경우엔 제대로 안나옴. 고쳐야함
     }
 }
