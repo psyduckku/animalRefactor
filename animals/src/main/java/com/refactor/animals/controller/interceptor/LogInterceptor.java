@@ -33,7 +33,7 @@ public class LogInterceptor implements HandlerInterceptor {
             HandlerMethod hm = (HandlerMethod) handler; //그리고 해당 타입으로 변환. 즉, 핸들러는 다형성을 위해 Object인데,
         }                                               //사용할때는 해당 타입으로 변경해줘야하니까..?
 
-        log.info("REQUEST [{}][{}][{}]", uuid,requestURI, handler);
+        log.info("REQUEST [{}][{}][{}][{}]", uuid,request.getDispatcherType(), requestURI, handler);
         //하나 요청에 종료까지 식별하기위한 uuid, 어떤것을 요청하였는지 확인하는 requestURI, 어떤 컨트롤러가 사용되었는지 확인하는 handler
         return true;
     }

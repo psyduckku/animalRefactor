@@ -6,9 +6,10 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class WebServerCustomizer implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
 
+    //수동 웹 페이지 등록
     //관리페이지 등록 -> 컨트롤러 등록
     @Override
     public void customize(ConfigurableWebServerFactory factory) {
