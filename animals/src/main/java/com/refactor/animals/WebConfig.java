@@ -17,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LogInterceptor())
                 .order(1)
                 .addPathPatterns("/**") //logFilter랑은 다름. 전체*인데 그 이하모두*
-                .excludePathPatterns("/css/**", "/ico/**","/error");// 자동 에러페이지는 basic경로가 /error임
+                .excludePathPatterns("/css/**", "/ico/**");// 자동 에러페이지는 basic경로가 /error임
     }
 
     //@Bean

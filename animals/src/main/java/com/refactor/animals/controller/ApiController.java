@@ -21,6 +21,7 @@ import java.util.UUID;
 @RestController //@ResponseBody + @Controller // 메서드에 ResponseBody안써도됨
 public class ApiController {
 
+    //return시 @RestController시에 반환하는 ResponseEntity의 차이.
     private final UserServiceImpl userService;
     private final MessageSource messageSource;
 
