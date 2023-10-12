@@ -1,17 +1,31 @@
 package com.refactor.animals.testJava.cote;
 
-import java.util.Scanner;
+import org.yaml.snakeyaml.reader.StreamReader;
+
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args) {
-        StringBuffer sb1 = new StringBuffer();
-        String a="안녕";
-        System.out.println("a = " + a);
-        String b="반가워";
-        System.out.println(a+=b);
-        sb1.append(a);
-        System.out.println("sb1="+a+b);
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int[] arr = new int[9]; //좌: 클래스 타입, 우 객체생성(생성시 값부여)
+        int maxIdx=-1; //지역변수는 초기화 필수!!
+        int maxValue=-1;
+
+        for(int i=0; i<arr.length; i++){
+            arr[i] = Integer.parseInt(br.readLine());
+            if(arr[i]>maxValue){
+                maxIdx = i;
+                maxValue = arr[i];
+            }
         }
+        br.close();
+        bw.write(String.valueOf(arr[maxIdx]));
+        bw.newLine();
+        bw.write(String.valueOf(maxIdx+1));
+        bw.flush();
 
     }
+}
 

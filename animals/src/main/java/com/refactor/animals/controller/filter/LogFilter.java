@@ -1,4 +1,4 @@
-package com.refactor.animals.exception.filter;
+package com.refactor.animals.controller.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

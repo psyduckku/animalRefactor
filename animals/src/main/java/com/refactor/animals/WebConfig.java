@@ -1,13 +1,16 @@
 package com.refactor.animals;
 
 import com.refactor.animals.controller.interceptor.LogInterceptor;
-import com.refactor.animals.exception.filter.LogFilter;
+import com.refactor.animals.controller.filter.LogFilter;
+import com.refactor.animals.exception.MyHandlerExceptionResolver;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -26,7 +29,10 @@ public class WebConfig implements WebMvcConfigurer {
         filterRegistrationBean.setFilter(new LogFilter()); //만들어준 로그필터를 넣음
         filterRegistrationBean.setOrder(1);
         filterRegistrationBean.addUrlPatterns("/*");
-
         return filterRegistrationBean;
+    }
+
+    public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers){
+        resolvers.add(new MyHandlerExceptionResolver()); //리졸버등록
     }
 }
