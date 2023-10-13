@@ -1,31 +1,32 @@
 package com.refactor.animals.testJava.cote;
 
-import org.yaml.snakeyaml.reader.StreamReader;
-
 import java.io.*;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        int[] arr = new int[9]; //좌: 클래스 타입, 우 객체생성(생성시 값부여)
-        int maxIdx=-1; //지역변수는 초기화 필수!!
-        int maxValue=-1;
+        //https://blog.naver.com/windywaltz/222790918932  여기부터 시작
+        //ExceptionHandler Advice 적용하기
+        //
 
-        for(int i=0; i<arr.length; i++){
-            arr[i] = Integer.parseInt(br.readLine());
-            if(arr[i]>maxValue){
-                maxIdx = i;
-                maxValue = arr[i];
-            }
+        Scanner sc = new Scanner(System.in);
+        String num = sc.nextLine();
+        StringTokenizer st = new StringTokenizer(num, " ");
+        int i=0;
+        int sum=0;
+        int result=0;
+        int[] arr = new int[6];
+
+        while(st.hasMoreTokens()){
+            arr[i]=Integer.parseInt(st.nextToken());
+            arr[i] = arr[i]*arr[i];
+            sum+=arr[i];
+            i++;
         }
-        br.close();
-        bw.write(String.valueOf(arr[maxIdx]));
-        bw.newLine();
-        bw.write(String.valueOf(maxIdx+1));
-        bw.flush();
-
+        result = sum%10;
+        System.out.println(result);
     }
 }
 
