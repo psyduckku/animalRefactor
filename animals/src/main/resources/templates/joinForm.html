@@ -108,26 +108,22 @@
 <script>
   let errors;
 
-
-
-
-
   const joinProcess = () =>{
 
-     const joinForm = document.getElementById('joinForm');
+     // const joinForm = document.getElementById('joinForm');
 
-    // let joinForm = {
-    //   loginId : document.querySelector('#loginId').value,
-    //   password : document.querySelector('#password').value,
-    //   confirmPassword : document.querySelector('#confirmPassword').value,
-    //   name : document.querySelector('#name').value,
-    //   nickName : document.querySelector('#nickName').value,
-    //   phone : document.querySelector('#phone').value,
-    //   postcode : document.querySelector('#postcode').value,
-    //   address : document.querySelector('#address').value,
-    //   detailAddress : document.querySelector('#detailAddress').value,
-    //   extraAddress : document.querySelector('#extraAddress').value,
-    // }
+    let joinForm = {
+      loginId : document.querySelector('#loginId').value,
+      password : document.querySelector('#password').value,
+      confirmPassword : document.querySelector('#confirmPassword').value,
+      name : document.querySelector('#name').value,
+      nickName : document.querySelector('#nickName').value,
+      phone : document.querySelector('#phone').value,
+      postcode : document.querySelector('#postcode').value,
+      address : document.querySelector('#address').value,
+      detailAddress : document.querySelector('#detailAddress').value,
+      extraAddress : document.querySelector('#extraAddress').value,
+    }
 
     const data ={
       method: 'POST',
@@ -144,13 +140,8 @@
             }) //HttpStatus 반환도 성공으로 처리됨
             //then부분 , 컨트롤러에서 true, false(가입성공/에러발생) 분기. false시
             .then((jsObject)=>{
-              errors = jsObject.map((error) => {
-                  return {
-                    codes: error.codes,
-                    defaultMessage: error.defaultMessage
-                  };
-                });
-                console.log('errors:', errors);
+
+                console.log('errors:', jsObject);
             })
             .catch((error) => {
               console.error('fetch error', error)

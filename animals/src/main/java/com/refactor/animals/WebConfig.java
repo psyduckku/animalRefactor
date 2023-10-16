@@ -2,7 +2,6 @@ package com.refactor.animals;
 
 import com.refactor.animals.controller.interceptor.LogInterceptor;
 import com.refactor.animals.controller.filter.LogFilter;
-import com.refactor.animals.exception.MyHandlerExceptionResolver;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Configuration;
@@ -15,13 +14,13 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LogInterceptor())
-                .order(1)
-                .addPathPatterns("/**") //logFilter랑은 다름. 전체*인데 그 이하모두*
-                .excludePathPatterns("/css/**", "/ico/**");// 자동 에러페이지는 basic경로가 /error임
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new LogInterceptor())
+//                .order(1)
+//                .addPathPatterns("/**") //logFilter랑은 다름. 전체*인데 그 이하모두*
+//                .excludePathPatterns("/css/**", "/ico/**");// 자동 에러페이지는 basic경로가 /error임
+//    }
 
     //@Bean
     public FilterRegistrationBean logFilter(){ //WAS가동시 필터도 같이 실행됨
@@ -32,7 +31,4 @@ public class WebConfig implements WebMvcConfigurer {
         return filterRegistrationBean;
     }
 
-    public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers){
-        resolvers.add(new MyHandlerExceptionResolver()); //리졸버등록
-    }
 }

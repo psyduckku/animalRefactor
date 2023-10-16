@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Member join(JoinForm joinForm) {
         //encoder필요
+        log.info("userServiceImpl 진입");
         JoinFormConverter joinFormConverter = new JoinFormConverter();
         Member member = joinFormConverter.converter(joinForm, encoder);
         memoryMemberRepository.save(member);

@@ -2,20 +2,25 @@ package com.refactor.animals.controller;
 
 import com.refactor.animals.beans.dto.JoinForm;
 import com.refactor.animals.beans.dto.LoginForm;
+import com.refactor.animals.beans.dto.Member;
 import com.refactor.animals.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
-
 @RequestMapping("/animal/api")
 @RequiredArgsConstructor
 @RestController //@ResponseBody + @Controller // 메서드에 ResponseBody안써도됨
@@ -44,24 +49,20 @@ public class ApiController {
     }
 
     @PostMapping("/join")
-    public Object join(@Validated @RequestBody JoinForm joinForm, BindingResult bindingResult) {
-        //1. join회원가입 버튼 클릭시 form데이터를 받아와야함
-        //2. validation을 진행
-        //3. errors에 담기
-        //4. bindingResult.getAllErrors(), HttpStatus.Bad_Request 반환
-        //    <-> HttpStatus.ok반환
-        //5. message를 다시 반환해야하는데 하;;
-        if (bindingResult.hasErrors()) {
-            log.info("errors={}", bindingResult);
-//            Object[] argument = error.getArguments();
-//            log.info("error={}",error);
-//            log.info("argument={}",argument);
-//            log.info(messageSource.getMessage("notNull", argument, Locale.getDefault()));
-//            return messageSource.getMessage("notNull", argument, Locale.getDefault());
-            return bindingResult.getAllErrors();
-        }
-        userService.join(joinForm);
-        return joinForm;
+    public Member join(@Valid @RequestBody JoinForm joinForm) {
+        //bindingResult로 값 받아올 때랑...
+        log.info("join controller");
+        log.info("joinForm={}", joinForm.toString());
+        Member member = userService.join(joinForm);
+
+        return member;
+
+//        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+//                .path("/{id}")
+//                .buildAndExpand(member.getId())
+//                .toUri();
+//        return ResponseEntity.created(location).build();
+
     }
 
 }
