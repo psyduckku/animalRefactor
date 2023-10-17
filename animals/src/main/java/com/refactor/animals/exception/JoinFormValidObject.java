@@ -1,21 +1,24 @@
 package com.refactor.animals.exception;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
-@SuperBuilder //이거 빼니까 timestamp가 안됨.왜지?
+@NoArgsConstructor
 public class JoinFormValidObject {
 
-    private String title;
+    private String field;
     private String code;
-    private String rejectValue;
     private String message;
+    private String defaultMessage;
 
-    public JoinFormValidObject(String title, String code, String rejectValue, String message) {
-        this.title = title;
+    public JoinFormValidObject(String field, String code, String message, String defaultMessage) {
+        this.field = field;
         this.code = code;
-        this.rejectValue = rejectValue;
         this.message = message;
+        this.defaultMessage = defaultMessage;
+
     }
 }

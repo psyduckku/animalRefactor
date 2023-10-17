@@ -23,18 +23,13 @@
             <input type="text" id="loginId" th:field="*{loginId}" placeholder="아이디를 입력하세요"
               th:classerror="field-error" class="form-control">
             <button type="button" id="duplicationCheck">중복확인</button>
-            <div id="noticeId"></div>
-            <div class="field-error" th:errors="*{loginId}">
-              아이디 오류
-            </div>
+            <div id="field_loginId" class="exception">id alert</div>
           </li>
           <li>
             <div class="head" th:text="#{join.password}">비밀번호</div>
             <input type="password" th:field="*{password}" placeholder="비밀번호를 입력하세요" class="form-control"
                 th:errorclass="field-error" id="password">
-            <div class="field-error" th:errors="*{password}">
-              비밀번호 오류
-            </div>
+            <div id="field_password" class="exception">비밀번호 알림</div>
           </li>
           <li>
             <div class="head" th:text="#{join.confirmPassword}">비밀번호확인</div>
@@ -43,28 +38,22 @@
           <li>
             <div class="head" th:text="#{join.name}">이름</div>
             <input type="text" th:field="*{name}" placeholder="이름을 입력하세요" class="form-control" id="name"
-                th:errorclass="field-error" value="김뭉지">
-            <div class="field-error" th:errors="*{name}"> <!--bindingResult.hasErrors()가 가지고 있는 해당 오류 값을 뱉음-->
-               이름 오류
-            </div>
+                th:errorclass="field-error">
+            <div id="field_name" class="exception">이름 알림</div>
 
           </li>
           <li>
             <div class="head" th:text="#{join.nickname}">닉네임</div>
             <input type="text" th:field="*{nickName}" class="form-control" placeholder="닉네임을 입력하세요" id="nickName"
-                th:errorclass="field-error" value="뭉지">
-            <div class="field-error" th:errors="*{nickName}">
-              닉네임 오류
-            </div>
+                th:errorclass="field-error">
+            <div id="field_nickName" class="exception">닉네임 알림</div>
           </li>
           <li>
 
             <div class="head" th:text="#{join.phone}"> 번호 </div>
             <input type="text" th:field="*{phone}" class="form-control" id="phone"
                 th:errorclass="field-error">
-            <div class="field-error" th:errors="*{phone}">
-              번호 오류
-            </div>
+            <div id="field_phone" class="exception">번호 알림</div>
           </li>
 
           <li>
@@ -77,21 +66,19 @@
           <li>
             <input type="text" id="address" placeholder="주소" th:field="*{address}" class="form-control"
             th:errorclass="field-error"><br>
-            <div class="field-error" th:errors="*{address}">
+            <div class="field_error">
               주소 오류
             </div>
           </li>
 
           <li>
+          <!--  글로벌 오류 메시지 나중에 추가하기-->
             <div th:if="${#fields.hasGlobalErrors()}">
               <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌오류메시지</p>
             </div>
             <input type="text" id="detailAddress" placeholder="상세주소" th:field="*{detailAddress}" class="form-control"
             th:errorclass="field-error">
             <input type="text" id="extraAddress" placeholder="참고항목" th:field="*{extraAddress}">
-            <div class="field-error" th:errors="*{extraAddress}" id="field.extraAddress">
-              상세주소 오류
-            </div>
           </li>
           <li>
             <input type="button" value="회원가입" class="join" id="joinBtn">
@@ -107,7 +94,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
   let errors;
-
+  let jss=null;
   const joinProcess = () =>{
 
      // const joinForm = document.getElementById('joinForm');
@@ -135,13 +122,33 @@
 
     fetch('/animal/api/join', data)
             .then(async(res) =>{
-              return res.json();
-              // return errorCode = await res.json() //return시 다음 then으로 값 넘겨줌
+              if(res.status===400){
+                return res.json();
+              }else if(res.status===200){
+                alert("회원가입이 완료되었습니다.");
+                window.location.replace('/');
+              }else{
+                //예외 처리
+              }
+              return errorCode = await res.json() //return시 다음 then으로 값 넘겨줌
             }) //HttpStatus 반환도 성공으로 처리됨
             //then부분 , 컨트롤러에서 true, false(가입성공/에러발생) 분기. false시
-            .then((jsObject)=>{
+            .then((result)=> {
+              //오류발생 분기처리
+              jss = result;
+              //반복문 field를 변수로
 
-                console.log('errors:', jsObject);
+              for (i = 0; i < jss.length; i++) {
+                var targetDivId = 'field_' + jss[i].field;
+                var message = jss[i].message;
+                var defaultMessage = jss[i].defaultMessage;
+                let element = document.getElementById(targetDivId);
+                console.log("targetDivId="+targetDivId);
+                if(element){
+                  element.style.visibility= "visible";
+                  element.innerText=message;
+                }
+              }
             })
             .catch((error) => {
               console.error('fetch error', error)
@@ -155,7 +162,7 @@
       return;
     }
 
-    fetch('/base/member/isLoginIdDuplicate',{
+    fetch('/base/isLoginIdDuplicate',{
       method : "POST",
       headers : {
         'Content-Type':'text/plain',

@@ -10,9 +10,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
+import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -49,20 +52,12 @@ public class ApiController {
     }
 
     @PostMapping("/join")
-    public Member join(@Valid @RequestBody JoinForm joinForm) {
-        //bindingResult로 값 받아올 때랑...
+    public ResponseEntity join(@Valid @RequestBody JoinForm joinForm) {
         log.info("join controller");
         log.info("joinForm={}", joinForm.toString());
+
         Member member = userService.join(joinForm);
-
-        return member;
-
-//        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-//                .path("/{id}")
-//                .buildAndExpand(member.getId())
-//                .toUri();
-//        return ResponseEntity.created(location).build();
-
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

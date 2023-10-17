@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequiredArgsConstructor //기본생성자 생성 private final이 여러개여도 기본생성자는 생성해줌(파라메터에 validator 등 여러개올수있으니)
 @Controller
-@RequestMapping("/base/member")  //getMapping에 /하나 안넣어서 개고생..
+@RequestMapping("/base")  //getMapping에 /하나 안넣어서 개고생..
 public class BaseController {
 
     /**
@@ -98,9 +98,9 @@ public class BaseController {
         log.info(member.getPassword());
 //        안먹힘
 //        response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-//        response.setHeader("Location", "/base/member/login?welcome=welcome");
+//        response.setHeader("Location", "/base/login?welcome=welcome");
 //        response.setHeader("Referrer-Policy", "no-referrer");
-        return "redirect:/base/member/login?welcome=welcome";
+        return "redirect:/base/login?welcome=welcome";
     }
     @ResponseBody
     @PostMapping("/isLoginIdDuplicate")

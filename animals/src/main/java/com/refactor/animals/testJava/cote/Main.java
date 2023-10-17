@@ -1,28 +1,21 @@
 package com.refactor.animals.testJava.cote;
 
 import java.io.*;
-import java.util.Scanner;
-import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        int a = sc.nextInt();
-        int b = sc.nextInt();
-        int c = sc.nextInt();
-        String abc = Integer.toString((a*b*c));
-        for(int i=0; i<10;i++){
-            int count=0;
-            for (int j=0; j<abc.length();j++){
-                if(i+48==abc.charAt(j)){
-                    count++;
-                }
-            }System.out.println(count);
-
+        //배수의합
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int num = Integer.parseInt(br.readLine());
+        int sum=0;
+        for(int i=1; i<=10; i++){
+            if(i%num==0){
+                sum=+i;
+            }
         }
-
-
-
+        bw.write("10까지"+String.valueOf(num)+"의배수의 합:" +String.valueOf(sum));
+        bw.flush();
 
     }
 }
