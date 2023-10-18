@@ -3,6 +3,7 @@ package com.refactor.animals.controller;
 import com.refactor.animals.beans.dto.JoinForm;
 import com.refactor.animals.beans.dto.LoginForm;
 import com.refactor.animals.beans.dto.Member;
+import com.refactor.animals.exception.UserException;
 import com.refactor.animals.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -28,36 +29,27 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RestController //@ResponseBody + @Controller // 메서드에 ResponseBody안써도됨
 public class ApiController {
-
-    //return시 @RestController시에 반환하는 ResponseEntity의 차이.
     private final UserServiceImpl userService;
-    private final MessageSource messageSource;
-
     @PostMapping("/login")            //RequestBody => mediaType이 application/json임(json요청만받는다)
-    public String login(@RequestBody LoginForm loginForm, HttpServletRequest request) {
-        String loginId = loginForm.getLoginId();
-        String password = loginForm.getPassword();
-        log.info("loginForm ={}", loginForm);
-        boolean result = userService.login(loginForm);
-        log.info("result={}", result);
-        if (result) {
-            HttpSession session = request.getSession(); //기본 true
-            String sessionId = UUID.randomUUID().toString(); //기존 UuidGenerator클래스 사용x
-            session.setAttribute("sessionId", sessionId); //세션 만료시간 추가하기
-            log.info("sessionId={}", session.getAttribute("sessionId"));
-            return "true";
-        }
+    public ResponseEntity<LoginForm> login(@RequestBody LoginForm loginForm, HttpServletRequest request) {
 
-        return "false";
+        LoginForm loginMember = userService.login(loginForm);
+        //Service 로직에서 예외처리를 했기 때문에 Valid 불필요
+        HttpSession session = request.getSession();
+        String sessionId = UUID.randomUUID().toString(); // 따로 빼서 사용? . 얘 어케하지
+        session.setAttribute("sessionId", sessionId); //세션 만료시간 추가하기
+
+        return new ResponseEntity(loginMember, HttpStatus.OK);
     }
 
     @PostMapping("/join")
-    public ResponseEntity join(@Valid @RequestBody JoinForm joinForm) {
+    public ResponseEntity<UserException> join(@Valid @RequestBody JoinForm joinForm) {
         log.info("join controller");
         log.info("joinForm={}", joinForm.toString());
 
-        Member member = userService.join(joinForm);
-        return new ResponseEntity(HttpStatus.OK);
+        userService.join(joinForm);
+
+        return new ResponseEntity(new UserException("회원가입에 성공하였습니다."),HttpStatus.OK);
     }
 
 }

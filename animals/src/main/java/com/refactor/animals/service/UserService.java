@@ -7,7 +7,7 @@ import com.refactor.animals.beans.dto.LoginForm;
 
 public interface UserService {
 
-    boolean login(LoginForm loginForm);
+    LoginForm login(LoginForm loginForm);
 //    UserDTO getUserInfo(UserDTO userDTO);
 
     Member join(JoinForm joinForm);

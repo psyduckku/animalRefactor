@@ -1,10 +1,10 @@
 package com.refactor.animals.beans.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoginForm {
     String loginId;
     String password;

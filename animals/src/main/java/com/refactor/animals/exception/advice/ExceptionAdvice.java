@@ -1,7 +1,10 @@
 package com.refactor.animals.exception.advice;
 
 import com.refactor.animals.exception.JoinFormValidObject;
+import com.refactor.animals.exception.LoginFormValidObject;
+import com.refactor.animals.exception.UserException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.mail.Message;
+import javax.security.auth.login.LoginException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +34,8 @@ public class ExceptionAdvice {
     @ExceptionHandler
     public ResponseEntity<Object> joinFormException(MethodArgumentNotValidException argsNotValidException,
                                                   BindingResult bindingResult) {
-        List<JoinFormValidObject> list = new ArrayList<>();
+        List<JoinFormValidObject> list = new ArrayList<>(); //얘 따로 빼고, concurrent같은 멀티쓰레딩 지원되는애로 교체할것
+
         for(FieldError err : bindingResult.getFieldErrors()){
             String errors = messageSource.getMessage(err.getCode(), null, Locale.KOREA);
             log.info("errors={}",errors);
@@ -40,4 +45,13 @@ public class ExceptionAdvice {
         return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST
         );
     }
+
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<LoginFormValidObject> loginFormException(){
+        return new ResponseEntity(new LoginFormValidObject("loginForm.mismatch", "로그인 정보 불일치.")
+                , HttpStatus.UNAUTHORIZED);
+        //얘는 아이디 비밀번호 일치하는걸 서비스로직에서
+        // 구현해야해서 추가적인 messageSource작업이 필요.
+    }
+
 }

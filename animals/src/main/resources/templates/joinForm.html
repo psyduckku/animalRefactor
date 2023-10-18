@@ -66,7 +66,7 @@
           <li>
             <input type="text" id="address" placeholder="주소" th:field="*{address}" class="form-control"
             th:errorclass="field-error"><br>
-            <div class="field_error">
+            <div id="field_address" class="exception">
               주소 오류
             </div>
           </li>
@@ -94,66 +94,87 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
   let errors;
-  let jss=null;
-  const joinProcess = () =>{
+  let respData=null;
+  async function joinProcess(){
 
-     // const joinForm = document.getElementById('joinForm');
+    try{
 
-    let joinForm = {
-      loginId : document.querySelector('#loginId').value,
-      password : document.querySelector('#password').value,
-      confirmPassword : document.querySelector('#confirmPassword').value,
-      name : document.querySelector('#name').value,
-      nickName : document.querySelector('#nickName').value,
-      phone : document.querySelector('#phone').value,
-      postcode : document.querySelector('#postcode').value,
-      address : document.querySelector('#address').value,
-      detailAddress : document.querySelector('#detailAddress').value,
-      extraAddress : document.querySelector('#extraAddress').value,
-    }
-
-    const data ={
-      method: 'POST',
-      body: JSON.stringify(joinForm),
-      headers: {
-        'Content-Type': 'application/json'
+      let joinForm = {
+        loginId : document.querySelector('#loginId').value,
+        password : document.querySelector('#password').value,
+        confirmPassword : document.querySelector('#confirmPassword').value,
+        name : document.querySelector('#name').value,
+        nickName : document.querySelector('#nickName').value,
+        phone : document.querySelector('#phone').value,
+        postcode : document.querySelector('#postcode').value,
+        address : document.querySelector('#address').value,
+        detailAddress : document.querySelector('#detailAddress').value,
+        extraAddress : document.querySelector('#extraAddress').value,
       }
-    };
 
-    fetch('/animal/api/join', data)
-            .then(async(res) =>{
-              if(res.status===400){
-                return res.json();
-              }else if(res.status===200){
-                alert("회원가입이 완료되었습니다.");
-                window.location.replace('/');
-              }else{
-                //예외 처리
-              }
-              return errorCode = await res.json() //return시 다음 then으로 값 넘겨줌
-            }) //HttpStatus 반환도 성공으로 처리됨
-            //then부분 , 컨트롤러에서 true, false(가입성공/에러발생) 분기. false시
-            .then((result)=> {
-              //오류발생 분기처리
-              jss = result;
-              //반복문 field를 변수로
+      const resp = await fetch('/animal/api/join', {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(joinForm),
+      });
 
-              for (i = 0; i < jss.length; i++) {
-                var targetDivId = 'field_' + jss[i].field;
-                var message = jss[i].message;
-                var defaultMessage = jss[i].defaultMessage;
-                let element = document.getElementById(targetDivId);
-                console.log("targetDivId="+targetDivId);
-                if(element){
-                  element.style.visibility= "visible";
-                  element.innerText=message;
-                }
-              }
-            })
-            .catch((error) => {
-              console.error('fetch error', error)
-            })
+      if(!resp.ok){
+        respData = await resp.json();
+        for (i = 0; i < respData.length; i++) {
+          var targetDivId = 'field_' + respData[i].field;
+          var message = respData[i].message;
+          var defaultMessage = respData[i].defaultMessage;
+          let element = document.getElementById(targetDivId);
+          console.log("targetDivId=" + targetDivId);
+          if (element) {
+            element.style.visibility = "visible";
+            element.innerText = message;
+          }
+        }
+      }
+
+    } catch (error){
+      console.error(error);
+
+    }
   }
+
+  // const joinProcess = () => {
+  //
+  //
+  // }
+
+
+    // const data ={
+    //   method: 'POST',
+    //   body: JSON.stringify(joinForm),
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // };
+
+
+
+    // fetch('/animal/api/join', data)
+    //         .then(async(res) =>{   //await
+    //           await res.json()
+    //         })
+    //         .then((result)=> {
+    //
+    //           jss = result;
+
+
+
+              //코드 뽑기
+              // if(res.status===400) {
+
+  //           })
+  //           .catch((error) => {
+  //             console.error('fetch error', error)
+  //           })
+  // }
 
   const isLoginIdDuplicate = () => {
     let loginId = document.getElementById('loginId');

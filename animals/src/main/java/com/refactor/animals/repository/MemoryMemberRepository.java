@@ -1,5 +1,6 @@
 package com.refactor.animals.repository;
 
+import com.refactor.animals.beans.dto.LoginForm;
 import com.refactor.animals.beans.dto.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -18,8 +19,9 @@ public class MemoryMemberRepository implements MemberRepository{
     //private static long sequence = 0L; // static 사용
     public Member save(Member member){
         log.info("save: user={}", member);
-        memberRepository.put(member.getLoginId(), member);
-        return member;
+        Member newMember = memberRepository.put(member.getLoginId(), member);
+        log.info("newMember={}",newMember);
+        return newMember;
     }
 
 //    @Override
@@ -32,6 +34,17 @@ public class MemoryMemberRepository implements MemberRepository{
         return findAll().stream()
                 .filter(u -> u.getLoginId().equals(loginId))
                 .findFirst();
+    }
+
+    public Optional<LoginForm> login(String loginId, String password){
+        Member member = memberRepository.get(loginId);
+        if(member!=null&& member.getPassword().equals(password)){
+            LoginForm loginForm = new LoginForm(member.getLoginId(), member.getPassword());
+
+            return Optional.of(loginForm);
+        }
+
+        return Optional.empty();
     }
 
     public List<Member> findAll(){

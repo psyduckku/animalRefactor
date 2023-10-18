@@ -35,6 +35,8 @@
   </div>
 </div>
 <script th:inline="javascript">
+  let loginObject;
+
   login = () => {
     const loginData = { // loginId, password 의 속성을 가지고 있는 loginData.자바스크립트 객체
       loginId : document.getElementById('loginId').value,
@@ -52,15 +54,13 @@
     // 하나의 비동기 작업 = Promise 해당 작업의 성공 실패 결과나 상태 정보를 제공함
     // ☆★ 로그인시 bindingResult로 불일치시 reject처리하기
     fetch('/animal/api/login', data)
-      .then((res) => res.text())
+      .then((res) => res.json())
       .then((result)=>{
-        if(result ==='true'){
-          alert('로그인 성공');
-          window.location.href = '/';
-        }else if(result==='false'){
-          alert('아이디, 비밀번호가 일치하지 않습니다.');
+        loginObject=result;
+        if(loginObject.status===200){
+          window.location.replace("/");
         }else{
-          console.log('기타오류'); //여기 어떻게 처리하지..?
+          alert(loginObject.message);
         }
       })
       .catch((error)=>{

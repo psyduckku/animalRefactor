@@ -2,16 +2,11 @@ package com.refactor.animals.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @Data
 @AllArgsConstructor
-public class JoinFormValidObject {
-
-    private String field;
+public class LoginFormValidObject {
     private String code;
     private String message;
-    private String defaultMessage;
 
 }
