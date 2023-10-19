@@ -8,6 +8,7 @@ import lombok.*;
 //Data 핵심 도메인에서 사용X
 @NoArgsConstructor
 @Getter @Setter
+@ToString
 public class Member {
 
 //    @NotBlank

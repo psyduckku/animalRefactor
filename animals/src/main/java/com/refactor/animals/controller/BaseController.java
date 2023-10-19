@@ -16,6 +16,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @Slf4j
 @RequiredArgsConstructor //기본생성자 생성 private final이 여러개여도 기본생성자는 생성해줌(파라메터에 validator 등 여러개올수있으니)
 @Controller
@@ -125,5 +128,8 @@ public class BaseController {
 
         return "redirect:/";
     }
-
+    @GetMapping("/memberList")
+    public void memberList(@ModelAttribute List memberList){
+        log.info("memberList={}", memberList);
+    }
 }

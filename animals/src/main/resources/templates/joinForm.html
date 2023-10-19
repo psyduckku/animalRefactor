@@ -93,14 +93,21 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-  let errors;
-  let respData=null;
+  let respData=null; //회원가입 시 데이터 객체화를 위한 변수
+  let idDuplicationCheck=false;
+  let loginId = document.querySelector('#loginId');
+  let confirmId=''; //아이디 확인
   async function joinProcess(){
 
-    try{
+    if(confirmId!==loginId.value||idDuplicationCheck==false){
+      console.log('확인아이디'+confirmId+'/입력아이디'+loginId.value+'아이디중복확인여부'+idDuplicationCheck);
+      alert('아이디 확인을 해주세요.');
+      return;
+    }
 
+    try{
       let joinForm = {
-        loginId : document.querySelector('#loginId').value,
+        loginId : loginId.value,
         password : document.querySelector('#password').value,
         confirmPassword : document.querySelector('#confirmPassword').value,
         name : document.querySelector('#name').value,
@@ -119,13 +126,13 @@
         },
         body: JSON.stringify(joinForm),
       });
-
+      // 회원가입 폼 안내 멘션
       if(!resp.ok){
         respData = await resp.json();
         for (i = 0; i < respData.length; i++) {
           var targetDivId = 'field_' + respData[i].field;
           var message = respData[i].message;
-          var defaultMessage = respData[i].defaultMessage;
+          // var defaultMessage = respData[i].defaultMessage;
           let element = document.getElementById(targetDivId);
           console.log("targetDivId=" + targetDivId);
           if (element) {
@@ -133,51 +140,17 @@
             element.innerText = message;
           }
         }
+        return;
       }
-
+      alert('회원가입이 완료되었습니다.');
+      window.location.replace('/');
     } catch (error){
       console.error(error);
 
     }
   }
 
-  // const joinProcess = () => {
-  //
-  //
-  // }
-
-
-    // const data ={
-    //   method: 'POST',
-    //   body: JSON.stringify(joinForm),
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // };
-
-
-
-    // fetch('/animal/api/join', data)
-    //         .then(async(res) =>{   //await
-    //           await res.json()
-    //         })
-    //         .then((result)=> {
-    //
-    //           jss = result;
-
-
-
-              //코드 뽑기
-              // if(res.status===400) {
-
-  //           })
-  //           .catch((error) => {
-  //             console.error('fetch error', error)
-  //           })
-  // }
-
   const isLoginIdDuplicate = () => {
-    let loginId = document.getElementById('loginId');
     if(!loginId.value){
       alert('아이디를 입력해주세요');
       return;
@@ -197,11 +170,13 @@
       }
     }).then(data=>{
       console.log(data);
-      if(data==='true'){ //서버>클라 boolean타입은 String으로 변환됨
+      if(data=='true'){ //서버>클라 boolean타입은 String으로 변환됨
         alert('사용할 수 없는 아이디입니다.');
         loginId.value='';
       }else{
         alert('사용할 수 있는 아이디입니다.');
+        idDuplicationCheck=true;
+        confirmId=loginId.value;
       }
     }).catch(error=>{
       alert('오류 발생 : ' + error.message); //오류처리해주기

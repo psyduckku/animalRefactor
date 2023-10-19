@@ -5,6 +5,9 @@ import com.refactor.animals.beans.dto.JoinForm;
 import com.refactor.animals.beans.dto.Member;
 import com.refactor.animals.beans.dto.LoginForm;
 
+import java.util.List;
+import java.util.Map;
+
 public interface UserService {
 
     LoginForm login(LoginForm loginForm);
@@ -12,7 +15,7 @@ public interface UserService {
 
     Member join(JoinForm joinForm);
 
-    void updateUserInfo(Member member);
+    List<Member> memberList();
 
     boolean isLoginIdDuplicate(String id);
 }

@@ -18,9 +18,9 @@ public class MemoryMemberRepository implements MemberRepository{
     private static final Map<String, Member> memberRepository = new ConcurrentHashMap<>();
     //private static long sequence = 0L; // static 사용
     public Member save(Member member){
-        log.info("save: user={}", member);
+        log.info("save: user={}", member.toString());
         Member newMember = memberRepository.put(member.getLoginId(), member);
-        log.info("newMember={}",newMember);
+        log.info("newMember={}",newMember.toString());
         return newMember;
     }
 
@@ -32,7 +32,7 @@ public class MemoryMemberRepository implements MemberRepository{
     //아이디 추가 변경하기
     public Optional<Member>findMember(String loginId){
         return findAll().stream()
-                .filter(u -> u.getLoginId().equals(loginId))
+                .filter(u -> u.getLoginId().equals(loginId)) 
                 .findFirst();
     }
 
@@ -47,8 +47,8 @@ public class MemoryMemberRepository implements MemberRepository{
         return Optional.empty();
     }
 
-    public List<Member> findAll(){
-        return new ArrayList<>(memberRepository.values());
+    public Optional<List<Member>> findAll(){
+        return Optional.ofNullable(new ArrayList<>(memberRepository.values()));
     }
 
     @Override

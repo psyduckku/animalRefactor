@@ -15,6 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.LoginException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -47,15 +50,16 @@ public class UserServiceImpl implements UserService {
         return newMember;
     }
 
-
-
     @Override
-    public void updateUserInfo(Member member) {
-
+    public Optional<List<Member>> memberList() {
+       Optional<List<Member>> memberList = memoryMemberRepository.findAll();
+       return memberList;
     }
 
     @Override
     public boolean isLoginIdDuplicate(String checkId) {
         return memoryMemberRepository.findMember(checkId).isPresent();
     }
+
+
 }
