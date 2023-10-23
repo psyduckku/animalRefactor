@@ -42,7 +42,6 @@
       loginId : document.getElementById('loginId').value,
       password : document.getElementById('password').value
     };
-
     const data = {
       method: 'POST',
       body: JSON.stringify(loginData), //js객체를 json 문자열로 직렬화함
@@ -56,12 +55,7 @@
     fetch('/animal/api/login', data)
       .then((res) => res.json())
       .then((result)=>{
-        loginObject=result;
-        if(loginObject.status===200){
-          window.location.replace("/");
-        }else{
-          alert(loginObject.message);
-        }
+        location.replace("/");
       })
       .catch((error)=>{
         console.error('로그인에러', error);

@@ -2,11 +2,10 @@ package com.refactor.animals.service;
 
 
 import com.refactor.animals.beans.dto.JoinForm;
-import com.refactor.animals.beans.dto.Member;
+import com.refactor.animals.beans.entity.Member;
 import com.refactor.animals.beans.dto.LoginForm;
 
 import java.util.List;
-import java.util.Map;
 
 public interface UserService {
 

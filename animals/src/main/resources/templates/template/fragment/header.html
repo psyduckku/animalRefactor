@@ -10,24 +10,32 @@
 <body>
 <header th:fragment="copy">
   <nav>
-    <div class="logo_nav">
-      <a href="/base">
-        <i class="fa-solid fa-shield-dog"></i>
-        SaveAnimals
+      <div class="logo_nav">
+        <a href="/base">
+          <i class="fa-solid fa-shield-dog"></i>
+          SaveAnimals
+        </a>
+      </div>
+      <div>
+            <ul class="menu_nav">
+              <li><a href="#" th:text="#{nav.introduce}">소개</a></li>
+              <li><a href="getAnimalList.do" th:text="#{nav.animalList}">유기동물명단</a></li>
+              <li><a href="getAdoptBoardList.do" th:text="#{nav.freeBoard}">자유게시판</a></li>
+            </ul>
+      </div>
+      <div th:if="${session.sessionId!=null}">
+        <ul class="login_bar">
+          <li class="login"><a href="/base/login"><i class="fa-solid fa-right-to-bracket"></i>로그아웃</a></li>
+        </ul>
+      </div>
+      <div th:unless="${session.sessionId!=null}">
+        <ul class="login_bar">
+          <li class="login"><a href="/base/login"><i class="fa-solid fa-right-to-bracket"></i>로그인</a></li>
+        </ul>
+      </div>
+      <a href="#" class="navbar_toggleBtn">
+        <i class="fa-solid fa-bars"></i>
       </a>
-    </div>
-    <ul class="menu_nav">
-      <li><a href="#" th:text="#{nav.introduce}">소개</a></li>
-      <li><a href="getAnimalList.do" th:text="#{nav.animalList}">유기동물명단</a></li>
-      <li><a href="getAdoptBoardList.do" th:text="#{nav.freeBoard}">자유게시판</a></li>
-    </ul>
-    <ul class="login_bar">
-          <li class="login"><a href="/base/login"><i class="fa-solid fa-right-to-bracket"></i> 로그인</a></li>
-    </ul>
-
-    <a href="#" class="navbar_toggleBtn">
-      <i class="fa-solid fa-bars"></i>
-    </a>
   </nav>
 </header>
 </body>

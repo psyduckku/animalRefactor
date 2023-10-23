@@ -9,4 +9,7 @@ public class LoginForm {
     String loginId;
     String password;
 
+    public LoginForm(String loginId) {
+        this.loginId = loginId;
+    }
 }

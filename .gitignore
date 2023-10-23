@@ -1,1 +1,4 @@
+# .gitignore 파일 내용
 최종물/
+animals/src/main/resources/templates/adminPage.html
+animals/src/main/resources/templates/personal.text

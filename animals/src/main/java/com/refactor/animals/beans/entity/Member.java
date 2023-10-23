@@ -1,4 +1,4 @@
-package com.refactor.animals.beans.dto;
+package com.refactor.animals.beans.entity;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter @Setter
 @ToString
+@AllArgsConstructor
 public class Member {
 
 //    @NotBlank
@@ -51,5 +52,7 @@ public class Member {
         this.loginId = loginId;
         this.password = password;
     }
+
+
 
 }

@@ -2,7 +2,6 @@ package com.refactor.animals.controller;
 
 import com.refactor.animals.beans.dto.JoinForm;
 import com.refactor.animals.beans.dto.LoginForm;
-import com.refactor.animals.beans.dto.Member;
 import com.refactor.animals.exception.UserException;
 import com.refactor.animals.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,18 +9,10 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.MessageSource;
-import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
-import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -44,12 +35,19 @@ public class ApiController {
 
     @PostMapping("/join")
     public ResponseEntity<UserException> join(@Valid @RequestBody JoinForm joinForm) {
-        log.info("join controller");
         log.info("joinForm={}", joinForm.toString());
 
         userService.join(joinForm);
 
-        return new ResponseEntity(new UserException("회원가입에 성공하였습니다."),HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
+
+    @PostMapping("/updateAnimals")
+    public ResponseEntity updateAnimals(){
+        log.info("updateAnimals");
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
 }
