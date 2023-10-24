@@ -131,7 +131,12 @@ public class BaseController {
     public String memberList(){
         List<Member> list = userService.memberList();
         log.info("list={}", list);
-
         return "redirect:/";
     }
+
+    @RequestMapping("/adminPage")
+    public String adminPage(){
+        return "adminPage";
+    }
+
 }

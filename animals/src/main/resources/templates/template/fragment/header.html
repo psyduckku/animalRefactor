@@ -19,8 +19,9 @@
       <div>
             <ul class="menu_nav">
               <li><a href="#" th:text="#{nav.introduce}">소개</a></li>
-              <li><a href="getAnimalList.do" th:text="#{nav.animalList}">유기동물명단</a></li>
-              <li><a href="getAdoptBoardList.do" th:text="#{nav.freeBoard}">자유게시판</a></li>
+              <li><a href="/adoptBoard/adoptBoardList" th:text="#{nav.animalList}">유기동물명단</a></li>
+              <li><a href="/adoptBoard/freeBoard" th:text="#{nav.freeBoard}">자유게시판</a></li>
+              <li><a href="/base/adminPage" th:text="#{nav.adminPage}">관리자페이지</a></li>
             </ul>
       </div>
       <div th:if="${session.sessionId!=null}">

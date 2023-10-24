@@ -20,8 +20,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     //
-    private final MemoryMemberRepository memoryMemberRepository;
-    private final BCryptPasswordEncoder encoder;
+    private final MemoryMemberRepository memoryMemberRepository; //여기가 그러면 DAO가 있어야함.
+    private final BCryptPasswordEncoder encoder; //의존성주입됨
     //optional이 있는 값을 반환하려면 get()이 필요.
     //또한 get()사용하기전에 isPresent()로 값이 있는지 확인이 필요
     @Override

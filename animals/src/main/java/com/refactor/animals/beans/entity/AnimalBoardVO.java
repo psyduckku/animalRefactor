@@ -2,8 +2,11 @@ package com.refactor.animals.beans.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
 public class AnimalBoardVO {
 
     private String SIGUN_CD; //시군코드

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper //resources의 mybatis xml와 일치 시켜야함
 public interface AnimalBoardMapper {
-
+//mybatis
     void insertAnimal(AnimalBoardVO vo);
     List<AnimalBoardVO> getAnimalList(AnimalBoardVO vo);
     AnimalBoardVO getAnimal(AnimalBoardVO vo);

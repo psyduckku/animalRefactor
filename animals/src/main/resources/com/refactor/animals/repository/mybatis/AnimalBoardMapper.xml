@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="AnimalBoardDAO">
+<mapper namespace="com.refactor.animals.repository.mybatis.AnimalBoardMapper"> <!--Animal-->
 
     <insert id="insertAnimal" parameterType="animalBoardVO">
         INSERT INTO ANIMALS(ASEQ, SIGUN_CD,SIGUN_NM,ABDM_IDNTFY_NO,RECEPT_DE,DISCVRY_PLC_INFO,STATE_NM,PBLANC_IDNTFY_NO,PBLANC_BEGIN_DE,PBLANC_END_DE,SPECIES_NM,COLOR_NM,AGE_INFO,BDWGH_INFO,SEX_NM,NEUT_YN,SFETR_INFO,SHTER_NM,SHTER_TELNO,PROTECT_PLC,REFINE_ROADNM_ADDR,REFINE_LOTNO_ADDR,REFINE_ZIP_CD,JURISD_INST_NM,IMAGE_COURS)
