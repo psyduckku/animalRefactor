@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="kor">
 <head>
 <!--<link rel="stylesheet" href="/css/header.css" th:href="@{/css/header.css}"/>-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,7 +11,7 @@
 <header th:fragment="copy">
   <nav>
       <div class="logo_nav">
-        <a href="/base">
+        <a href="/base/">
           <i class="fa-solid fa-shield-dog"></i>
           SaveAnimals
         </a>
@@ -19,9 +19,9 @@
       <div>
             <ul class="menu_nav">
               <li><a href="#" th:text="#{nav.introduce}">소개</a></li>
-              <li><a href="/adoptBoard/adoptBoardList" th:text="#{nav.animalList}">유기동물명단</a></li>
-              <li><a href="/adoptBoard/freeBoard" th:text="#{nav.freeBoard}">자유게시판</a></li>
-              <li><a href="/base/adminPage" th:text="#{nav.adminPage}">관리자페이지</a></li>
+              <li><a href="/animalBoard/animalBoardList" th:text="#{nav.animalList}">유기동물명단</a></li>
+              <li><a href="/animalBoard/freeBoard" th:text="#{nav.freeBoard}">자유게시판</a></li>
+              <li><a href="/adminPage" th:text="#{nav.adminPage}">관리자페이지</a></li>
             </ul>
       </div>
       <div th:if="${session.sessionId!=null}">

@@ -1,9 +1,12 @@
 package com.refactor.animals;
 
+import com.refactor.animals.common.config.MyBatisConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.context.annotation.Import;
 
+@Import(MyBatisConfig.class)
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class) //단순 암호화를 위해 인증/인가 off
 public class AnimalsApplication {
 	public static void main(String[] args) {

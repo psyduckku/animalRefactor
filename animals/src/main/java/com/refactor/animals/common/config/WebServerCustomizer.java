@@ -1,4 +1,4 @@
-package com.refactor.animals.config;
+package com.refactor.animals.common.config;
 
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;

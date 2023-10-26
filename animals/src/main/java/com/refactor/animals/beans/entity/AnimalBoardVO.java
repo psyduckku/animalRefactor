@@ -1,6 +1,7 @@
 package com.refactor.animals.beans.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AnimalBoardVO {
 
+    private String ASEQ;
     private String SIGUN_CD; //시군코드
     private String SIGUN_NM; //시군명
     private String ABDM_IDNTFY_NO; //유기고유번호
@@ -35,7 +37,7 @@ public class AnimalBoardVO {
     private String IMAGE_COURS; // 이미지경로
     private String sortRegion;
     private String sortAnimal;
-    private String ASEQ;
+
 
 
 

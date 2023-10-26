@@ -4,7 +4,7 @@ import com.refactor.animals.beans.converter.JoinFormConverter;
 import com.refactor.animals.beans.dto.JoinForm;
 import com.refactor.animals.beans.entity.Member;
 import com.refactor.animals.beans.dto.LoginForm;
-import com.refactor.animals.exception.UserException;
+import com.refactor.animals.common.exception.UserException;
 import com.refactor.animals.repository.MemoryMemberRepository;
 import com.refactor.animals.service.UserService;
 import lombok.RequiredArgsConstructor;

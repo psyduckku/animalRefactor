@@ -1,8 +1,5 @@
-package com.refactor.animals.exception;
+package com.refactor.animals.common.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;

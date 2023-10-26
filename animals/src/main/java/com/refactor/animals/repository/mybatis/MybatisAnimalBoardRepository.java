@@ -1,17 +1,17 @@
-package com.refactor.animals.repository;
+package com.refactor.animals.repository.mybatis;
 
+import com.refactor.animals.beans.dto.SearchDto;
 import com.refactor.animals.beans.entity.AnimalBoardVO;
-import com.refactor.animals.repository.mybatis.AnimalBoardMapper;
+import com.refactor.animals.repository.AnimalBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Slf4j
-@Repository
+//@Repository
 @RequiredArgsConstructor
-public class MybatisAnimalBoardRepository implements AnimalBoardRepository{
+public class MybatisAnimalBoardRepository implements AnimalBoardRepository {
 
     private final AnimalBoardMapper mapper;
 
@@ -21,8 +21,10 @@ public class MybatisAnimalBoardRepository implements AnimalBoardRepository{
     }
 
     @Override
-    public List<AnimalBoardVO> getAnimalList(AnimalBoardVO vo) {
-        return mapper.getAnimalList(vo);
+    public List<AnimalBoardVO> getAnimalList(SearchDto dto) {
+        List<AnimalBoardVO> list = mapper.getAnimalList(dto);
+        log.info("MybatisRepository list={}", list);
+        return list;
     }
 
     @Override
@@ -33,5 +35,10 @@ public class MybatisAnimalBoardRepository implements AnimalBoardRepository{
     @Override
     public List<AnimalBoardVO> getAsideList(AnimalBoardVO vo) {
         return mapper.getAsideList(vo);
+    }
+
+    @Override
+    public int count(SearchDto dto) {
+        return mapper.count(dto);
     }
 }

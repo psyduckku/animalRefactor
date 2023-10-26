@@ -1,4 +1,4 @@
-package com.refactor.animals.config.security;
+package com.refactor.animals.common.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

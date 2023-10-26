@@ -1,35 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.refactor.animals.repository.mybatis.AnimalBoardMapper"> <!--Animal-->
+<mapper namespace="com.refactor.animals.repository.mybatis.AnimalBoardMapper">
 
-    <insert id="insertAnimal" parameterType="animalBoardVO">
+    <insert id="insertAnimal" parameterType="AnimalBoardVO">
         INSERT INTO ANIMALS(ASEQ, SIGUN_CD,SIGUN_NM,ABDM_IDNTFY_NO,RECEPT_DE,DISCVRY_PLC_INFO,STATE_NM,PBLANC_IDNTFY_NO,PBLANC_BEGIN_DE,PBLANC_END_DE,SPECIES_NM,COLOR_NM,AGE_INFO,BDWGH_INFO,SEX_NM,NEUT_YN,SFETR_INFO,SHTER_NM,SHTER_TELNO,PROTECT_PLC,REFINE_ROADNM_ADDR,REFINE_LOTNO_ADDR,REFINE_ZIP_CD,JURISD_INST_NM,IMAGE_COURS)
         VALUES ((SELECT IFNULL(MAX(A.ASEQ),0)+1 FROM ANIMALS A),#{SIGUN_CD},#{SIGUN_NM},#{ABDM_IDNTFY_NO},#{RECEPT_DE},#{DISCVRY_PLC_INFO},#{STATE_NM},#{PBLANC_IDNTFY_NO},#{PBLANC_BEGIN_DE},#{PBLANC_END_DE},#{SPECIES_NM},#{COLOR_NM},#{AGE_INFO},#{BDWGH_INFO},#{SEX_NM},#{NEUT_YN},#{SFETR_INFO},#{SHTER_NM},#{SHTER_TELNO},#{PROTECT_PLC},#{REFINE_ROADNM_ADDR},#{REFINE_LOTNO_ADDR},#{REFINE_ZIP_CD},#{JURISD_INST_NM},#{IMAGE_COURS})
     </insert>
 
-    <select id="getAnimalList" parameterType="animalBoardVO" resultType="animalBoardVO">
-        SELECT ASEQ, SIGUN_NM, DATE_FORMAT(RECEPT_DE, '%Y/%m/%d') AS RECEPT_DE, DISCVRY_PLC_INFO, STATE_NM, PBLANC_IDNTFY_NO, PBLANC_BEGIN_DE,PBLANC_END_DE,SPECIES_NM,COLOR_NM,AGE_INFO,BDWGH_INFO,SEX_NM,NEUT_YN, SFETR_INFO, SHTER_NM, SHTER_TELNO, PROTECT_PLC, REFINE_ROADNM_ADDR, REFINE_LOTNO_ADDR, REFINE_ZIP_CD, JURISD_INST_NM, IMAGE_COURS
+    <!--여기서 2개의 parameter type을 사용해야함-->
+    <select id="getAnimalList" resultType="com.refactor.animals.beans.entity.AnimalBoardVO" parameterType="SearchDto">
+        SELECT ASEQ, SIGUN_NM, DATE_FORMAT(RECEPT_DE, '%Y/%m/%d') AS RECEPT_DE, DISCVRY_PLC_INFO, STATE_NM, PBLANC_IDNTFY_NO,
+        PBLANC_BEGIN_DE,PBLANC_END_DE,SPECIES_NM,COLOR_NM,AGE_INFO,BDWGH_INFO,SEX_NM,NEUT_YN, SFETR_INFO, SHTER_NM, SHTER_TELNO,
+        PROTECT_PLC, REFINE_ROADNM_ADDR, REFINE_LOTNO_ADDR, REFINE_ZIP_CD, JURISD_INST_NM, IMAGE_COURS
         FROM ANIMALS
         <where>
-            <if test='sortRegion !="지역선택" and sortAnimal !="동물선택"'>
-                AND SIGUN_CD = #{sortRegion} and SPECIES_NM LIKE CONCAT('%', #{sortAnimal}, '%')
+            <if test='sortRegion !="지역선택" and sortSpecies !="동물선택"'>
+                AND SIGUN_CD = #{sortRegion} and SPECIES_NM like concat('%', #{sortSpecies}, '%')
             </if>
-            <if test='sortRegion !="지역선택" and sortAnimal =="동물선택"'>
+            <if test='sortRegion !="지역선택" and sortSpecies =="동물선택"'>
                 AND SIGUN_CD = #{sortRegion}
             </if>
-            <if test='sortRegion=="지역선택" and sortAnimal !="동물선택"'>
-                AND SPECIES_NM LIKE CONCAT('%', #{sortAnimal}, '%')
+            <if test='sortRegion=="지역선택" and sortSpecies !="동물선택"'>
+                AND SPECIES_NM like concat('%', #{sortSpecies}, '%')
             </if>
         </where>
+        ORDER BY ASEQ DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+        <!--pagination.limitStart 이게되나..?-->
     </select>
 
-    <select id="getAnimal" parameterType="animalBoardVO" resultType="animalBoardVO">
+    <!--게시글 수 카운팅-->
+    <select id="count" parameterType="Map" resultType="int">
+        SELECT COUNT(ASEQ) FROM ANIMALS
+    </select>
+
+    <select id="getAnimal" parameterType="AnimalBoardVO" resultType="AnimalBoardVO">
         SELECT ASEQ, SIGUN_CD, SIGUN_NM, ABDM_IDNTFY_NO, RECEPT_DE, DISCVRY_PLC_INFO, STATE_NM, PBLANC_IDNTFY_NO, DATE_FORMAT(PBLANC_BEGIN_DE,'%Y/%m/%d') AS PBLANC_BEGIN_DE , DATE_FORMAT(PBLANC_END_DE,'%Y/%m/%d') AS PBLANC_END_DE ,SPECIES_NM,COLOR_NM,AGE_INFO,BDWGH_INFO,SEX_NM,NEUT_YN, SFETR_INFO, SHTER_NM, SHTER_TELNO, PROTECT_PLC, REFINE_ROADNM_ADDR, REFINE_LOTNO_ADDR, REFINE_ZIP_CD, JURISD_INST_NM, IMAGE_COURS
         FROM ANIMALS WHERE ASEQ=#{ASEQ}
     </select>
 
-    <select id="getAsideList" parameterType="animalBoardVO" resultType="animalBoardVO">
+    <select id="getAsideList" parameterType="AnimalBoardVO" resultType="AnimalBoardVO">
         SELECT ASEQ, SPECIES_NM,DATE_FORMAT(PBLANC_BEGIN_DE,'%Y/%m/%d') AS PBLANC_BEGIN_DE, DATE_FORMAT(PBLANC_END_DE,'%Y/%m/%d') AS PBLANC_END_DE, SIGUN_NM, IMAGE_COURS, DISCVRY_PLC_INFO FROM
         (SELECT ASEQ, SPECIES_NM, PBLANC_BEGIN_DE, PBLANC_END_DE, SIGUN_NM, IMAGE_COURS, DISCVRY_PLC_INFO FROM ANIMALS
         ORDER BY PBLANC_END_DE) AS A LIMIT 1, 5

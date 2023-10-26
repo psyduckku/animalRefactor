@@ -1,10 +1,9 @@
-package com.refactor.animals.exception.advice;
+package com.refactor.animals.common.exception.advice;
 
-import com.refactor.animals.exception.JoinFormValidObject;
-import com.refactor.animals.exception.LoginFormValidObject;
-import com.refactor.animals.exception.UserException;
+import com.refactor.animals.common.exception.JoinFormValidObject;
+import com.refactor.animals.common.exception.LoginFormValidObject;
+import com.refactor.animals.common.exception.UserException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -16,10 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.mail.Message;
-import javax.security.auth.login.LoginException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 

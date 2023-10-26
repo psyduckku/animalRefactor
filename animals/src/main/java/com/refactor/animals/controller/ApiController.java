@@ -1,16 +1,11 @@
 package com.refactor.animals.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.refactor.animals.beans.dto.JoinForm;
 import com.refactor.animals.beans.dto.LoginForm;
 import com.refactor.animals.beans.entity.AnimalBoardVO;
-import com.refactor.animals.exception.UserException;
+import com.refactor.animals.common.exception.UserException;
 import com.refactor.animals.service.AnimalBoardService;
 import com.refactor.animals.service.UserService;
-import com.refactor.animals.service.serviceImpl.AnimalBoardServiceImpl;
-import com.refactor.animals.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -18,16 +13,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @Slf4j
 @RequestMapping("/animal/api")

@@ -1,0 +1,31 @@
+@charset "UTF-8";
+*{ margin: 0 auto; padding: 0; box-sizing: border-box;
+}
+#list_img img{
+    width: 250px;
+    height: 250px;
+}
+#sigun, #state, #spacies{
+    width: 90px;
+}
+#dscvr{width: 120px;}
+#recept{width: 90px;}
+#crct{width: 300px;}
+.table_container{
+    width: 1000px;
+}
+.subnav{
+    height: 60px;
+}
+select{
+    height: 40px;
+}
+.search{
+    height: 40px;
+}
+td{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+.table-active{
+    background-color: #f2f4f7;
+}

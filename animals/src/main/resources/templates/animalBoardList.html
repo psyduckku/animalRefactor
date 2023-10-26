@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/header.css" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" href="/css/animalList.css" th:href="@{/css/animalList.css}"/>
+    <link rel="stylesheet" href="/css/footer.css" th:href="@{/css/footer.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /*#list_img img{*/
+        /*    width: 250px;*/
+        /*    height: 250px;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div th:replace="~{/template/fragment/header :: copy}"></div>
+<h1 style="text-align: center">유기동물명단</h1>
+<div class="table_container">
+    <div class="subnav">
+        <form action="/animalBoard/animalBoardList" method="get">
+            <label>
+                <select th:name="sortRegion">
+                    <option th:each=" region : ${sortRegion}"
+                            th:value="${region.value}" th:text="${region.key}">
+                        지역분류
+                    </option>
+                </select>
+            </label>
+            <label>
+                <select th:name="sortSpecies">
+                    <option th:each="species : ${sortSpecies}"
+                            th:value="${species.value}" th:text="${species.key}">
+                        종분류
+                    </option>
+                </select>
+            </label>
+            <input type="submit" value=" 검 색 " class="search">
+        </form>
+    </div>
+    <table class="table table-hover">
+        <tr class="table-active">
+            <td>이미지</td>
+            <td id="sigun">시군</td>
+            <td id="dscvr">발견장소</td>
+            <td id="recept">접수일자</td>
+            <td id="species">품종</td>
+            <td id="state">상태</td>
+            <td id="crct">특징</td>
+        </tr>
+            <tr th:each="li : ${list}">
+                <td id="list_img"><a th:href="@{/animalBoard/getAnimalBoard(ASEQ=${li.ASEQ})}"><img th:src="${li.IMAGE_COURS}" alt="#" src="#"></a></td>
+                <td th:text="${li.SIGUN_NM}">시군</td>
+                <td th:text="${li.DISCVRY_PLC_INFO}">발견장소</td>
+                <td th:text="${li.RECEPT_DE}">인수처</td>
+                <td th:text="${li.SPECIES_NM}">동물종</td>
+                <td th:text="${li.STATE_NM}">동물상태</td>
+                <td th:text="${li.SFETR_INFO}">축종정보</td>
+            </tr>
+    </table>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</html>

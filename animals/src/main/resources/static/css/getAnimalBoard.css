@@ -1,0 +1,29 @@
+@charset "UTF-8";
+*{ margin: 0 auto; padding: 0; box-sizing: border-box;
+}
+.img{
+    margin-top: 50px;
+    margin-left: 530px;
+    margin-bottom: 50px;
+}
+.img img{
+    width: 400px;
+    height: 300px;
+    border-radius: 20px;
+
+}
+#contentTable{
+    width: 800px;
+}
+
+#replyList{
+    width: 800px;
+    margin-top: 70px;
+}
+
+#replyInput{
+    width: 800px;
+}
+th, td{
+    font-family: 'Noto Sans KR', sans-serif;
+}
