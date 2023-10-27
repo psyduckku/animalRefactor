@@ -1,8 +1,9 @@
 package com.refactor.animals.beans.dto;
 
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+@Data
 public class Pagination {
 
     private int totalRecordCount;   //전체 데이터 수
@@ -13,19 +14,23 @@ public class Pagination {
     private boolean existPrevPage;  //이전 페이지 존재 여부
     private boolean existNextPage;  //다음 페이지 존재여부
 
-    public Pagination(int totalPageCount, SearchDto params) {
-        if(totalPageCount > 0){
-            this.totalPageCount = totalPageCount;
+    public Pagination(int totalRecordCount, SearchDto params) {
+        if(totalRecordCount > 0){
+
+            this.totalRecordCount = totalRecordCount;
+            calculation(params);
         }
-        calculation(params);
+
     }
 
 
     private void calculation(SearchDto params){
         //전체 페이지 수 계산
-        totalPageCount = ((totalRecordCount - 1) / params.getRecordSize()
-        * params.getPageSize())+1;
-        //끝 페이지 번호 계산
+
+        totalPageCount = ((totalRecordCount - 1) / params.getRecordSize()) +1;
+
+        startPage = ((params.getPage() - 1) / params.getPageSize()) * params.getPageSize()+1;
+
         endPage = startPage + params.getPageSize() - 1;
 
         //끝 페이지가 전체 페이지 수 보다 큰 경우, 끝 페이지 전체 페이지 수에 저장

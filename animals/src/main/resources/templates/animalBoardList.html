@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="kor">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,8 +43,9 @@
             <input type="submit" value=" 검 색 " class="search">
         </form>
     </div>
+<div class="table-responsive">
     <table class="table table-hover">
-        <tr class="table-active">
+        <tr class="table-info">
             <td>이미지</td>
             <td id="sigun">시군</td>
             <td id="dscvr">발견장소</td>
@@ -52,20 +54,96 @@
             <td id="state">상태</td>
             <td id="crct">특징</td>
         </tr>
-            <tr th:each="li : ${list}">
-                <td id="list_img"><a th:href="@{/animalBoard/getAnimalBoard(ASEQ=${li.ASEQ})}"><img th:src="${li.IMAGE_COURS}" alt="#" src="#"></a></td>
-                <td th:text="${li.SIGUN_NM}">시군</td>
-                <td th:text="${li.DISCVRY_PLC_INFO}">발견장소</td>
-                <td th:text="${li.RECEPT_DE}">인수처</td>
-                <td th:text="${li.SPECIES_NM}">동물종</td>
-                <td th:text="${li.STATE_NM}">동물상태</td>
-                <td th:text="${li.SFETR_INFO}">축종정보</td>
+        <th:block>
+            <tr th:each="info : ${response.list}">
+                <td id="list_img"><a th:href="@{/animalBoard/getAnimalBoard(ASEQ=${info.ASEQ})}"><img th:src="${info.IMAGE_COURS}" class="img" alt="#"></a></td>
+                <td class="table-default" th:text="${info.SIGUN_NM}">시군</td>
+                <td class="table-default" th:text="${info.DISCVRY_PLC_INFO}">발견장소</td>
+                <td class="table-default" th:text="${info.RECEPT_DE}">접수일자</td>
+                <td class="table-default" th:text="${info.SPECIES_NM}">품종</td>
+                <td class="table-default" th:text="${info.STATE_NM}">상태</td>
+                <td class="table-default info" th:text="${info.SFETR_INFO}">특징</td>
             </tr>
-    </table>
+        </th:block>
+</table>
+    </div>
 </div>
+<!-- pagination rendering area-->
+<nav aria-label="Page navigation example">
+<div class="paging"></div>
+</nav>
+<!-- button -->
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-<script type="text/javascript">
+<th:block layout:fragment="boardScript">
+    <script th:inline="javascript">
 
-</script>
+        /***
+         * 게시글 numbering 완료. 검색 결과에 따른 페이지 이동버튼, 넘버 이동 로직 만들어야함.
+         * 해당 script는 template fragment로 사용할 것
+         */
+
+        window.onload = () => {
+            const list = [[${response.list}]];
+            const pagination = [[${response.pagination}]];
+            const params = [[${params}]];
+            let num = pagination.totalRecordCount - ((params.page - 1) * params.recordSize);
+            drawPage(pagination, params);
+        }
+
+
+        function drawPage(pagination, params){
+            if(!pagination || !params){
+                document.querySelector('.paging').innerHTML = '';
+                throw new Error('Missing required paramters...');
+            }
+            let html ='';
+
+                html =`<ul class="pagination justify-content-center">`;
+            if(pagination.existPrevPage){
+                html += `
+                    <li class="page-item"><a href="javascript::void(0);" onclick="movePage(1)" class="page_bt first">처음</a></li>
+                    <li class="page-item"><a href="javascript::void(0);" onclick="movePage(${pagination.startPage - 1})" class="page_bt prev">◀</a></li>
+                        `;
+            }
+
+            for(let i = pagination.startPage; i<=pagination.endPage; i++){
+                html += (i !== params.page)
+                    ? `<li class="page-item"><a href="javascript:void(0);" class="page-link" onclick="movePage(${i})">${i}</a></li>`
+                    : `<li class="page-item"><span class="on page-link" style="color: gray">${i}</span></li>`;
+            }
+
+            // html += '<p>';
+            // for(let i = pagination.startPage; i<=pagination.endPage; i++){
+            //     html += (i !== params.page)
+            //     ? `<a href="javascript:void(0);" onclick="movePage(${i})">${i}</a>`
+            //     : `<span class="on">${i}</span>`
+            // }
+            // html += `</p>`;
+
+            if(pagination.existNextPage){
+                html += `
+                    <li class="page-item"><a href="javascript:void();" onclick="movePage(${pagination.endPage + 1});" class="page_bt next">▶</a></li>
+                    <li class="page-item"><a href="javascript:void();" onclick="movePage(${pagination.totalPageCount});" class="page_bt last">끝</a></li>
+                     `;
+            }
+            html +=`</ul>`;
+
+            document.querySelector('.paging').innerHTML = html;
+        }
+
+        function movePage(page){
+            const queryParams = {
+                page: (page) ? page : 1,
+                recordSize: 10,
+                pageSize: 10
+            }
+
+            location.href = location.pathname + '?' + new URLSearchParams(queryParams).toString();
+
+        }
+
+    </script>
+</th:block>
 </html>

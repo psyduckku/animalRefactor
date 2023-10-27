@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -56,19 +57,19 @@ public class AnimalBoardController {
         return sortSpecies;
     }
     @RequestMapping("/animalBoardList") //@RequestParam은 자동으로 형변환을 해줌. ModelAttribute는 model에 따로 담을 필요 없이 뷰까지 전달함
-    public String adoptBoardList(@ModelAttribute SearchDto searchDto, Model model){
+    public String adoptBoardList(@ModelAttribute("params") SearchDto searchDto, Model model){
         // mybatis null 인식문제로 value부여하여 처리!
 
-        log.info("searchDto={}",searchDto.toString());
-        if(searchDto.getSortRegion()==null) {
+        log.info("searchDto={}",searchDto);
+        if(searchDto==null||searchDto.getSortRegion()==null) {
             searchDto.setSortRegion("지역선택");
         }
-        if(searchDto.getSortSpecies()==null) {
+        if(searchDto==null||searchDto.getSortSpecies()==null) {
             searchDto.setSortSpecies("동물선택");
         }
-        PagingResponse<AnimalBoardVO> list = animalBoardService.getAnimalList(searchDto);
-        log.info("controller 반환 list={}", list);
-        model.addAttribute("list", list);
+        PagingResponse<AnimalBoardVO> pagingResponse = animalBoardService.getAnimalList(searchDto);
+        log.info("pagingResponse={}",pagingResponse);
+        model.addAttribute("response", pagingResponse);
 
         return "animalBoardList";
     }

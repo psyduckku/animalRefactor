@@ -39,7 +39,9 @@ public class AnimalBoardServiceImpl implements AnimalBoardService {
         }
 
         //Pagination 객체를 생성해서 페이지 정보 계산 후 SearchDto타입의 객체인 params에 계산된 페이지 정보 저장
-        Pagination pagination = new Pagination(count, params); //여기서 map을 넣으면 관심사분리가 안되는듯. 빼서함
+
+        Pagination pagination = new Pagination(count, params); //이부분이 문제임***
+        log.info("impl pagination object ={}",pagination);
         params.setPagination(pagination);
 
         //계산된 페이지 정보의 일부(limitStart, recordSize)를 기준으로 리스트 데이터 조회 후 응답 데이터 반환
@@ -60,6 +62,8 @@ public class AnimalBoardServiceImpl implements AnimalBoardService {
 
     @Override
     public int count(SearchDto params) {
-        return animalBoardRepository.count(params);
+        int count = animalBoardRepository.count(params);
+        log.info("count={}",count);
+        return count;
     }
 }

@@ -39,6 +39,8 @@ public class MybatisAnimalBoardRepository implements AnimalBoardRepository {
 
     @Override
     public int count(SearchDto dto) {
-        return mapper.count(dto);
+        int count = mapper.count(dto);
+        log.info("count={}",count);
+        return count;
     }
 }

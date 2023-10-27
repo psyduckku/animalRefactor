@@ -31,8 +31,19 @@
     </select>
 
     <!--게시글 수 카운팅-->
-    <select id="count" parameterType="Map" resultType="int">
-        SELECT COUNT(ASEQ) FROM ANIMALS
+    <select id="count" resultType="int" parameterType="SearchDto">
+        SELECT COUNT(*) FROM ANIMALS
+        <where>
+            <if test='sortRegion !="지역선택" and sortSpecies !="동물선택"'>
+                AND SIGUN_CD = #{sortRegion} and SPECIES_NM like concat('%', #{sortSpecies}, '%')
+            </if>
+            <if test='sortRegion !="지역선택" and sortSpecies =="동물선택"'>
+                AND SIGUN_CD = #{sortRegion}
+            </if>
+            <if test='sortRegion=="지역선택" and sortSpecies !="동물선택"'>
+                AND SPECIES_NM like concat('%', #{sortSpecies}, '%')
+            </if>
+        </where>
     </select>
 
     <select id="getAnimal" parameterType="AnimalBoardVO" resultType="AnimalBoardVO">
