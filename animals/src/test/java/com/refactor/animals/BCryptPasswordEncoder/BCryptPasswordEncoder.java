@@ -19,7 +19,7 @@ public class BCryptPasswordEncoder {
         joinForm.setLoginId("test1");
         joinForm.setPassword("qwe123");
         joinForm.setName("qwe123");
-        joinForm.setNickName("test");
+        joinForm.setNickname("test");
         joinForm.setAddress("test");
         joinForm.setPostcode("12345");
         joinForm.setDetailAddress("test");

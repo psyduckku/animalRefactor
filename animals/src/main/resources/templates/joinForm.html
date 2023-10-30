@@ -44,7 +44,7 @@
           </li>
           <li>
             <div class="head" th:text="#{join.nickname}">닉네임</div>
-            <input type="text" th:field="*{nickName}" class="form-control" placeholder="닉네임을 입력하세요" id="nickName"
+            <input type="text" th:field="*{nickname}" class="form-control" placeholder="닉네임을 입력하세요" id="nickname"
                 th:errorclass="field-error">
             <div id="field_nickName" class="exception">닉네임 알림</div>
           </li>
@@ -111,7 +111,7 @@
         password : document.querySelector('#password').value,
         confirmPassword : document.querySelector('#confirmPassword').value,
         name : document.querySelector('#name').value,
-        nickName : document.querySelector('#nickName').value,
+        nickname : document.querySelector('#nickname').value,
         phone : document.querySelector('#phone').value,
         postcode : document.querySelector('#postcode').value,
         address : document.querySelector('#address').value,

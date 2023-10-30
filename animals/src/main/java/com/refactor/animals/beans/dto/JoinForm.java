@@ -28,7 +28,7 @@ public class JoinForm {
     @NotBlank(message="이름을 입력해주세요")
     private String name;
     @NotNull(message = "닉넴입력")
-    private String nickName;
+    private String nickname;
 
 //    @Size(min = 10, max = 11, message = "핸드폰 번호는 10~11자 이내여야 합니다.")
 //    @Pattern(regexp = "^[0-9]+$", message = "핸드폰 번호는 숫자만 입력해야 합니다.")

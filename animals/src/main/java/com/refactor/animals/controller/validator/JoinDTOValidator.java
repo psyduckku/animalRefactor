@@ -28,9 +28,9 @@ public class JoinDTOValidator implements org.springframework.validation.Validato
                 joinForm.getPassword().length() < 7 || joinForm.getPassword().length() > 16){
             errors.rejectValue("password", "required.password", new Object[]{7,15}, null);
         }
-        if(!StringUtils.hasText(joinForm.getNickName()) || joinForm.getNickName().length() < 2 ||
-                joinForm.getNickName().length() > 10){
-            errors.rejectValue("nickName","required.nickName",new Object[]{2, 7}, null);
+        if(!StringUtils.hasText(joinForm.getNickname()) || joinForm.getNickname().length() < 2 ||
+                joinForm.getNickname().length() > 10){
+            errors.rejectValue("nickname","required.nickname",new Object[]{2, 7}, null);
         }
 
 

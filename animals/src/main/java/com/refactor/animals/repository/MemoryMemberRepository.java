@@ -19,7 +19,6 @@ public class MemoryMemberRepository implements MemberRepository{
     public Member save(Member member){
         log.info("save: user={}", member.toString());
         memberRepository.put(member.getLoginId(), member);
-//        log.info("newMember={}",newMember.toString());
         return member;
     }
 

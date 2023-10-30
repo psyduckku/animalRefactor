@@ -20,17 +20,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     //
-    private final MemoryMemberRepository memoryMemberRepository; //여기가 그러면 DAO가 있어야함.
+    private final MemoryMemberRepository memberRepository; //여기가 그러면 DAO가 있어야함.
     private final BCryptPasswordEncoder encoder; //의존성주입됨
     //optional이 있는 값을 반환하려면 get()이 필요.
     //또한 get()사용하기전에 isPresent()로 값이 있는지 확인이 필요
     @Override
     public LoginForm login(LoginForm loginForm) {
         //loginFormDto에서 Member(entity)로 변경해줘야함
-        Optional<Member> member = memoryMemberRepository.findMember(loginForm.getLoginId());
+        Optional<Member> member = memberRepository.findMember(loginForm.getLoginId());
         Member finedMember = member.get();
         if(!encoder.matches(loginForm.getPassword(),finedMember.getPassword())){
-            throw new UserException("로그인 실패1"); //따로
+            throw new UserException("로그인 실패1");
         } else if (member.isEmpty()) {
             throw new UserException("로그인 실패2");
         }
@@ -42,20 +42,20 @@ public class UserServiceImpl implements UserService {
         log.info("userServiceImpl 진입");
         JoinFormConverter joinFormConverter = new JoinFormConverter();
         Member convertedMember = joinFormConverter.converter(joinForm, encoder);
-        Member newMember = memoryMemberRepository.save(convertedMember);
+        Member newMember = memberRepository.save(convertedMember);
         return newMember;
     }
 
     @Override
     public List<Member> memberList() {
         log.info("memberList접근");
-       List<Member> memberList = memoryMemberRepository.findAll();
+       List<Member> memberList = memberRepository.findAll();
        return memberList;
     }
 
     @Override
     public boolean isLoginIdDuplicate(String checkId) {
-        return memoryMemberRepository.findMember(checkId).isPresent();
+        return memberRepository.findMember(checkId).isPresent();
     }
 
 

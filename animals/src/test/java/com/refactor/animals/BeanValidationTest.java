@@ -22,7 +22,7 @@ public class BeanValidationTest {
         dto.setPassword("123");
         dto.setName(" ");
         dto.setPhone("010-6778-5505");
-        dto.setNickName("hi");
+        dto.setNickname("hi");
         dto.setPostcode("15342");
         dto.setAddress("경기도 용인시");
         dto.setDetailAddress("신갈123");

@@ -63,12 +63,11 @@ public class BaseController {
 
     @GetMapping("/join")
     public String joinForm(Model model, HttpServletRequest request, HttpServletResponse response){
-        log.info("회원가입창 이동");
         Model redirectionCheck = model.addAttribute("joinForm", new JoinForm());
         log.info("redirectionCheck={}",redirectionCheck);
         String referer = request.getHeader("referer");
         log.info("referer={}", referer);
-        String dispatcherType = String.valueOf(request.getDispatcherType());
+        String dispatcherType = String.valueOf(request.getDispatcherType());//Request인지, ERROR인지.. 등
         log.info("dispatcherType={}", dispatcherType);
 
         return "joinForm";

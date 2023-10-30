@@ -5,11 +5,12 @@ import com.refactor.animals.beans.entity.AnimalBoardVO;
 import com.refactor.animals.repository.AnimalBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Slf4j
-//@Repository
+@Repository
 @RequiredArgsConstructor
 public class MybatisAnimalBoardRepository implements AnimalBoardRepository {
 

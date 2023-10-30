@@ -18,7 +18,7 @@ public class Member {
     private String loginId;
     private String password;
     private String name;
-    private String nickName;
+    private String nickname;
     private String phone;
     private String address;
     private String postcode;
@@ -29,13 +29,13 @@ public class Member {
      * Address를 분리시켜 객체로 받고 싶지만, 일단 단순하게 가자.
      * 비즈니스 모델에 들어가는건 Entity임
      */
-    public Member(String loginId, String password, String name, String nickName, String phone,
+    public Member(String loginId, String password, String name, String nickname, String phone,
                   String address, String postcode, String detailAddress, String extraAddress)
     {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.phone = (phone!=null)?phone : "미기입";
         this.address = (address!=null)?address : "미기입";
         this.postcode = (postcode!=null)?postcode : "00000";

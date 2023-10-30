@@ -9,18 +9,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 @RequiredArgsConstructor
 public class MyBatisConfig {
 
     private final AnimalBoardMapper animalBoardMapper;
-    @Bean
+//    @Bean
     public AnimalBoardService AnimalBoardService(){
         return new AnimalBoardServiceImpl(animalBoardRepository());
     } //말그대로 animalservice->repository 순으로 빈을 주입받고자 하는것
     //내가 여기서 bean을 등록했고, ServiceImpl 인스턴스를 생성하기 때문에 Impl의 @Service를 지우니 해결됨
-    @Bean
+//    @Bean
     public AnimalBoardRepository animalBoardRepository(){
         return new MybatisAnimalBoardRepository(animalBoardMapper);
     }
+
+
 }

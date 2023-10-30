@@ -16,7 +16,7 @@ public class JoinFormConverter {
         return new Member(joinForm.getLoginId(),
                  encoder.encode(joinForm.getPassword()),
                 joinForm.getName(),
-                joinForm.getNickName(),
+                joinForm.getNickname(),
                 joinForm.getPhone(),
                 joinForm.getAddress(),
                 joinForm.getPostcode(),
