@@ -27,7 +27,6 @@
         </where>
         ORDER BY ASEQ DESC
         LIMIT #{pagination.limitStart}, #{recordSize}
-        <!--pagination.limitStart 이게되나..?-->
     </select>
 
     <!--게시글 수 카운팅-->

@@ -16,14 +16,14 @@ public class BCryptPasswordEncoder {
     void encoderTest(){
         JoinForm joinForm = new JoinForm();
         JoinFormConverter joinFormConverter = new JoinFormConverter();
-        joinForm.setLoginId("test1");
+        joinForm.setLogin_id("test1");
         joinForm.setPassword("qwe123");
         joinForm.setName("qwe123");
         joinForm.setNickname("test");
         joinForm.setAddress("test");
         joinForm.setPostcode("12345");
-        joinForm.setDetailAddress("test");
-        joinForm.setExtraAddress("test");
+        joinForm.setDetail_address("test");
+        joinForm.setExtra_address("test");
 
         Member member = joinFormConverter.converter(joinForm,encoder);
         //validator 어떻게 돌려야하지?

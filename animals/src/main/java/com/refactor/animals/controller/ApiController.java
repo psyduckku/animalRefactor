@@ -43,7 +43,8 @@ public class ApiController {
     public ResponseEntity<UserException> join(@Valid @RequestBody JoinForm joinForm) {
         log.info("joinForm={}", joinForm.toString());
 
-        userService.join(joinForm);
+        HttpStatus result = userService.join(joinForm);
+
 
         return new ResponseEntity(HttpStatus.OK);
     }

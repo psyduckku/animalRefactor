@@ -3,7 +3,7 @@ package com.refactor.animals.beans.entity;
 import lombok.Data;
 
 @Data
-public class JoinFormDAO {
+public class JoinFormVO {
          String loginId;
         String password;
         String name;

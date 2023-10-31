@@ -3,7 +3,7 @@ package com.refactor.animals.repository;
 import com.refactor.animals.beans.dto.LoginForm;
 import com.refactor.animals.beans.entity.Member;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Repository;
+import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,28 +12,28 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-@Repository
+//@Repository
 public class MemoryMemberRepository implements MemberRepository{
     private static final Map<String, Member> memberRepository = new ConcurrentHashMap<>();
     //private static long sequence = 0L; // static 사용
-    public Member save(Member member){
+    public HttpStatus save(Member member){
         log.info("save: user={}", member.toString());
-        memberRepository.put(member.getLoginId(), member);
-        return member;
+        memberRepository.put(member.getLogin_id(), member);
+        return HttpStatus.OK;
     }
 
     //아이디 추가 변경하기
-    public Optional<Member> findMember(String loginId){
-        Member finedMember = memberRepository.get(loginId);
+    public Optional<Member> findMember(String login_id){
+        Member finedMember = memberRepository.get(login_id);
         return Optional.ofNullable(finedMember);
 
     }
 
-    public Optional<LoginForm> login(String loginId, String password){
-        Member member = memberRepository.get(loginId);
+    public Optional<LoginForm> login(String login_id, String password){
+        Member member = memberRepository.get(login_id);
         log.info("repo로그인처리 member={}",member);
         if(member!=null){
-            LoginForm loginForm = new LoginForm(member.getLoginId(), member.getPassword());
+            LoginForm loginForm = new LoginForm(member.getLogin_id(), member.getPassword());
             log.info("로그인 일치 후 반환받은 로그인폼="+loginForm.toString());
             return Optional.of(loginForm);
         }
@@ -47,8 +47,8 @@ public class MemoryMemberRepository implements MemberRepository{
     }
 
     @Override
-    public Optional<Member> isLoginIdDuplicate(String loginId) {
-        return findMember(loginId);
+    public Optional<Member> isLoginIdDuplicate(String login_id) {
+        return findMember(login_id);
     }
 
     public void clearStore(){

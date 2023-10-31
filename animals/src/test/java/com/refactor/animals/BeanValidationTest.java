@@ -18,15 +18,15 @@ public class BeanValidationTest {
 
         JoinForm dto = new JoinForm();
 
-        dto.setLoginId("paulk");
+        dto.setLogin_id("paulk");
         dto.setPassword("123");
         dto.setName(" ");
         dto.setPhone("010-6778-5505");
         dto.setNickname("hi");
         dto.setPostcode("15342");
         dto.setAddress("경기도 용인시");
-        dto.setDetailAddress("신갈123");
-        dto.setExtraAddress("aiejf");
+        dto.setDetail_address("신갈123");
+        dto.setExtra_address("aiejf");
 
         Set<ConstraintViolation<JoinForm>> violations = validator.validate(dto);
         for (ConstraintViolation<JoinForm> violation : violations) {

@@ -15,41 +15,51 @@ public class Member {
 //    @NotBlank
     //회원가입시 id생성
     private Long id;
-    private String loginId;
+    private String login_id;
     private String password;
+    private String update_info_password;
     private String name;
     private String nickname;
     private String phone;
     private String address;
     private String postcode;
-    private String detailAddress;
-    private String extraAddress;
+    private String detail_address;
+    private String extra_address;
+
+    private String access_time;
+    private String access_ip;
+    private String browser;
+    private String withdrawal_date;
+
+    private String grade;
+
     /**
      * 회원가입 생성자
      * Address를 분리시켜 객체로 받고 싶지만, 일단 단순하게 가자.
      * 비즈니스 모델에 들어가는건 Entity임
      */
-    public Member(String loginId, String password, String name, String nickname, String phone,
-                  String address, String postcode, String detailAddress, String extraAddress)
-    {
-        this.loginId = loginId;
+    public Member(String login_id, String password, String name,
+                  String nickname, String phone, String address,
+                  String postcode, String detail_address, String
+                  extra_address) {
+        this.login_id = login_id;
         this.password = password;
         this.name = name;
         this.nickname = nickname;
-        this.phone = (phone!=null)?phone : "미기입";
-        this.address = (address!=null)?address : "미기입";
-        this.postcode = (postcode!=null)?postcode : "00000";
-        this.detailAddress = (detailAddress!=null)?detailAddress:"미기입";
-        this.extraAddress = (extraAddress!=null)?extraAddress:"미기입";
+        this.phone = phone;
+        this.address = address;
+        this.postcode = postcode;
+        this.detail_address = detail_address;
+        this.extra_address = extra_address;
     }
 
     /**
      * 로그인 생성자
-     * @param loginId
+     * @param login_id
      * @param password
      */
-    public Member(String loginId, String password){
-        this.loginId = loginId;
+    public Member(String login_id, String password){
+        this.login_id = login_id;
         this.password = password;
     }
 

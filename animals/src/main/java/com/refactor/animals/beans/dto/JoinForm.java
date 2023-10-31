@@ -15,7 +15,7 @@ public class JoinForm {
 
     @NotNull(message = "아디입력")
     @Size(min = 5, max = 15)
-    private String loginId;
+    private String login_id;
     @NotNull(message= "비번1")
     @Size(min = 8, max = 20)
 //    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).+$",
@@ -23,7 +23,7 @@ public class JoinForm {
     private String password;
 
     @NotNull(message = "비번2")
-    private String confirmPassword;
+    private String confirm_password;
 
     @NotBlank(message="이름을 입력해주세요")
     private String name;
@@ -37,7 +37,7 @@ public class JoinForm {
 
     private String postcode; //생략가능
     private String address; //생략가능
-    private String detailAddress; //생략가능
-    private String extraAddress; //생략가능
+    private String detail_address; //생략가능
+    private String extra_address; //생략가능
 
 }

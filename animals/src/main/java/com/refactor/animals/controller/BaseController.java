@@ -83,8 +83,7 @@ public class BaseController {
             log.info("errors = {}", bindingResult);
             return "joinForm";
         }
-        Member member = userService.join(joinForm);
-        log.info(member.getPassword());
+        userService.join(joinForm);
         return "redirect:/base/login?welcome=welcome";
     }
     @ResponseBody

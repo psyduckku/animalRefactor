@@ -13,15 +13,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class JoinFormConverter {
 
     public Member converter(JoinForm joinForm, BCryptPasswordEncoder encoder){
-        return new Member(joinForm.getLoginId(),
+        return new Member(joinForm.getLogin_id(),
                  encoder.encode(joinForm.getPassword()),
                 joinForm.getName(),
                 joinForm.getNickname(),
                 joinForm.getPhone(),
                 joinForm.getAddress(),
                 joinForm.getPostcode(),
-                joinForm.getDetailAddress(),
-                joinForm.getExtraAddress()
+                joinForm.getDetail_address(),
+                joinForm.getExtra_address()
         );
     }
 

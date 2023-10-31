@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -74,11 +73,11 @@ public class AnimalBoardController {
         return "animalBoardList";
     }
 
-    @GetMapping("/getAnimalBoard")
-    public String getAnimalBoard(AnimalBoardVO vo, Model model){
+    @GetMapping("/animalBoard")
+    public String animalBoard(AnimalBoardVO vo, Model model){
         AnimalBoardVO info = animalBoardService.getAnimal(vo);
         model.addAttribute("info", info);
-        return "getAnimalBoard";
+        return "animalBoard";
     }
 
 }

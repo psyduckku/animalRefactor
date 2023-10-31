@@ -107,16 +107,16 @@
 
     try{
       let joinForm = {
-        loginId : loginId.value,
+        login_id : loginId.value,
         password : document.querySelector('#password').value,
-        confirmPassword : document.querySelector('#confirmPassword').value,
+        confirm_password : document.querySelector('#confirmPassword').value,
         name : document.querySelector('#name').value,
         nickname : document.querySelector('#nickname').value,
         phone : document.querySelector('#phone').value,
         postcode : document.querySelector('#postcode').value,
         address : document.querySelector('#address').value,
-        detailAddress : document.querySelector('#detailAddress').value,
-        extraAddress : document.querySelector('#extraAddress').value,
+        detail_address : document.querySelector('#detailAddress').value,
+        extra_address : document.querySelector('#extraAddress').value,
       }
 
       const resp = await fetch('/animal/api/join', {

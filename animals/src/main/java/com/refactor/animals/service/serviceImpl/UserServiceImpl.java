@@ -5,10 +5,11 @@ import com.refactor.animals.beans.dto.JoinForm;
 import com.refactor.animals.beans.entity.Member;
 import com.refactor.animals.beans.dto.LoginForm;
 import com.refactor.animals.common.exception.UserException;
-import com.refactor.animals.repository.MemoryMemberRepository;
+import com.refactor.animals.repository.mybatis.MybatisMemberRepository;
 import com.refactor.animals.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     //
-    private final MemoryMemberRepository memberRepository; //여기가 그러면 DAO가 있어야함.
+//    private final MemoryMemberRepository memberRepository; //여기가 그러면 DAO가 있어야함.
+    private final MybatisMemberRepository memberRepository;
     private final BCryptPasswordEncoder encoder; //의존성주입됨
     //optional이 있는 값을 반환하려면 get()이 필요.
     //또한 get()사용하기전에 isPresent()로 값이 있는지 확인이 필요
@@ -34,16 +36,16 @@ public class UserServiceImpl implements UserService {
         } else if (member.isEmpty()) {
             throw new UserException("로그인 실패2");
         }
-        return new LoginForm(finedMember.getLoginId()); //추후에 바꿔야함. 토큰같은것들 다른데서 보관햇다가 반환해주기
+        return new LoginForm(finedMember.getLogin_id()); //추후에 바꿔야함. 토큰같은것들 다른데서 보관햇다가 반환해주기
     }
     @Override
-    public Member join(JoinForm joinForm) {
+    public HttpStatus join(JoinForm joinForm) {
         //encoder필요
         log.info("userServiceImpl 진입");
         JoinFormConverter joinFormConverter = new JoinFormConverter();
         Member convertedMember = joinFormConverter.converter(joinForm, encoder);
-        Member newMember = memberRepository.save(convertedMember);
-        return newMember;
+        memberRepository.save(convertedMember);
+        return HttpStatus.OK;
     }
 
     @Override

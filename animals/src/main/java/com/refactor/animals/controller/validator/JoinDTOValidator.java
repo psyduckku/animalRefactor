@@ -20,8 +20,8 @@ public class JoinDTOValidator implements org.springframework.validation.Validato
     public void validate(Object target, Errors errors) {
         JoinForm joinForm = (JoinForm) target;
 
-        if(!StringUtils.hasText(joinForm.getLoginId()) || joinForm.getLoginId().length() < 5 ||
-                joinForm.getLoginId().length() > 16){ //rejectValue 필드, reject 오브젝트
+        if(!StringUtils.hasText(joinForm.getLogin_id()) || joinForm.getLogin_id().length() < 5 ||
+                joinForm.getLogin_id().length() > 16){ //rejectValue 필드, reject 오브젝트
             errors.rejectValue("loginId", "required.loginId", new Object[]{5,15}, null);
         }
         if(!StringUtils.hasText(joinForm.getPassword())||

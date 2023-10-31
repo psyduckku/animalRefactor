@@ -19,7 +19,7 @@
     </style>
 </head>
 <body>
-<div th:include="~{/template/fragment/header :: copy}"></div>
+<div th:include="~{/template/fragment/header :: header}"></div>
 <h1 style="text-align: center">유기동물명단</h1>
 <div class="table_container">
     <div class="subnav">
@@ -54,9 +54,9 @@
             <td id="state">상태</td>
             <td id="crct">특징</td>
         </tr>
-        <th:block>
-            <tr th:each="info : ${response.list}">
-                <td id="list_img"><a th:href="@{/animalBoard/getAnimalBoard(ASEQ=${info.ASEQ})}"><img th:src="${info.IMAGE_COURS}" class="img" alt="#"></a></td>
+        <th:block th:each="info : ${response.list}">
+            <tr>
+                <td id="list_img"><a th:href="@{/animalBoard/animalBoard(ASEQ=${info.ASEQ})}"><img th:src="${info.IMAGE_COURS}" class="img" alt="#"></a></td>
                 <td class="table-default" th:text="${info.SIGUN_NM}">시군</td>
                 <td class="table-default" th:text="${info.DISCVRY_PLC_INFO}">발견장소</td>
                 <td class="table-default" th:text="${info.RECEPT_DE}">접수일자</td>
