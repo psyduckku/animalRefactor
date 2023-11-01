@@ -47,11 +47,6 @@ public class AdoptBoardImpl implements AdoptBoardService {
     }
 
     @Override
-    public List<AdoptBoardVO> selectBoard(SearchDto dto) {
-        return repository.selectBoard(dto);
-    }
-
-    @Override
     public int count(SearchDto params) {
         return repository.count(params);
     }

@@ -20,10 +20,10 @@
         <ul>
           <li>
             <div class="head" th:text="#{join.id}">아이디</div>
-            <input type="text" id="loginId" th:field="*{loginId}" placeholder="아이디를 입력하세요"
+            <input type="text" id="login_id" th:field="*{login_id}" placeholder="아이디를 입력하세요"
               th:classerror="field-error" class="form-control">
             <button type="button" id="duplicationCheck">중복확인</button>
-            <div id="field_loginId" class="exception">id alert</div>
+            <div id="field_login_id" class="exception">id alert</div>
           </li>
           <li>
             <div class="head" th:text="#{join.password}">비밀번호</div>
@@ -32,8 +32,8 @@
             <div id="field_password" class="exception">비밀번호 알림</div>
           </li>
           <li>
-            <div class="head" th:text="#{join.confirmPassword}">비밀번호확인</div>
-            <input type="password" th:field="*{confirmPassword}" id="confirmPassword" placeholder="동일한 비밀번호를 입력하세요" class="form-control">
+            <div class="head" th:text="#{join.confirm_password}">비밀번호확인</div>
+            <input type="password" th:field="*{confirm_password}" id="confirm_password" placeholder="동일한 비밀번호를 입력하세요" class="form-control">
           </li>
           <li>
             <div class="head" th:text="#{join.name}">이름</div>
@@ -46,7 +46,7 @@
             <div class="head" th:text="#{join.nickname}">닉네임</div>
             <input type="text" th:field="*{nickname}" class="form-control" placeholder="닉네임을 입력하세요" id="nickname"
                 th:errorclass="field-error">
-            <div id="field_nickName" class="exception">닉네임 알림</div>
+            <div id="field_nickname" class="exception">닉네임 알림</div>
           </li>
           <li>
 
@@ -76,9 +76,9 @@
             <div th:if="${#fields.hasGlobalErrors()}">
               <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌오류메시지</p>
             </div>
-            <input type="text" id="detailAddress" placeholder="상세주소" th:field="*{detailAddress}" class="form-control"
+            <input type="text" id="detail_address" placeholder="상세주소" th:field="*{detail_address}" class="form-control"
             th:errorclass="field-error">
-            <input type="text" id="extraAddress" placeholder="참고항목" th:field="*{extraAddress}">
+            <input type="text" id="extra_address" placeholder="참고항목" th:field="*{extra_address}">
           </li>
           <li>
             <input type="button" value="회원가입" class="join" id="joinBtn">
@@ -95,7 +95,7 @@
 <script>
   let respData=null; //회원가입 시 데이터 객체화를 위한 변수
   let idDuplicationCheck=false;
-  let loginId = document.querySelector('#loginId');
+  let loginId = document.querySelector('#login_id');
   let confirmId=''; //아이디 확인
   async function joinProcess(){
 
@@ -109,14 +109,14 @@
       let joinForm = {
         login_id : loginId.value,
         password : document.querySelector('#password').value,
-        confirm_password : document.querySelector('#confirmPassword').value,
+        confirm_password : document.querySelector('#confirm_password').value,
         name : document.querySelector('#name').value,
         nickname : document.querySelector('#nickname').value,
         phone : document.querySelector('#phone').value,
         postcode : document.querySelector('#postcode').value,
         address : document.querySelector('#address').value,
-        detail_address : document.querySelector('#detailAddress').value,
-        extra_address : document.querySelector('#extraAddress').value,
+        detail_address : document.querySelector('#detail_address').value,
+        extra_address : document.querySelector('#extra_address').value,
       }
 
       const resp = await fetch('/animal/api/join', {
@@ -131,13 +131,13 @@
         respData = await resp.json();
         for (i = 0; i < respData.length; i++) {
           var targetDivId = 'field_' + respData[i].field;
-          var message = respData[i].message;
-          // var defaultMessage = respData[i].defaultMessage;
+          // var message = respData.errors[i].message; //
+          var defaultMessage = respData[i].defaultMessage;
           let element = document.getElementById(targetDivId);
           console.log("targetDivId=" + targetDivId);
           if (element) {
             element.style.visibility = "visible";
-            element.innerText = message;
+            element.innerText = defaultMessage;
           }
         }
         return;
@@ -184,15 +184,15 @@
   };
    const isPasswordSame = () =>{
     let password =document.getElementById('password');
-    let confirmPassword = document.getElementById('confirmPassword');
-    if(password.value!==confirmPassword.value){
+    let confirm_password = document.getElementById('confirm_password');
+    if(password.value!==confirm_password.value){
       alert('동일한 비밀번호를 사용해주세요');
-      confirmPassword.value='';
+      confirm_password.value='';
     }
   };
 
   document.querySelector('#duplicationCheck').addEventListener('click', isLoginIdDuplicate);
-  document.querySelector('#confirmPassword').addEventListener('change', isPasswordSame);
+  document.querySelector('#confirm_password').addEventListener('change', isPasswordSame);
   document.querySelector('#joinBtn').addEventListener('click', joinProcess);
 
   // function idCheck(id){
@@ -208,10 +208,10 @@
   // }
 
   //해당 코드는 정상적으로 데이터 값이 전달되면 팝업창은 close()되도록 되어있음
-  let postcodeInput = document.getElementById('postcode');
-  let detailAddressInput = document.getElementById('detailAddress');
-  let extraAddrInput = document.getElementById('extraAddress');
-  let addressInput = document.getElementById('address');
+  let postcode_input = document.getElementById('postcode');
+  let detail_address_input = document.getElementById('detail_address');
+  let extra_addr_input = document.getElementById('extra_address');
+  let address_input = document.getElementById('address');
 
   function sample6_execDaumPostcode() {
     new daum.Postcode({
@@ -230,19 +230,19 @@
             extraAddr += data.bname;
           }
           if(data.buildingName !== '' && data.apartment === 'Y'){
-            extraAddrInput += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+            extra_addr_input += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
           }
           if(extraAddr !== ''){
             extraAddr = ' (' + extraAddr + ')';
           }
-          extraAddrInput.value = extraAddr;
+          extra_addr_input.value = extraAddr;
 
         } else {
-          extraAddrInput.value = '';
+          extra_addr_input.value = '';
         }
-        postcodeInput.value = data.zonecode;
-        addressInput.value = address;
-        detailAddressInput.focus();
+        postcode_input.value = data.zonecode;
+        address_input.value = address;
+        detail_address_input.focus();
       }
     }).open();
   }

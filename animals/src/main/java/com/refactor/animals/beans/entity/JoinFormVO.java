@@ -4,15 +4,15 @@ import lombok.Data;
 
 @Data
 public class JoinFormVO {
-         String loginId;
+         String login_id;
         String password;
         String name;
         String nickname;
         String phone;
         String postcode;
         String address;
-        String detailAddress;
-        String extraAddress;
+        String detail_address;
+        String extra_address;
 
 
 }

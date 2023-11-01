@@ -3,6 +3,7 @@ package com.refactor.animals.common.exception.advice;
 import com.refactor.animals.common.exception.JoinFormValidObject;
 import com.refactor.animals.common.exception.LoginFormValidObject;
 import com.refactor.animals.common.exception.UserException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -21,17 +22,18 @@ import java.util.Locale;
 
 @Slf4j
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class ExceptionAdvice {
 
-    @Autowired
-    private MessageSource messageSource;
+
+    private final MessageSource messageSource;
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler
     public ResponseEntity<Object> joinFormException(MethodArgumentNotValidException argsNotValidException,
                                                   BindingResult bindingResult) {
         List<JoinFormValidObject> list = new ArrayList<>(); //얘 따로 빼고, concurrent같은 멀티쓰레딩 지원되는애로 교체할것
-
+        log.info("exceptionAdvice err={}", bindingResult.getFieldErrors());
         for(FieldError err : bindingResult.getFieldErrors()){
             String errors = messageSource.getMessage(err.getCode(), null, Locale.KOREA);
             log.info("errors={}",errors);

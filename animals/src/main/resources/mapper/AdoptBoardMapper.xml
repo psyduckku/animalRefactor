@@ -9,38 +9,38 @@
     </insert>
     <select id="boardList" resultType="AdoptBoardVO" parameterType="SearchDto">
         SELECT adt_id, title, content, login_id, regdate FROM ADOPT_BOARD
+        <where>
+            <if test="searchType=='TITLE'">
+                and title like concat('%', #{keyword}, '%')
+            </if>
+            <if test="searchType=='CONTENT'">
+                and content like concat('%',#{keyword},'%')
+            </if>
+            <if test="searchType=='WRITER'">
+                and login_id like concat('%',#{keyword},'%')
+            </if>
+        </where>
         ORDER BY ADT_ID DESC
         LIMIT #{pagination.limitStart}, #{recordSize}
     </select>
 
-    <select id="getBoard" parameterType="AdoptBoardVO">
+    <select id="getBoard" resultType="AdoptBoardVO" parameterType="AdoptBoardVO">
         SELECT title, content, login_id, regdate, adt_id
         FROM ADOPT_BOARD
-        WEHRE login_id = #{login_id}
-    </select>
-
-    <select id="selectBoard" parameterType="SearchDto" resultType="AdoptBoardVO">
-        SELECT TITLE, CONTENT, LOGIN_ID, REGDATE, ADT_ID, cnt, flag
-        from adopt_board
-        <where>
-            <if test='searchType=="제목"'>
-                and title = #{title}
-            </if>
-            <if test='searchType=="내용'>
-                and content = #{content}
-            </if>
-        </where>
-        order by adt_id desc
+        WHERE adt_id = #{adt_id}
     </select>
 
     <select id="count" resultType="int" parameterType="SearchDto">
         select count(*) from adopt_board
         <where>
-            <if test="searchType =='제목'">
-                and title like concat('%', #{title} '%')
+            <if test="searchType =='TITLE'">
+                and title like concat('%', #{keyword} '%')
             </if>
-            <if test="searchType =='내용'">
-                and content like concat('%', #{content} '%')
+            <if test="searchType =='CONTENT'">
+                and content like concat('%', #{keyword} '%')
+            </if>
+            <if test="searchType =='WRITER'">
+                and login_id like concat('%', #{keyword} '%')
             </if>
         </where>
     </select>

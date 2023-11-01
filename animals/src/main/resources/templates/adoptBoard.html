@@ -1,131 +1,203 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/animalBoard.css}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" href="/resource/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/adoptBoard.css" th:href="@{/css/adoptBoard.css}">
+    <link rel="stylesheet" href="/css/header.css" th:href="@{/css/header.css}">
+    <link rel="stylesheet" href="/css/footer.css" th:href="@{/css/footer.css}">
+
+    <script src="https://kit.fontawesome.com/4f58cdeb20.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
+    <script src="https://kit.fontawesome.com/4f58cdeb20.js" crossorigin="anonymous"></script>
     <title>Insert title here</title>
 </head>
-<div th:include="~{/template/fragment/header :: header}"></div>
+<div th:replace="~{/template/fragment/header :: header}"></div>
 <body>
-<div class="img">
-    <img src=${info.IMAGE_COURS }>
-</div>
+<h1 align="center">분양후기 게시판</h1>
+<!--<c:if test="${loginUser.id eq 'admin' }">-->
+<!--    <div class="flag">-->
+<!--        <a href="javascript:void(0);" id="flag" name="flag" onclick="callFunction();" data-flag="flag"><i class="fa-regular fa-flag"></i></a>-->
+<!--    </div>-->
+<!--</c:if>-->
+<form method="post" id="boardForm">
+    <!-- 토글박스 -->
 
-<table class="table table-hover" id="contentTable">
-
+    <!--  -->
+    <tr class="table-default">
+        <td>
+            <input type="hidden" name="adt_id" th:value="${info.adt_id }">
+            <textarea style='resize:none;' maxlength="20" rows="1" cols="100" class="content" name="title" required="required" readonly="readonly" th:text="${info.title}"></textarea> </td>
+    </tr>
+    <tr class="table-default">
+        <td><textarea style='resize:none;' maxlength="6" rows="1" cols="100" name="ID" required="required" readonly="readonly" th:text="${info.login_id}"></textarea> </td>
+    </tr>
     <tr>
-        <th>공고고유번호</th>
-        <td colspan="3">${info.PBLANC_IDNTFY_NO }</td>
+        <td>
+            <textarea style='resize:none;' maxlength="2000" rows="10" cols="100" class="content" name="CONTENT" required="required" readonly="readonly" th:text="${info.content}"></textarea>
+        </td>
     </tr>
-    <tr class="table-default">
-        <th>공고시작일자</th>
-        <td>${info.PBLANC_BEGIN_DE }</td>
-        <th>공고종료일자</th>
-        <td>${info.PBLANC_END_DE }</td>
-    </tr>
-    <tr class="table-default">
-        <th>품종</th>
-        <td>${info.SPECIES_NM }</td>
-        <th>나이/체중</th>
-        <td>${info.AGE_INFO }/${info.BDWGH_INFO }</td>
-    </tr>
+<!--    <tr>-->
+<!--        <td>-->
+<!--            <c:forEach var="imageList" items="${imageList}">-->
+<!--                <img src="${contextPath}/download.do?SEQ=${adoptBoard.SEQ }&STORED_FILE_NAME=${imageList.STORED_FILE_NAME}" width=270 height=270/>-->
+<!--            </c:forEach>-->
+<!--        </td>-->
+<!--    </tr>-->
+    <!--<c:if test="${loginUser.id  eq adoptBoard.ID}">
+    <input style='margin-left: 30px;' type="file" name="file1">
+    <input type="hidden" name="SEQ" value="${adoptBoard.SEQ }">
+    </td></tr>
+    </c:if>-->
 
-    <tr class="table-default">
-        <th>특징</th>
-        <td colspan="3">${info.SFETR_INFO }</td>
-    </tr>
-    <tr class="table-default">
-        <th>발견장소</th>
-        <td colspan="3">${info.DISCVRY_PLC_INFO }</td>
-    </tr>
-    <tr class="table-default">
-        <th>보호소명</th>
-        <td>${info.SHTER_NM }</td>
-        <th>보호소 전화번호</th>
-        <td>${info.SHTER_TELNO }</td>
-    </tr>
-    <tr class="table-default">
-        <th>보호소 주소</th>
-        <td colspan="3">${info.REFINE_ROADNM_ADDR }</td>
-    </tr>
-</table>
+<!--    <div class="sub_menu">-->
+<!--        <input type="button" onclick="location.href='getAdoptBoardList.do';" value="목록보기" style='margin-left: 370px;'>-->
+<!--        <c:if test="${loginUser.id!=null }">-->
+<!--            <input type="button" onclick="location.href='#';" value="답글달기">-->
+<!--        </c:if>-->
+<!--        <c:choose>-->
+<!--            <c:when test="${loginUser.id  eq adoptBoard.ID }">-->
+<!--                <input type="button" id="check" onclick="reWrite(this.form)" value="수정" style='width:50px;'/>-->
+<!--                <input type="button" id="check" onclick="doDelete()" value="삭제" style='width:50px;'/>-->
+<!--            </c:when>-->
+<!--            <c:otherwise>-->
+<!--                <input type="button" value="추천" style='margin-left: 30px; width:50px;' />-->
+<!--            </c:otherwise>-->
+<!--        </c:choose>-->
+<!--    </div>-->
+
+    </table>
+</form>
 
 <table class="table table-hover" id="replyList">
-    <tr><td>내용</td> <td>아이디 일시</td> <td>좋아요</td></tr>
+    <tr><td>내용</td> <td>작성자</td><td>like||disLike</td></tr>
+
+<!--    <c:forEach items="${list }"  var="list" >-->
+<!--        <tr id="addReply">-->
+<!--            <td>${list.REPLY } </td> <td>${list.ID }(${list.REGDATE })</td><td>${list.SEQ_LIKE }||${list.SEQ_DISLIKE }</td>-->
+<!--        </tr>-->
+<!--    </c:forEach>-->
 </table>
 
 <form id="replyForm">
-    <table class="table table-hover"  id="replyInput">
+    <table class="table table-hover">
         <tr>
             <td>
-
                 <div class="form-group">
                     <label for="reply" class="form-label mt-4">댓글남기기</label>
-                    <input type="hidden" name="aseq" value="${info.ASEQ }">
-                    <input type="text" id="reply" class="form-control" name="reply" aria-describedby="emailHelp" placeholder="Enter Reply">
-                    <small id="notice" class="form-text text-muted">댓글입력고고</small>
-                    <button type="button" class="btn btn-primary" id="insertReply">Submit</button>
+                    <input type="hidden" name="seq" value="${adoptBoard.SEQ}" id="seq">
+                    <input type="text" name="reply" class="form-control" id="reply" aria-describedby="emailHelp" placeholder="Enter Reply">
+                    <small id="notice" class="form-text text-muted">댓글을 입력하세요</small>
+                    <button id="insertReply" type="button" class="btn btn-primary">Submit</button>
                 </div>
             </td>
         </tr>
     </table>
 </form>
-
 </body>
-<div th:include="/template/fragment/footer.html"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<div th:replace="~{/template/fragment/footer :: footer}"></div>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript">
-    //댓글목록 출력
-    // var ASEQ = '${info.ASEQ }'
-    // $(document).ready(function(){
-    //     $.ajax({
-    //         url: "getAnimalReplyList.do",
-    //         type: "post",
-    //         dataType: "json",
-    //         data: { "ASEQ" : ASEQ },
-    //         async: false,
-    //         success : function(data){
-    //             for(var i in data){
-    //                 console.log(data[i].reply);
-    //                 $("#replyList").append("<tr><td>"+data[i].reply+"</td><td>"+data[i].id+"("+data[i].regdate+")</td> <td>"+data[i].aseq_LIKE+"/"+data[i].aseq_DISLIKE+"</td></tr>")
-    //             }
-    //         },error:function(){ alert('request is failed!!'); },
-    //     })
+    // var seq=${adoptBoard.SEQ }
+    // var check = $("input[type='checkbox']");
+    // check.click(function(){
+    //     $("p").toggle();
     // });
-    // //댓글 입력
+
+    // function callFunction() {
+    //     const flag=document.querySelector('#flag');
+    //     $.ajax({
+    //         url : "${contextPath}/setAFlag.do",
+    //         type: "post",
+    //         data : {seq:seq},
+    //         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+    //         dataType:"text",
+    //         success : function(data){
+    //             console.log('통신성공');
+    //             alert(data);
+    //         },
+    //         error : function(){
+    //             console.log('통신실패');
+    //         }
+    //     })
+    // }
+
     // $('#insertReply').click(function(){
     //     if(${ID==null}){
-    //         alert('로그인을 해주세요.');
+    //         alert('로그인을 해주세요');
     //     }else{
     //         var data;
     //         var dataString;
     //         $.ajax({
-    //             url : "${contextPath}/insertAnimalReply.do",
+    //             url : "${contextPath}/insertAdoptReply.do",
     //             type : "post",
     //             dataType: "json",
     //             data : $("#replyForm").serialize(),
     //             async : false,
-    //             success : function(result)
-    //             {
+    //             success : function(result){
     //                 data=result;
     //                 dataString=JSON.stringify(data);
-    //             }
-    //             ,error: function(){
-    //                 alert("통신에 실패했습니다.");
-    //             },complete: function(){
-    //                 $("#replyList").append("<tr><td>"+data.reply+"</td><td>"+data.id+"("+data.regdate+")</td> <td>"+data.aseq_LIKE+"/"+data.aseq_DISLIKE+"</td></tr>");
+    //                 console.log(dataString);
+    //             },
+    //             error: function(){
+    //                 console.log('통신실패');
+    //             },
+    //             complete : function(){
+    //                 $("#replyList").append("<tr><td>"+data.reply+"</td><td>"+data.ID+"("+data.REGDATE+")</td><td>"+data.SEQ_LIKE+"||"+data.SEQ_DISLIKE+"</td></tr>");
     //                 $("#reply").val('');
     //             }
     //         })
     //         return data;
     //     }
+    //
     // })
 
+    function reWrite(){
+        alert('무야호~');
+        $('.content').removeAttr('readonly');
+        $('.content').removeAttr('readonly');
+        $('#check').attr('value','확인');
+        $('#check').attr('onclick','doUpdate(boardForm)');
+    }
+    function doUpdate(obj){
+        obj.action="${contextPath}/updateAdoptBoard.do";
+        obj.submit();
+        alert('수정하였습니다.');
+    }
 
+    function doDelete(){
+        var confirm_val=confirm("게시물을 삭제하시겠습니까?");
+        if(confirm_val==true){
+            location.href="deleteAdoptBoard.do?SEQ=${adoptBoard.SEQ}";
+        }else{}
+
+    }
+
+    // $(document).ready(function(){
+    // 	var data;
+    // 	var dataString;
+    // 	 	$.ajax({
+    // 	 		url : "${contextPath}/download.do",
+    // 	 		type : "post",
+    // 	 		dataType: "json",
+    // 	 		data : $("#replyForm").serialize(),
+    // 	 		async : false,
+    // 	 		success : function(result){
+    // 	 			data=result;
+    // 	 			dataString=JSON.stringify(data);
+    // 	 			console.log(dataString);
+    // 	 		},
+    // 	 		error: function(){
+    // 	 			console.log('통신실패');
+    // 	 		},
+    // 	 		complete : function(){
+    // 				$("#replyList").append("<tr><td>"+data.reply+"</td><td>"+data.ID+"("+data.REGDATE+")</td><td>"+data.SEQ_LIKE+"||"+data.SEQ_DISLIKE+"</td></tr>");
+    // 				$("#reply").val('');
+    // 	 		}
+    // 	 	})
+    // 	 	return data;
+    // })
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>

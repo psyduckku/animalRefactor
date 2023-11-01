@@ -18,8 +18,8 @@ public class SearchDto {
     private String searchType;  // 검색 유형
     private Pagination pagination; //페이지네이션정보
 
-    private String sortRegion;      //지역분류 ++추가함
-    private String sortSpecies;     //종분류 ++추가함
+    private String sortRegion;      //지역분류
+    private String sortSpecies;     //종분류
 
     public SearchDto() {            //최초 페이지
         this.page = 1;

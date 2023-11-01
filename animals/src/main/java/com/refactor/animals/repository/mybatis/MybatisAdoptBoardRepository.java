@@ -33,11 +33,6 @@ public class MybatisAdoptBoardRepository implements AdoptBoardRepository {
     }
 
     @Override
-    public List<AdoptBoardVO> selectBoard(SearchDto dto) {
-        return mapper.selectBoard(dto);
-    }
-
-    @Override
     public int count(SearchDto dto) {
         return mapper.count(dto);
     }

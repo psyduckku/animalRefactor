@@ -32,7 +32,7 @@ input{
     height: 47px;
     outline: 0.3px solid gray;
 }
-#loginId{
+#login_id{
     width: 200px;
 }
 .join{
@@ -55,10 +55,10 @@ input{
 #address{
     width: 450px;
 }
-#detailAddress{
+#detail_address{
     width: 280px;
 }
-#extraAddress{
+#extra_address{
     width: 155px;
 }
 .exception{
