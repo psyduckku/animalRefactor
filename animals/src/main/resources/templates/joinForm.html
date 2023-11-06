@@ -59,7 +59,7 @@
           <li>
             <div class="head" th:text="#{join.address}">주소</div>
             <input type="text" th:field="*{postcode}" id="postcode" placeholder="우편번호" class="form-control">
-            <input type="button" onclick="sample6_execDaumPostcode()"
+            <input type="button" onclick="execPostcode()"
                    id="search_addr" value="우편번호 찾기"><br>
           </li>
 
@@ -213,7 +213,7 @@
   let extra_addr_input = document.getElementById('extra_address');
   let address_input = document.getElementById('address');
 
-  function sample6_execDaumPostcode() {
+  function execPostcode() {
     new daum.Postcode({
       oncomplete: function(data) {
       var address='';

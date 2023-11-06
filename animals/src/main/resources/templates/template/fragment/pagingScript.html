@@ -45,14 +45,6 @@
                 : `<li class="page-item"><span class="on page-link" style="color: gray">${i}</span></li>`;
       }
 
-      // html += '<p>';
-      // for(let i = pagination.startPage; i<=pagination.endPage; i++){
-      //     html += (i !== params.page)
-      //     ? `<a href="javascript:void(0);" onclick="movePage(${i})">${i}</a>`
-      //     : `<span class="on">${i}</span>`
-      // }
-      // html += `</p>`;
-
       if(pagination.existNextPage){
         html += `
                     <li class="page-item"><a href="javascript:void();" onclick="movePage(${pagination.endPage + 1});" class="page_bt next">▶</a></li>

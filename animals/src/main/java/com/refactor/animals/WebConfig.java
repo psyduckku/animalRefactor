@@ -10,6 +10,8 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.Locale;
+
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -31,23 +33,23 @@ public class WebConfig implements WebMvcConfigurer {
         return filterRegistrationBean;
     }
 
-    @Bean //errors message 사용을 위한 빈등록
-    public MessageSource messageSource(){
-        ResourceBundleMessageSource  messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("messages");
-//        messageSource.setBasename("errors");
-        messageSource.setDefaultEncoding("UTF-8");
-        return messageSource;
-    }
-
-    @Bean //errors message 사용을 위한 빈등록
-    public MessageSource errorMessageSource(){
-        ReloadableResourceBundleMessageSource  messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("errors");
-//        messageSource.setBasename("errors");
-        messageSource.setDefaultEncoding("UTF-8");
-        return messageSource;
-    }
+//    @Bean //기본 message사용
+//    public MessageSource messageSource(){
+//        ResourceBundleMessageSource  messageSource = new ResourceBundleMessageSource();
+//        messageSource.setBasename("messages");
+////        messageSource.setDefaultLocale(Locale.KOREAN);
+////        messageSource.setBasename("errors");
+//        messageSource.setDefaultEncoding("UTF-8");
+//        return messageSource;
+//    }
+//
+//    @Bean //errors message 사용을 위한 빈등록
+//    public MessageSource errorMessageSource(){
+//        ReloadableResourceBundleMessageSource  messageSource = new ReloadableResourceBundleMessageSource();
+//        messageSource.setBasename("classpath:/errors");
+//        messageSource.setDefaultEncoding("UTF-8");
+//        return messageSource;
+//    }
 
 
 

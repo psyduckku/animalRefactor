@@ -3,20 +3,25 @@ package com.refactor.animals.controller;
 import com.refactor.animals.beans.dto.JoinForm;
 import com.refactor.animals.beans.dto.LoginForm;
 import com.refactor.animals.beans.entity.AnimalBoardVO;
-import com.refactor.animals.common.exception.UserException;
+import com.refactor.animals.common.exception.ErrorResult;
+import com.refactor.animals.common.exception.validator.JoinDTOValidator;
 import com.refactor.animals.service.AnimalBoardService;
 import com.refactor.animals.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -27,6 +32,13 @@ import java.util.UUID;
 public class ApiController {
     private final UserService userService;
     private final AnimalBoardService animalBoardService;
+    private final JoinDTOValidator joinDTOValidator;
+    private final MessageSource messageSource;
+    public void init(WebDataBinder dataBinder){
+        dataBinder.addValidators(joinDTOValidator);
+    }
+
+
     @PostMapping("/login")            //RequestBody => mediaType이 application/json임(json요청만받는다)
     public ResponseEntity<LoginForm> login(@RequestBody LoginForm loginForm, HttpServletRequest request) {
 
@@ -40,9 +52,18 @@ public class ApiController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<UserException> join(@Valid @RequestBody JoinForm joinForm) {
+    public ResponseEntity join(@RequestBody @Validated JoinForm joinForm,
+                                              BindingResult bindingResult) {
         log.info("joinForm={}", joinForm.toString());
 
+        joinDTOValidator.validate(joinForm,bindingResult);
+
+        if(bindingResult.hasErrors()){
+            ErrorResult errorResult =
+                    new ErrorResult(bindingResult, messageSource, Locale.getDefault());
+            log.info("errorResult={}",errorResult);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
+        }
         HttpStatus result = userService.join(joinForm);
 
 
