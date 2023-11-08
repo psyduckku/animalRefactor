@@ -11,5 +11,6 @@ public interface AdoptBoardService {
     public PagingResponse<AdoptBoardVO> boardList(SearchDto dto);
     public AdoptBoardVO getBoard(AdoptBoardVO vo);
     public AdoptBoardVO inserBoard(AdoptBoardVO vo);
+    public void update(AdoptBoardVO vo);
     public int count(SearchDto dto);
 }

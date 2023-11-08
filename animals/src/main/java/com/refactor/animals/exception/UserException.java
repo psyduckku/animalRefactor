@@ -1,4 +1,4 @@
-package com.refactor.animals.common.exception;
+package com.refactor.animals.exception;
 
 public class UserException extends RuntimeException{
     public UserException() {

@@ -1,6 +1,6 @@
 package com.refactor.animals.repository.mybatis;
 
-import com.refactor.animals.beans.entity.Member;
+import com.refactor.animals.beans.entity.MemberVO;
 import com.refactor.animals.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,23 +16,23 @@ public class MybatisMemberRepository implements MemberRepository {
     private final MemberMapper mapper;
 
     @Override
-    public HttpStatus save(Member member) {
+    public HttpStatus save(MemberVO member) {
         mapper.save(member);
         return HttpStatus.OK;
     }
 
     @Override
-    public Optional<Member> findMember(String loginId) {
+    public Optional<MemberVO> findMember(String loginId) {
         return mapper.findMember(loginId);
     }
 
     @Override
-    public List<Member> findAll() {
+    public List<MemberVO> findAll() {
         return mapper.findAll();
     }
 
     @Override
-    public Optional<Member> isLoginIdDuplicate(String loginId) {
+    public Optional<MemberVO> isLoginIdDuplicate(String loginId) {
         return mapper.isLoginIdDuplicate(loginId);
     }
 }

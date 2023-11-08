@@ -13,4 +13,5 @@ public interface AdoptBoardMapper {
     public List<AdoptBoardVO> boardList(SearchDto dto);
     public AdoptBoardVO getBoard(AdoptBoardVO vo);
     public int count(SearchDto dto);
+    public int update(AdoptBoardVO vo);
 }

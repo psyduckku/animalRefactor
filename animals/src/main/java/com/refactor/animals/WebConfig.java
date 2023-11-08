@@ -1,28 +1,32 @@
 package com.refactor.animals;
 
-import com.refactor.animals.controller.filter.LogFilter;
+import com.refactor.animals.common.filter.LogFilter;
+import com.refactor.animals.common.interceptor.LoginCheckInterceptor;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.Locale;
 
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new LogInterceptor())
-//                .order(1)
-//                .addPathPatterns("/**") //logFilter랑은 다름. 전체*인데 그 이하모두*
-//                .excludePathPatterns("/css/**", "/ico/**");// 자동 에러페이지는 basic경로가 /error임
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginCheckInterceptor())
+                .order(1)
+                .addPathPatterns("/**")
+                .excludePathPatterns(
+                        "/css/**", "/*.ico", "/error", "/bootstrap/**", "/js/**",
+                        "/base/", "/base/join","/base/login","/animal/api/login",
+                         "/animal/api/join", "/", "/animal/api/isLoginIdDuplicate",
+                        "/adoptBoard/adoptBoardList",
+                        "/animalBoard/animalBoardList",
+                        "/animalBoard/animalBoard", "/img/**"
+
+                );
+    }
 
     //@Bean
     public FilterRegistrationBean logFilter(){ //WAS가동시 필터도 같이 실행됨

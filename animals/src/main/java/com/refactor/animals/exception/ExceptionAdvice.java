@@ -1,7 +1,7 @@
-package com.refactor.animals.common.exception;
+package com.refactor.animals.exception;
 
 import com.refactor.animals.beans.dto.JoinForm;
-import com.refactor.animals.common.exception.validator.JoinDTOValidator;
+import com.refactor.animals.exception.validator.JoinDTOValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -46,9 +46,8 @@ public class ExceptionAdvice {
     }
 
     @ExceptionHandler(UserException.class)
-    public ResponseEntity<LoginFormValidObject> loginFormException(){
-        return new ResponseEntity(new LoginFormValidObject("loginForm.mismatch", "로그인 정보 불일치.")
-                , HttpStatus.UNAUTHORIZED);
+    public LoginRespObject loginFormException(){
+        return new LoginRespObject("loginForm.mismatch", "로그인 정보 불일치.", HttpStatus.UNAUTHORIZED);
         //얘는 아이디 비밀번호 일치하는걸 서비스로직에서
         // 구현해야해서 추가적인 messageSource작업이 필요.
     }

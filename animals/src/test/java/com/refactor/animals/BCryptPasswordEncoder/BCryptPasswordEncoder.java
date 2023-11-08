@@ -2,7 +2,7 @@ package com.refactor.animals.BCryptPasswordEncoder;
 
 import com.refactor.animals.beans.converter.JoinFormConverter;
 import com.refactor.animals.beans.dto.JoinForm;
-import com.refactor.animals.beans.entity.Member;
+import com.refactor.animals.beans.entity.MemberVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +25,7 @@ public class BCryptPasswordEncoder {
         joinForm.setDetail_address("test");
         joinForm.setExtra_address("test");
 
-        Member member = joinFormConverter.converter(joinForm,encoder);
+        MemberVO member = joinFormConverter.converter(joinForm,encoder);
         //validator 어떻게 돌려야하지?
 
     }

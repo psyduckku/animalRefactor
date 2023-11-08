@@ -44,4 +44,6 @@ public class MybatisAnimalBoardRepository implements AnimalBoardRepository {
         log.info("count={}",count);
         return count;
     }
+
+
 }

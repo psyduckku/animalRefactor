@@ -2,9 +2,9 @@ package com.refactor.animals.service.serviceImpl;
 
 import com.refactor.animals.beans.converter.JoinFormConverter;
 import com.refactor.animals.beans.dto.JoinForm;
-import com.refactor.animals.beans.entity.Member;
+import com.refactor.animals.beans.entity.MemberVO;
 import com.refactor.animals.beans.dto.LoginForm;
-import com.refactor.animals.common.exception.UserException;
+import com.refactor.animals.exception.UserException;
 import com.refactor.animals.repository.mybatis.MybatisMemberRepository;
 import com.refactor.animals.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,30 +28,32 @@ public class UserServiceImpl implements UserService {
     //또한 get()사용하기전에 isPresent()로 값이 있는지 확인이 필요
     @Override
     public LoginForm login(LoginForm loginForm) {
-        //loginFormDto에서 Member(entity)로 변경해줘야함
-        Optional<Member> member = memberRepository.findMember(loginForm.getLoginId());
-        Member finedMember = member.get();
-        if(!encoder.matches(loginForm.getPassword(),finedMember.getPassword())){
-            throw new UserException("로그인 실패1");
-        } else if (member.isEmpty()) {
-            throw new UserException("로그인 실패2");
+        Optional<MemberVO> member = memberRepository.findMember(loginForm.getLoginId());
+        if(member.isPresent()){
+            MemberVO finedMember = member.get();
+            log.info("userImpl finedMember={}",finedMember);
+            if(!encoder.matches(loginForm.getPassword(),finedMember.getPassword())){
+                throw new UserException("비밀번호 불일치");
+            }
+        }else{
+            throw new UserException("존재하지 않는 아이디");
         }
-        return new LoginForm(finedMember.getLogin_id()); //추후에 바꿔야함. 토큰같은것들 다른데서 보관햇다가 반환해주기
+        return loginForm;
     }
     @Override
     public HttpStatus join(JoinForm joinForm) {
         //encoder필요
         log.info("userServiceImpl 진입");
         JoinFormConverter joinFormConverter = new JoinFormConverter();
-        Member convertedMember = joinFormConverter.converter(joinForm, encoder);
+        MemberVO convertedMember = joinFormConverter.converter(joinForm, encoder);
         memberRepository.save(convertedMember);
         return HttpStatus.OK;
     }
 
     @Override
-    public List<Member> memberList() {
+    public List<MemberVO> memberList() {
         log.info("memberList접근");
-       List<Member> memberList = memberRepository.findAll();
+       List<MemberVO> memberList = memberRepository.findAll();
        return memberList;
     }
 

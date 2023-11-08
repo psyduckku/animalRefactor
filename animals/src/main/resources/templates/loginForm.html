@@ -2,7 +2,6 @@
 <html xmlns:th="http//thymeleaf.org">
 <head>
   <link rel="stylesheet" th:href="@{/css/login.css}"/>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <meta charset="UTF-8">
   <title>Insert title here</title>
 </head>
@@ -35,14 +34,14 @@
   </div>
 </div>
 <script th:inline="javascript">
-  let loginObject;
+  let loginResult=null;
 
   login = () => {
     const loginData = { // loginId, password 의 속성을 가지고 있는 loginData.자바스크립트 객체
       loginId : document.getElementById('loginId').value,
       password : document.getElementById('password').value
     };
-    const data = {
+    const config = {
       method: 'POST',
       body: JSON.stringify(loginData), //js객체를 json 문자열로 직렬화함
       headers: {
@@ -52,13 +51,18 @@
     //Promise. 비동기 작업의 결과나 상태를 다루는 객체.
     // 하나의 비동기 작업 = Promise 해당 작업의 성공 실패 결과나 상태 정보를 제공함
     // ☆★ 로그인시 bindingResult로 불일치시 reject처리하기
-    fetch('/animal/api/login', data)
+    fetch('/animal/api/login', config)
       .then((res) => res.json())
       .then((result)=>{
+        loginResult=result;
+        if(loginResult.status!='OK'){ //로그인이 실패든 성공이든 동일한 object로 반환하여 해당 조건에 맞춰줘야함.
+          alert(loginResult.message);
+          return;
+        }
         location.replace("/");
       })
       .catch((error)=>{
-        console.error('로그인에러', error);
+        console.error('login error', error);
         alert('서버와 통신중 오류가 발생했습니다.');
       });
     //Promise method changing

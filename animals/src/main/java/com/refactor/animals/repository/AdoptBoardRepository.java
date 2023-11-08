@@ -13,5 +13,6 @@ public interface AdoptBoardRepository {
     public AdoptBoardVO inserBoard(AdoptBoardVO vo);
     public int count(SearchDto dto);
 
+    public int update(AdoptBoardVO vo);
 
 }

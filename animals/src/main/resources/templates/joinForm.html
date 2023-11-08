@@ -95,31 +95,36 @@
 <script>
   let respData=null; //회원가입 시 데이터 객체화를 위한 변수
   let idDuplicationCheck=false;
-  let loginId = document.querySelector('#login_id');
+  let login_Id = document.querySelector('#login_id');
   let confirmId=''; //아이디 확인
+  let resp=null;
+  let postcode_input = document.getElementById('postcode');
+  let detail_address_input = document.getElementById('detail_address');
+  let extra_addr_input = document.getElementById('extra_address');
+  let address_input = document.getElementById('address');
   async function joinProcess(){
 
-    if(confirmId!==loginId.value||idDuplicationCheck==false){
-      console.log('확인아이디'+confirmId+'/입력아이디'+loginId.value+'아이디중복확인여부'+idDuplicationCheck);
+    if(confirmId!==login_Id.value||idDuplicationCheck==false){
+      console.log('확인아이디'+confirmId+'/입력아이디'+login_Id.value+'아이디중복확인여부'+idDuplicationCheck);
       alert('아이디 확인을 해주세요.');
       return;
     }
 
     try{
       let joinForm = {
-        login_id : loginId.value,
+        login_id : login_Id.value,
         password : document.querySelector('#password').value,
         confirm_password : document.querySelector('#confirm_password').value,
         name : document.querySelector('#name').value,
         nickname : document.querySelector('#nickname').value,
         phone : document.querySelector('#phone').value,
-        postcode : document.querySelector('#postcode').value,
-        address : document.querySelector('#address').value,
-        detail_address : document.querySelector('#detail_address').value,
-        extra_address : document.querySelector('#extra_address').value,
+        postcode : postcode_input.value,
+        address : address_input.value,
+        detail_address : detail_address_input.value,
+        extra_address : extra_addr_input.value,
       }
 
-      const resp = await fetch('/animal/api/join', {
+      resp = await fetch('/animal/api/join', {
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',
@@ -129,15 +134,13 @@
       // 회원가입 폼 안내 멘션
       if(!resp.ok){
         respData = await resp.json();
-        for (i = 0; i < respData.length; i++) {
-          var targetDivId = 'field_' + respData[i].field;
-          // var message = respData.errors[i].message; //
-          var defaultMessage = respData[i].defaultMessage;
-          let element = document.getElementById(targetDivId);
-          console.log("targetDivId=" + targetDivId);
-          if (element) {
+        for (i = 0; i < respData.fieldErrorDetails.length; i++) {
+          let field_name = 'field_' + respData.fieldErrorDetails[i].field; //field_name
+          let message = respData.fieldErrorDetails[i].message;
+          let element = document.getElementById(field_name);
+          if(element){
             element.style.visibility = "visible";
-            element.innerText = defaultMessage;
+            element.innerText = message;
           }
         }
         return;
@@ -151,20 +154,20 @@
   }
 
   const isLoginIdDuplicate = () => {
-    if(!loginId.value){
+    if(!login_Id.value){
       alert('아이디를 입력해주세요');
       return;
     }
 
-    fetch('/base/isLoginIdDuplicate',{
+    fetch('/animal/api/isLoginIdDuplicate',{
       method : "POST",
       headers : {
         'Content-Type':'text/plain',
       },
-      body: loginId.value,
-    }).then(response=>{
-      if(response.ok){
-        return response.text();
+      body: login_Id.value,
+    }).then(resp=>{
+      if(resp.ok){
+        return resp.text();
       }else{
         alert('에러발생'); // 오류처리해주기
       }
@@ -172,11 +175,11 @@
       console.log(data);
       if(data=='true'){ //서버>클라 boolean타입은 String으로 변환됨
         alert('사용할 수 없는 아이디입니다.');
-        loginId.value='';
+        login_Id.value='';
       }else{
         alert('사용할 수 있는 아이디입니다.');
         idDuplicationCheck=true;
-        confirmId=loginId.value;
+        confirmId=login_Id.value;
       }
     }).catch(error=>{
       alert('오류 발생 : ' + error.message); //오류처리해주기
@@ -194,24 +197,6 @@
   document.querySelector('#duplicationCheck').addEventListener('click', isLoginIdDuplicate);
   document.querySelector('#confirm_password').addEventListener('change', isPasswordSame);
   document.querySelector('#joinBtn').addEventListener('click', joinProcess);
-
-  // function idCheck(id){
-  //
-  //   let loginId = id.value;
-  //   let limit = /^[a-zA-Z]{5,15}$/;
-  //   if(!limit.test(loginId)){
-  //     document.getElementById("noticeId").textContent ="영문자만 입력해주세요.";
-  //     id.value='';
-  //   }else{
-  //     document.getElementById("noticeId").textContent='';
-  //   }
-  // }
-
-  //해당 코드는 정상적으로 데이터 값이 전달되면 팝업창은 close()되도록 되어있음
-  let postcode_input = document.getElementById('postcode');
-  let detail_address_input = document.getElementById('detail_address');
-  let extra_addr_input = document.getElementById('extra_address');
-  let address_input = document.getElementById('address');
 
   function execPostcode() {
     new daum.Postcode({

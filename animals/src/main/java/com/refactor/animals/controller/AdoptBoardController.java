@@ -8,10 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import static com.refactor.animals.common.KeyCollection.LOGIN_ID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -44,7 +43,10 @@ public class AdoptBoardController {
     }
 
     @GetMapping("/add") //게시물 쓰기
-    public String add() {
+    public String add(@SessionAttribute(name=LOGIN_ID, required=true) String loginId) {
+//        if(LOGIN_ID==null){
+//            return "/index";
+//        }
         return "adoptBoardForm";
     }
     @PostMapping("/add") //게시물 저장

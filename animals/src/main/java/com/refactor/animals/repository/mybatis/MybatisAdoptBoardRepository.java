@@ -6,10 +6,11 @@ import com.refactor.animals.beans.entity.AdoptBoardVO;
 import com.refactor.animals.repository.AdoptBoardRepository;
 import com.refactor.animals.repository.mybatis.AdoptBoardMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class MybatisAdoptBoardRepository implements AdoptBoardRepository {
@@ -35,5 +36,11 @@ public class MybatisAdoptBoardRepository implements AdoptBoardRepository {
     @Override
     public int count(SearchDto dto) {
         return mapper.count(dto);
+    }
+
+    @Override
+    public int update(AdoptBoardVO vo) {
+         int row = mapper.update(vo);
+         return row;
     }
 }

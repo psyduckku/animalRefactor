@@ -2,7 +2,7 @@ package com.refactor.animals.service;
 
 
 import com.refactor.animals.beans.dto.JoinForm;
-import com.refactor.animals.beans.entity.Member;
+import com.refactor.animals.beans.entity.MemberVO;
 import com.refactor.animals.beans.dto.LoginForm;
 import org.springframework.http.HttpStatus;
 
@@ -15,7 +15,7 @@ public interface UserService {
 
     HttpStatus join(JoinForm joinForm);
 
-    List<Member> memberList();
+    List<MemberVO> memberList();
 
     boolean isLoginIdDuplicate(String id);
 }

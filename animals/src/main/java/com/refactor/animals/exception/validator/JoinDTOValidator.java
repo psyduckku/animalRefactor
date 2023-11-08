@@ -1,4 +1,4 @@
-package com.refactor.animals.common.exception.validator;
+package com.refactor.animals.exception.validator;
 
 import com.refactor.animals.beans.dto.JoinForm;
 import lombok.extern.slf4j.Slf4j;
@@ -22,23 +22,23 @@ public class JoinDTOValidator implements Validator {
         JoinForm joinForm = (JoinForm) target;
 
         if(!StringUtils.hasText(joinForm.getLogin_id())) { //rejectValue 필드, reject 오브젝트
-            errors.rejectValue("loginId", "field.required", null, "아이디를 입력해주세요");
+            errors.rejectValue("login_Id", "field.required", null, "아이디를 입력해주세요");
         }else if(joinForm.getLogin_id().length() < 5 ||
                 joinForm.getLogin_id().length() > 12){
-            errors.rejectValue("loginId", "field.length", new Object[]{5, 12}, "5 ~ 12자 이내로 입력해주세요");
+            errors.rejectValue("login_Id", "field.length", new Object[]{5, 12}, "5 ~ 12자 이내로 입력해주세요");
         }
         if(!StringUtils.hasText(joinForm.getPassword())||
                 joinForm.getPassword().length() < 7 || joinForm.getPassword().length() > 16){
-            errors.rejectValue("password", "field.length", new Object[]{7,15}, null);
+            errors.rejectValue("password", "field.length", new Object[]{7,15}, "7 ~ 15자 이내로 입력해주세요");
         }
         if(!StringUtils.hasText(joinForm.getNickname()) || joinForm.getNickname().length() < 2 ||
                 joinForm.getNickname().length() > 10){
-            errors.rejectValue("nickname","filed.length",new Object[]{2, 7}, null);
+            errors.rejectValue("nickname","filed.length",new Object[]{2, 7}, "2 ~ 7자 이내로 입력해주세요");
         }
 
         if(!StringUtils.hasText(joinForm.getName())){
             errors.rejectValue("name","field.required", "이름을 입력해주세요");
-        }else if(joinForm.getName().matches("^[가-힣]*$")){
+        }else if(!joinForm.getName().matches("^[가-힣]*$")){
             errors.rejectValue("name", "field.matches", "한글을 입력해주세요");
         }
 

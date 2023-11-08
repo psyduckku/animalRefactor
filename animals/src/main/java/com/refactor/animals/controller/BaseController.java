@@ -1,7 +1,7 @@
 package com.refactor.animals.controller;
 
 import com.refactor.animals.beans.dto.JoinForm;
-import com.refactor.animals.beans.entity.Member;
+import com.refactor.animals.beans.entity.MemberVO;
 import com.refactor.animals.beans.dto.LoginForm;
 import com.refactor.animals.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.id.uuid.UuidGenerator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,9 +29,13 @@ public class BaseController {
      *
      */
     private final UserServiceImpl userService;
+    private final String LOGIN_ID="loginId";
 
     @GetMapping("/")
-    public String index(){
+    public String index(@SessionAttribute(name = LOGIN_ID, required=false) String loginId){
+
+        log.info("index SessionAttribute member={}", loginId);
+
         return "index";
     }
 
@@ -41,7 +44,6 @@ public class BaseController {
 
         String referer = request.getHeader("Referer");
         log.info("referer={}",referer);
-
         log.info("loginForm");
         return "loginForm";
     }
@@ -86,19 +88,7 @@ public class BaseController {
         userService.join(joinForm);
         return "redirect:/base/login?welcome=welcome";
     }
-    @ResponseBody
-    @PostMapping("/isLoginIdDuplicate")
-    public boolean isLoginIdDuplicate(@RequestBody String checkId){
 
-        log.info("requestBody={}",checkId);
-        boolean result = userService.isLoginIdDuplicate(checkId);
-
-        log.info("result={}", result);
-        //여기서 분기 필요. result가 오류(404)가 나도 true를 보냄.
-
-
-        return result;
-    }
 
     @PostMapping("/logout")
     public String logout(HttpServletRequest request){
@@ -111,7 +101,7 @@ public class BaseController {
     }
     @GetMapping("/memberList")
     public String memberList(){
-        List<Member> list = userService.memberList();
+        List<MemberVO> list = userService.memberList();
         log.info("list={}", list);
         return "redirect:/";
     }

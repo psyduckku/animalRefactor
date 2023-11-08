@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="kor">
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.thymeleaf.org">
+
 <head>
 <!--<link rel="stylesheet" href="/css/header.css" th:href="@{/css/header.css}"/>-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -8,7 +10,8 @@
 <script src="https://kit.fontawesome.com/4f58cdeb20.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<header th:fragment="header">
+<div th:fragment="header"> <!--script는 js파일 만들어서 삽입-->
+<header>
   <nav>
       <div class="logo_nav">
         <a href="/base/">
@@ -26,7 +29,7 @@
       </div>
       <div th:if="${session.sessionId!=null}">
         <ul class="login_bar">
-          <li class="login"><a href="/base/login"><i class="fa-solid fa-right-to-bracket"></i>로그아웃</a></li>
+          <li class="login"><a href="#;" id="logoutBtn"><i class="fa-solid fa-right-to-bracket"></i>로그아웃</a></li>
         </ul>
       </div>
       <div th:unless="${session.sessionId!=null}">
@@ -39,5 +42,9 @@
       </a>
   </nav>
 </header>
+</div>
 </body>
+<!--<th:block layout:fragment="headerScript">-->
+
+<!--</th:block>-->
 </html>

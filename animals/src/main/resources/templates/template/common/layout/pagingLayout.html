@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="kor" xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/header.css}" href="/css/header.css"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}" href="/css/footer.css"/>
+    <link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}" href="/bootstrap/bootstrap.min.css">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="~{/template/common/fragment/header :: header}"></div>
+<div id="content" layout:fragment="content"></div>
+<nav aria-label="Page navigation example">
+    <div class="paging"></div>
+</nav>
+<div th:replace="~{/template/common/fragment/footer :: footer}"></div>
+</body>
+<script scr="/js/header.js"></script>
+<th:block th:insert="/template/common/fragment/pagingScript.html"></th:block>
+</html>

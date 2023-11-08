@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.refactor.animals.repository.mybatis.MemberMapper">
-    <insert id="save" parameterType="Member">
-        INSERT INTO MEMBERS (login_id, password, name, nickname, phone, postcode, detail_address, extra_address)
-        VALUES(#{login_id},#{password},#{name},#{nickname},#{phone},#{postcode},#{detail_address},#{extra_address}
+    <insert id="save" parameterType="MemberVO">
+        INSERT INTO MEMBERS (login_id, password, name, nickname, phone, postcode, address , detail_address, extra_address)
+        VALUES(#{login_id},#{password},#{name},#{nickname},#{phone},#{postcode}, #{address} ,#{detail_address},#{extra_address}
         )
     </insert>
-    <select id="findMember" resultType="com.refactor.animals.beans.entity.Member" parameterType="Member">
+    <select id="findMember" resultType="com.refactor.animals.beans.entity.MemberVO" parameterType="MemberVO">
         SELECT login_id, password from members where login_id = #{login_id}
     </select>
-    <select id="findAll" resultType="com.refactor.animals.beans.entity.Member" parameterType="Member">
+    <select id="findAll" resultType="com.refactor.animals.beans.entity.MemberVO" parameterType="MemberVO">
         SELECT login_id, name, nickname, phone, postcode, detail_address from members;
     </select>
-    <select id="isLoginIdDuplicate" parameterType="Member" resultType="Member">
+    <select id="isLoginIdDuplicate" parameterType="MemberVO" resultType="MemberVO">
         SELECT login_id from members where login_id = #{login_id}
     </select>
 </mapper>

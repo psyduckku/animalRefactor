@@ -1,7 +1,7 @@
 package com.refactor.animals.beans.converter;
 
 import com.refactor.animals.beans.dto.JoinForm;
-import com.refactor.animals.beans.entity.Member;
+import com.refactor.animals.beans.entity.MemberVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -12,8 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //@NoArgsConstructor
 public class JoinFormConverter {
 
-    public Member converter(JoinForm joinForm, BCryptPasswordEncoder encoder){
-        return new Member(joinForm.getLogin_id(),
+    public MemberVO converter(JoinForm joinForm, BCryptPasswordEncoder encoder){
+        return new MemberVO(joinForm.getLogin_id(),
                  encoder.encode(joinForm.getPassword()),
                 joinForm.getName(),
                 joinForm.getNickname(),

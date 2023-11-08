@@ -1,26 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.thymeleaf.org">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/template/common/layout/pagingLayout.html}"
+      layout:fragment="content">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/header.css" th:href="@{/css/header.css}"/>
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
     <link rel="stylesheet" href="/css/animalList.css" th:href="@{/css/animalList.css}"/>
-    <link rel="stylesheet" href="/css/footer.css" th:href="@{/css/footer.css}">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="UTF-8">
     <title>Title</title>
-    <style>
-        /*#list_img img{*/
-        /*    width: 250px;*/
-        /*    height: 250px;*/
-        /*}*/
-    </style>
 </head>
 <body>
-<div th:include="~{/template/fragment/header :: header}"></div>
 <h1 style="text-align: center">유기동물명단</h1>
 <div class="table_container">
     <div class="subnav">
@@ -74,8 +63,5 @@
 <div class="paging"></div>
 </nav>
 <!-- button -->
-
 </body>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-<script th:replace="~{/template/fragment/pagingScript.html}"></script>
 </html>

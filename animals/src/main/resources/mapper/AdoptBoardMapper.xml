@@ -4,11 +4,11 @@
 
     <insert id="insertBoard" parameterType="AdoptBoardVO">
         insert into adopt_board values(
-            login_id = #{login_id}, title = #{title}, content = #{content}
+            login_id = #{login_id}, title = #{title}, content = #{content}, cnt = #{cnt}
         )
     </insert>
     <select id="boardList" resultType="AdoptBoardVO" parameterType="SearchDto">
-        SELECT adt_id, title, content, login_id, regdate FROM ADOPT_BOARD
+        SELECT adt_id, title, content, login_id, regdate, cnt FROM ADOPT_BOARD
         <where>
             <if test="searchType=='TITLE'">
                 and title like concat('%', #{keyword}, '%')
@@ -25,7 +25,7 @@
     </select>
 
     <select id="getBoard" resultType="AdoptBoardVO" parameterType="AdoptBoardVO">
-        SELECT title, content, login_id, regdate, adt_id
+        SELECT title, content, login_id, regdate, adt_id, cnt
         FROM ADOPT_BOARD
         WHERE adt_id = #{adt_id}
     </select>
@@ -44,5 +44,9 @@
             </if>
         </where>
     </select>
+
+    <update id="update" parameterType="AdoptBoardVO">
+        update adopt_board set title = #{title}, content = #{content}, cnt = #{cnt} where adt_id = #{adt_id}
+    </update>
 
 </mapper>
