@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface AdoptBoardService {
 
-    public PagingResponse<AdoptBoardVO> boardList(SearchDto dto);
-    public AdoptBoardVO getBoard(AdoptBoardVO vo);
-    public AdoptBoardVO inserBoard(AdoptBoardVO vo);
-    public void update(AdoptBoardVO vo);
-    public int count(SearchDto dto);
+    PagingResponse<AdoptBoardVO> boardList(SearchDto dto);
+    AdoptBoardVO getBoard(AdoptBoardVO vo);
+    AdoptBoardVO inserBoard(AdoptBoardVO vo);
+    void update(AdoptBoardVO vo);
+    int count(SearchDto dto);
 }

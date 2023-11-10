@@ -10,34 +10,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AnimalBoardVO {
 
-    @Column(name="aseq")
+//    @Column(name="aseq")
     private String ASEQ;
-    @Column(name="sigunCd")
+//    @Column(name="sigunCd")
     private String SIGUN_CD; //시군코드
-    @Column(name="sigunNm")
+//    @Column(name="sigunNm")
     private String SIGUN_NM; //시군명
-    @Column(name="abdmIdntfyNo")
+//    @Column(name="abdmIdntfyNo")
     private String ABDM_IDNTFY_NO; //유기고유번호
-    @Column(name="receptDe")
+//    @Column(name="receptDe")
     private String RECEPT_DE; // 접수일자
-    @Column(name="discvryPlcInfo")
+//    @Column(name="discvryPlcInfo")
     private String DISCVRY_PLC_INFO; // 발견장소
-    @Column(name="stateNm")
+//    @Column(name="stateNm")
     private String STATE_NM; // 상태
-    @Column(name="pblancIdntfyNo")
+//    @Column(name="pblancIdntfyNo")
     private String PBLANC_IDNTFY_NO; // 공고고유번호
 
-    @Column(name="pblancBeginDe")
+//    @Column(name="pblancBeginDe")
     private String PBLANC_BEGIN_DE; // 공고시작일자
-    @Column(name="pblancEndDe")
+//    @Column(name="pblancEndDe")
     private String PBLANC_END_DE; // 공고종료일자
-    @Column(name="speciesNm")
+//    @Column(name="speciesNm")
     private String SPECIES_NM; // 품종
-    @Column(name="colorNm")
+//    @Column(name="colorNm")
     private String COLOR_NM; // 색상
-    @Column(name="ageInfo")
+//    @Column(name="ageInfo")
     private String AGE_INFO; // 나이
-    @Column(name="bdwghInfo")
+//    @Column(name="bdwghInfo")
     private String BDWGH_INFO; // 체중
 
     @Column(name="sexNm")
