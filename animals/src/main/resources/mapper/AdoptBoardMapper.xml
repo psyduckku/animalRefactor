@@ -2,10 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.refactor.animals.repository.mybatis.AdoptBoardMapper">
 
-    <insert id="insertBoard" parameterType="AdoptBoardVO">
-        insert into adopt_board values(
-            login_id = #{login_id}, title = #{title}, content = #{content}, cnt = #{cnt}
-        )
+    <insert id="insertBoard" parameterType="AdoptBoardVO" useGeneratedKeys="true" keyProperty="adt_id">
+        insert into adopt_board(login_id, title, content) values
+        (#{login_id}, #{title}, #{content})
     </insert>
     <select id="boardList" resultType="AdoptBoardVO" parameterType="SearchDto">
         SELECT adt_id, title, content, login_id, regdate, cnt FROM ADOPT_BOARD
@@ -46,7 +45,7 @@
     </select>
 
     <update id="update" parameterType="AdoptBoardVO">
-        update adopt_board set title = #{title}, content = #{content}, cnt = #{cnt} where adt_id = #{adt_id}
+        update adopt_board set title= #{title}, content= #{content}, cnt= #{cnt} where adt_id = #{adt_id}
     </update>
 
 </mapper>

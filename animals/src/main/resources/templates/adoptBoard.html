@@ -5,7 +5,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:fragment="content">
 <head>
     <link rel="stylesheet" type="text/css" href="css/adoptBoard.css" th:href="@{/css/adoptBoard.css}">
-    <link rel="stylesheet" type="text/css" href="/bootstrap/bootstrap.min.css" th:href="@{/bootstrap/bootstrap.min.css}">
     <script src="https://kit.fontawesome.com/4f58cdeb20.js" crossorigin="anonymous"></script>
     <title>Insert title here</title>
 </head>
@@ -16,22 +15,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 <!--        <a href="javascript:void(0);" id="flag" name="flag" onclick="callFunction();" data-flag="flag"><i class="fa-regular fa-flag"></i></a>-->
 <!--    </div>-->
 <!--</c:if>-->
-<form method="post" id="boardForm">
     <!-- 토글박스 -->
 
     <!--  -->
     <tr class="table-default">
-        <td>
-            <input type="hidden" name="adt_id" th:value="${info.adt_id }">
-            <textarea style='resize:none;' maxlength="20" rows="1" cols="100" class="content" name="title" required="required" readonly="readonly" th:text="${info.title}"></textarea> </td>
+        <td th:text="${info.login_id}"></td>
     </tr>
     <tr class="table-default">
-        <td><textarea style='resize:none;' maxlength="6" rows="1" cols="100" name="id" required="required" readonly="readonly" th:text="${info.login_id}"></textarea> </td>
+        <td th:text="${info.title}"></td>
     </tr>
     <tr>
-        <td>
-            <textarea style='resize:none;' maxlength="2000" rows="10" cols="100" class="content" name="content" required="required" readonly="readonly" th:text="${info.content}"></textarea>
-        </td>
+        <td th:text="${info.content}"></td>
     </tr>
 <!--    <tr>-->
 <!--        <td>-->
@@ -63,7 +57,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 <!--    </div>-->
 
     </table>
-</form>
 
 <table class="table table-hover" id="replyList">
     <tr><td>내용</td> <td>작성자</td><td>like||disLike</td></tr>

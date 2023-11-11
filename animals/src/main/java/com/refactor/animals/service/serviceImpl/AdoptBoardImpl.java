@@ -52,8 +52,11 @@ public class AdoptBoardImpl implements AdoptBoardService {
     }
 
     @Override
-    public AdoptBoardVO inserBoard(AdoptBoardVO vo) {
-        return repository.inserBoard(vo);
+    public int insertBoard(AdoptBoardVO vo) {
+        log.info("impl vo.toString()={}", vo.toString());
+        repository.insertBoard(vo);
+        log.info("insert에 대한 auto_increment key="+vo.getAdt_id());
+        return vo.getAdt_id();
     }
 
     @Override

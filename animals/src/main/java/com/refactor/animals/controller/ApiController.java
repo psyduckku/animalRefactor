@@ -46,15 +46,14 @@ public class ApiController {
     public LoginRespObject login(@RequestBody LoginForm loginForm, HttpServletRequest request) {
 
         LoginForm loginMember = userService.login(loginForm);        //Service 로직에서 예외처리를 했기 때문에 Valid 불필요
-//        String sessionId = UUID.randomUUID().toString();
         HttpSession session = request.getSession();
-        session.setAttribute("loginId", loginMember.getLoginId());
+        log.info("컨트롤러 로그인 객체 loginMember={}", loginMember);
+        log.info("api login login_id="+loginMember.getLogin_id());
+        session.setAttribute("login_id", loginMember.getLogin_id());
         new Date(session.getCreationTime()); //session 생성시간
 
-
-        log.info((String) session.getAttribute("loginId"));
-
-
+        String login_id = (String) session.getAttribute("login_id");
+        log.info("세션 로그인 아이디 : "+login_id);
         return new LoginRespObject("login.success","true",HttpStatus.OK);
     }
 

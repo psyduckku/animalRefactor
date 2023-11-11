@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="css/insertAdoptBoard.css">
   <link rel="stylesheet" href="/resource/css/bootstrap.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta charset="UTF-8">
   <title>Insert title here</title>
 </head>
 <script type="text/javascript">
@@ -20,22 +17,30 @@
 
 <h1 align="center" style='width: 100%'>분양후기작성</h1>
 <div id="container" style='margin-top: 30px; width: 800px;'>
-  <form method="post" action="" enctype="multipart/form-data">
-    <table class="table table-hover" id="contentTable">
-      <tr class="table-default">
-        <td><textarea style='resize:none;' maxlength="20" rows="1" cols="100" class="content" name="title" required="required" placeholder="제목"></textarea> </td>
+  <form method="post" th:action th:object="${adoptBoardForm}">
+    <table>
+      <tr>
+        <td><textarea maxlength="20" rows="1" cols="100" class="content" th:field="*{title}" required="required" placeholder="제목"></textarea> </td>
       </tr>
       <tr>
-        <td><textarea style='resize:none;' maxlength="2000" rows="10" cols="100" class="content" name="content" required="required" placeholder="내용"></textarea></td>
+        <td><textarea style='resize:none;' maxlength="2000" rows="10" cols="100" class="content" th:field="*{content}"
+                      required="required" placeholder="내용"></textarea></td>
       </tr>
-      <tr><td>
-        <input style='margin-left: 30px;' type="button" value="파일추가" onClick="fn_addFile()"/>
-        <input type="hidden" name="upload_file_id" value="file_value">
-        <div id="d_file"></div>
-      </td></tr>
+      <tr>
+        <td>
+          <input type="hidden" th:field="*{login_id}" th:value="${session.login_id}">
+<!--        <input style='margin-left: 30px;' type="button" value="파일추가" onClick="fn_addFile()"/>-->
+<!--        <input type="hidden" name="upload_file_id" value="file_value">-->
+<!--        <div id="d_file"></div>-->
+      </td>
+      </tr>
     </table>
     <input type="submit"  value="확인" style='margin-left: 320px; width:50px;'/>
   </form>
 </div>
 </body>
+<script th:inline="javascript">
+  const login_id = [[${session.login_id}]];
+  alert(login_id);
+</script>
 </html>

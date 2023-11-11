@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface AdoptBoardMapper {
 
-    public AdoptBoardVO inserBoard(AdoptBoardVO vo);
+    public int insertBoard(AdoptBoardVO vo);
     public List<AdoptBoardVO> boardList(SearchDto dto);
     public AdoptBoardVO getBoard(AdoptBoardVO vo);
     public int count(SearchDto dto);

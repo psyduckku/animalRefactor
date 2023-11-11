@@ -9,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class LoginFormConverter {
 //encoding해줄필요 없음 일치여부 .matches로 하면됨
     public MemberVO converter(LoginForm loginForm, BCryptPasswordEncoder encoder){
-        return new MemberVO(loginForm.getLoginId(), loginForm.getPassword());
+        return new MemberVO(loginForm.getLogin_id(), loginForm.getPassword());
 
 
     }

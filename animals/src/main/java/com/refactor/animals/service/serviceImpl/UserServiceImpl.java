@@ -28,7 +28,8 @@ public class UserServiceImpl implements UserService {
     //또한 get()사용하기전에 isPresent()로 값이 있는지 확인이 필요
     @Override
     public LoginForm login(LoginForm loginForm) {
-        Optional<MemberVO> member = memberRepository.findMember(loginForm.getLoginId());
+
+        Optional<MemberVO> member = memberRepository.findMember(loginForm.getLogin_id());
         if(member.isPresent()){
             MemberVO finedMember = member.get();
             log.info("userImpl finedMember={}",finedMember);

@@ -29,8 +29,11 @@ public class MybatisAdoptBoardRepository implements AdoptBoardRepository {
     }
 
     @Override
-    public AdoptBoardVO inserBoard(AdoptBoardVO vo) {
-        return mapper.inserBoard(vo);
+    public int insertBoard(AdoptBoardVO vo) {
+        log.info("mybatis repo vo.toString()={}",vo.toString());
+         mapper.insertBoard(vo);
+
+        return vo.getAdt_id();
     }
 
     @Override

@@ -10,7 +10,7 @@ public interface AdoptBoardService {
 
     PagingResponse<AdoptBoardVO> boardList(SearchDto dto);
     AdoptBoardVO getBoard(AdoptBoardVO vo);
-    AdoptBoardVO inserBoard(AdoptBoardVO vo);
+    int insertBoard(AdoptBoardVO vo);
     void update(AdoptBoardVO vo);
     int count(SearchDto dto);
 }

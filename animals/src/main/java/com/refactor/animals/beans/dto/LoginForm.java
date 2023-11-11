@@ -6,10 +6,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginForm {
-    String loginId;
+    String login_id;
     String password;
 
-    public LoginForm(String loginId) {
-        this.loginId = loginId;
+    public LoginForm(String login_id) {
+        this.login_id = login_id;
     }
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class AdoptBoardVO {
 
-    private String adt_id;
+    private int adt_id;
     private String login_id;
     private String regdate;
     private String title;
@@ -20,6 +20,7 @@ public class AdoptBoardVO {
      * @param content
      */
     public AdoptBoardVO(String login_id, String title, String content) {
+
         this.login_id = login_id;
         this.title = title;
         this.content = content;
