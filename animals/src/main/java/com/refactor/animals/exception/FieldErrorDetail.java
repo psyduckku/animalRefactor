@@ -6,7 +6,7 @@ import org.springframework.validation.FieldError;
 
 import java.util.Locale;
 
-@Value
+//@Value
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class FieldErrorDetail {
 

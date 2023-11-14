@@ -4,62 +4,40 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/template/common/layout/defaultLayout.html}"
       layout:fragment="content">
 <head>
-    <link rel="stylesheet" type="text/css" href="css/adoptBoard.css" th:href="@{/css/adoptBoard.css}">
+    <link rel="stylesheet" type="text/css" href="/css/adoptBoard.css" th:href="@{/css/adoptBoard.css}">
     <script src="https://kit.fontawesome.com/4f58cdeb20.js" crossorigin="anonymous"></script>
     <title>Insert title here</title>
 </head>
 <body>
-<h1 align="center">분양후기 게시판</h1>
-<!--<c:if test="${loginUser.id eq 'admin' }">-->
-<!--    <div class="flag">-->
-<!--        <a href="javascript:void(0);" id="flag" name="flag" onclick="callFunction();" data-flag="flag"><i class="fa-regular fa-flag"></i></a>-->
-<!--    </div>-->
-<!--</c:if>-->
-    <!-- 토글박스 -->
-
-    <!--  -->
-    <tr class="table-default">
-        <td th:text="${info.login_id}"></td>
+<div class="container-fluid">
+<h1>분양후기 게시판</h1>
+<table class="table">
+    <thead class="table-dark">
+    <tr>
+        <td th:text="|작성자 ${board.login_id}|"></td>
     </tr>
-    <tr class="table-default">
-        <td th:text="${info.title}"></td>
+    </thead>
+    <tr>
+        <td th:text="${board.title}"></td>
     </tr>
     <tr>
-        <td th:text="${info.content}"></td>
+        <td th:text="${board.content}"></td>
     </tr>
-<!--    <tr>-->
-<!--        <td>-->
-<!--            <c:forEach var="imageList" items="${imageList}">-->
-<!--                <img src="${contextPath}/download.do?SEQ=${adoptBoard.SEQ }&STORED_FILE_NAME=${imageList.STORED_FILE_NAME}" width=270 height=270/>-->
-<!--            </c:forEach>-->
-<!--        </td>-->
-<!--    </tr>-->
-    <!--<c:if test="${loginUser.id  eq adoptBoard.ID}">
-    <input style='margin-left: 30px;' type="file" name="file1">
-    <input type="hidden" name="SEQ" value="${adoptBoard.SEQ }">
-    </td></tr>
-    </c:if>-->
+</table>
 
-<!--    <div class="sub_menu">-->
-<!--        <input type="button" onclick="location.href='getAdoptBoardList.do';" value="목록보기" style='margin-left: 370px;'>-->
-<!--        <c:if test="${loginUser.id!=null }">-->
-<!--            <input type="button" onclick="location.href='#';" value="답글달기">-->
-<!--        </c:if>-->
-<!--        <c:choose>-->
-<!--            <c:when test="${loginUser.id  eq adoptBoard.ID }">-->
-<!--                <input type="button" id="check" onclick="reWrite(this.form)" value="수정" style='width:50px;'/>-->
-<!--                <input type="button" id="check" onclick="doDelete()" value="삭제" style='width:50px;'/>-->
-<!--            </c:when>-->
-<!--            <c:otherwise>-->
-<!--                <input type="button" value="추천" style='margin-left: 30px; width:50px;' />-->
-<!--            </c:otherwise>-->
-<!--        </c:choose>-->
-<!--    </div>-->
-
-    </table>
+    <th:block th:each="file : ${files}">
+        <div>
+        <img th:src="|/adoptBoard/images/${file.getStore_file_name()}|" width="300"><!--property.application 정의 값 가져오기-->
+    <ul>
+        <a th:href="|/adoptBoard/attach/${file.getStore_id()}|">
+            <li th:text="|${file.getUpload_file_name()}(size: ${file.getFile_size()})|"> </li>
+        </a>
+    </ul>
+        </div>
+    </th:block>
 
 <table class="table table-hover" id="replyList">
-    <tr><td>내용</td> <td>작성자</td><td>like||disLike</td></tr>
+    <tr><td>내용</td> <td>작성자</td><td></td></tr>
 
 <!--    <c:forEach items="${list }"  var="list" >-->
 <!--        <tr id="addReply">-->
@@ -83,9 +61,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         </tr>
     </table>
 </form>
+</div>
 </body>
-<script
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript">
     // var seq=${adoptBoard.SEQ }
     // var check = $("input[type='checkbox']");
@@ -188,6 +165,4 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     // })
 
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
 </html>

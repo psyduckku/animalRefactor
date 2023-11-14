@@ -1,42 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/template/common/layout/defaultLayout.html}"
+      layout:fragment="content">
 <head>
-  <link rel="stylesheet" type="text/css" href="css/insertAdoptBoard.css">
-  <link rel="stylesheet" href="/resource/css/bootstrap.css">
   <title>Insert title here</title>
+  <link rel="stylesheet" th:href="@{/css/adoptBoardForm.css}">
 </head>
 <script type="text/javascript">
-  // var cnt=1;
-  // function fn_addFile(){
-  //   $("#d_file").append("<br>"+"<input type='file' name='file"+cnt+"'/>");
-  //   cnt++;
-  // }
 </script>
 <body>
-<div class="top" style='margin-top: 50px;'></div>
 
-<h1 align="center" style='width: 100%'>분양후기작성</h1>
-<div id="container" style='margin-top: 30px; width: 800px;'>
-  <form method="post" th:action th:object="${adoptBoardForm}">
-    <table>
-      <tr>
-        <td><textarea maxlength="20" rows="1" cols="100" class="content" th:field="*{title}" required="required" placeholder="제목"></textarea> </td>
-      </tr>
-      <tr>
-        <td><textarea style='resize:none;' maxlength="2000" rows="10" cols="100" class="content" th:field="*{content}"
+<div class="container">
+  <div class="container text-center"><h1>게시글 작성</h1></div>
+<div class="mb-3">
+  <form method="post" th:action th:object="${adoptBoardForm}" enctype="multipart/form-data">
+    <div class="col-10" id="title">
+        <input class="form-control" th:field="*{title}" required="required" placeholder="제목">
+    </div>
+    <div class="col-10" id="content">
+        <td><textarea rows="10" class="form-control" th:field="*{content}"
                       required="required" placeholder="내용"></textarea></td>
-      </tr>
-      <tr>
-        <td>
           <input type="hidden" th:field="*{login_id}" th:value="${session.login_id}">
-<!--        <input style='margin-left: 30px;' type="button" value="파일추가" onClick="fn_addFile()"/>-->
-<!--        <input type="hidden" name="upload_file_id" value="file_value">-->
-<!--        <div id="d_file"></div>-->
-      </td>
-      </tr>
-    </table>
-    <input type="submit"  value="확인" style='margin-left: 320px; width:50px;'/>
+    </div>
+    <div class="col-10" id="files">
+          <ul>
+<!--              <li>첨부파일 <input type="file" name="image_files"></li>-->
+              <li>이미지파일 <input type="file" multiple="multiple" th:field="*{image_files}"></li>
+          </ul>
+
+    </div>
+    <div>
+        <button type="submit" class="btn btn-outline-primary">글쓰기</button>
+    </div>
   </form>
+</div>
 </div>
 </body>
 <script th:inline="javascript">

@@ -6,13 +6,13 @@ import com.refactor.animals.beans.entity.AnimalBoardVO;
 import com.refactor.animals.service.AnimalBoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -79,5 +79,11 @@ public class AnimalBoardController {
         model.addAttribute("info", info);
         return "animalBoard";
     }
-
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @GetMapping("/getAsideBoard")
+    public List<AnimalBoardVO> getAsideList(AnimalBoardVO vo, Model model){
+        List<AnimalBoardVO> asideList = animalBoardService.getAsideList(vo);
+        return asideList;
+    }
 }

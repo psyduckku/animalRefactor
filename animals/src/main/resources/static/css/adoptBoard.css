@@ -1,39 +1,7 @@
 @charset "UTF-8";
-*{ margin: 0 auto; padding: 0; box-sizing: border-box;
-}
-#contentTable, #replyList{
-    width: 800px;
-}
-form{
-    width: 800px;
-}
-.flag{
-    width: 800px;
-    height: 50px;
-    display: flex;
-}
-.flag i{
-    font-size: 28px;
-}
-.flag a{
-    margin-left: 700px;
-}
+*{ margin: 0 auto; padding: 0; box-sizing: border-box;}
 
-p {
-    margin:0px;
-    display:inline-block;
-    font-size:15px;
-    font-weight:bold;
-    font-family: 'Noto Sans KR', sans-serif;
-}
-textarea{
-    font-family: 'Noto Sans KR', sans-serif;
-}
-.sub_menu{
-    width: 800px;
-    margin-top: 50px;
-    margin-bottom: 50px;
-}
+
 th, td{
     font-family: 'Noto Sans KR', sans-serif;
 }

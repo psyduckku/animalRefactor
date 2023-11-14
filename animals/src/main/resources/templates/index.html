@@ -42,12 +42,48 @@
             내용
           </div>
         </div>
-        <div class="box rList1">r사이드1</div>
-        <div class="box rList2">r사이드2</div>
-        <div class="box rList3">r사이드3</div>
-      </div>
-</body>
-<script>
+        <div class="box rList1">
+          <div>
+            <ul class="area" id="area1">
 
+            </ul>
+          </div>
+        </div>
+        <div class="box rList2">
+          <div>
+            <ul class="area" id="area2">
+
+            </ul>
+          </div>
+        </div>
+        <div class="box rList3">
+          <div>
+            <ul class="area" id="area3">
+
+            </ul>
+          </div>
+        </div>
+</div>
+</body>
+<script th:inline="javascript">
+  let data=null;
+  async function getAsideList() {
+    try{
+      const response = await fetch('/animalBoard/getAsideBoard', {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+       data = await response.json();
+      document.createElement("li")
+      
+    }catch(error){
+      console.error(error);
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    getAsideList();
+  });
 </script>
 </html>

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-@Value
+//@Value
 @AllArgsConstructor(access= AccessLevel.PRIVATE)
 public class ValidationResult {
     private List<FieldErrorDetail> errors;

@@ -3,14 +3,17 @@ package com.refactor.animals;
 import com.refactor.animals.common.filter.LogFilter;
 import com.refactor.animals.common.interceptor.LoginCheckInterceptor;
 import jakarta.servlet.Filter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -25,7 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
                          "/animal/api/join", "/", "/animal/api/isLoginIdDuplicate",
                         "/adoptBoard/adoptBoardList", "/animalBoard/animalBoardList",
                         "/animalBoard/animalBoard", "/animalReplyBoard/boardList",
-                        "/animal/api/logout"
+                        "/animal/api/logout", "/animalBoard/getAsideBoard"
 
 
                 );

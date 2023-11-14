@@ -43,6 +43,7 @@ public class AdoptBoardImpl implements AdoptBoardService {
         AdoptBoardVO board = repository.getBoard(vo);
         if(board!=null){
             board.setCnt(board.getCnt()+1);
+            log.info("조회수확인");
             repository.update(board); //조회수 증가
             return board;
         }else{

@@ -45,7 +45,7 @@
     </select>
 
     <update id="update" parameterType="AdoptBoardVO">
-        update adopt_board set title= #{title}, content= #{content}, cnt= #{cnt} where adt_id = #{adt_id}
+        update adopt_board set cnt = #{cnt} where adt_id = #{adt_id}
     </update>
 
 </mapper>
