@@ -11,14 +11,58 @@
      * 게시글 numbering 완료. 검색 결과에 따른 페이지 이동버튼, 넘버 이동 로직 만들어야함.
      * 해당 script는 template fragment로 사용할 것
      */
+    window.addEventListener('DOMContentLoaded', ()=>{
+        const list = [[${response.list}]];
+        const pagination = [[${response.pagination}]];
+        const params = [[${params}]];
+        let num = pagination.totalRecordCount - ((params.page - 1) * params.recordSize);
+        drawPage(pagination, params);
 
-    window.onload = () => {
-      const list = [[${response.list}]];
-      const pagination = [[${response.pagination}]];
-      const params = [[${params}]];
-      let num = pagination.totalRecordCount - ((params.page - 1) * params.recordSize);
-      drawPage(pagination, params);
-    }
+
+        <!-- header 작동문제로 삽입-->
+      let resp=null;
+      async function logout(event) {
+        event.preventDefault();
+
+        const confirmed = confirm('로그아웃 하시겠습니까?');
+
+        const config = {
+          method : 'POST',
+          headers : {
+            'Content-Type' : 'application/json'
+          }
+        };
+
+        try{
+          if(confirmed){
+            resp = await fetch('animal/api/logout', config)
+                    .then((res) => res.text())
+                    .then((result)=>{
+                      if(result!=200){
+                        console.log(result);
+                      }
+                      location.replace('/');
+                    })
+          }
+        }catch(error){
+          console.error('logout error', error);
+        }
+      }
+      const logoutBtn=document.getElementById('logoutBtn');
+
+      if(logoutBtn){
+        logoutBtn.addEventListener('click', logout);
+      }
+      <!-- 헤더 로그아웃용-->
+
+    })
+    // window.onload = () => {
+    //   const list = [[${response.list}]];
+    //   const pagination = [[${response.pagination}]];
+    //   const params = [[${params}]];
+    //   let num = pagination.totalRecordCount - ((params.page - 1) * params.recordSize);
+    //   drawPage(pagination, params);
+    // }
 
 
     function drawPage(pagination, params){

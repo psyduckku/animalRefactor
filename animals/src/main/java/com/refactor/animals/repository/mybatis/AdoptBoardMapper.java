@@ -2,6 +2,7 @@ package com.refactor.animals.repository.mybatis;
 
 import com.refactor.animals.beans.dto.SearchDto;
 import com.refactor.animals.beans.entity.AdoptBoardVO;
+import com.refactor.animals.beans.entity.BookmarkList;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -9,9 +10,14 @@ import java.util.List;
 @Mapper
 public interface AdoptBoardMapper {
 
-    public int insertBoard(AdoptBoardVO vo);
-    public List<AdoptBoardVO> boardList(SearchDto dto);
-    public AdoptBoardVO getBoard(AdoptBoardVO vo);
-    public int count(SearchDto dto);
-    public int update(AdoptBoardVO vo);
+    int insertBoard(AdoptBoardVO vo);
+    List<AdoptBoardVO> boardList(SearchDto dto);
+    AdoptBoardVO getBoard(AdoptBoardVO vo);
+    int boardCount(SearchDto dto);
+    int cntUpdate(AdoptBoardVO vo);
+    int bookmarkCount();
+    int bookmark(AdoptBoardVO vo);
+
+    List<BookmarkList> bookmarkList();
+
 }

@@ -24,12 +24,12 @@
     </select>
 
     <select id="getBoard" resultType="AdoptBoardVO" parameterType="AdoptBoardVO">
-        SELECT title, content, login_id, regdate, adt_id, cnt
+        SELECT title, content, login_id, regdate, adt_id, cnt, bookmark
         FROM ADOPT_BOARD
         WHERE adt_id = #{adt_id}
     </select>
 
-    <select id="count" resultType="int" parameterType="SearchDto">
+    <select id="boardCount" resultType="int" parameterType="SearchDto">
         select count(*) from adopt_board
         <where>
             <if test="searchType =='TITLE'">
@@ -44,8 +44,43 @@
         </where>
     </select>
 
-    <update id="update" parameterType="AdoptBoardVO">
+    <update id="cntUpdate" parameterType="AdoptBoardVO">
         update adopt_board set cnt = #{cnt} where adt_id = #{adt_id}
     </update>
+
+    <select id="bookmarkCount" resultType="int">
+        select count(*) as count from adopt_board where bookmark = true
+    </select>
+
+    <update id="bookmark" parameterType="AdoptBoardVO">
+        update adopt_board set bookmark = #{bookmark} where adt_id = #{adt_id}
+    </update>
+
+    <resultMap id="adoptBoardVO" type="AdoptBoardVO">
+        <result column="title" property="title" />
+        <result column="login_id" property="login_id"/>
+        <result column="content" property="content"/>
+        <result column="adt_id" property="adt_id"/>
+    </resultMap>
+    <resultMap id="uploadFileVO" type="UploadFileVO">
+        <result column="store_id" property="store_id"/>
+        <result column="adt_id" property="adt_id"/>
+        <result column="store_file_name" property="store_file_name"/>
+        <result column="upload_file_name" property="upload_file_name"/>
+        <result column="bookmark" property="bookmark"/>
+    </resultMap>
+    <resultMap id="BookMarkList" type="BookmarkList">
+        <association property="adopt_board" resultMap="adoptBoardVO"/>
+        <association property="file_store" resultMap="uploadFileVO"/>
+    </resultMap>
+
+    <select id="bookmarkList" resultType="BookmarkList">
+        select b.title, b.content, b.login_id, f.store_id, f.store_file_name, b.bookmark
+        from adopt_board b
+        left join file_store f
+        on b.adt_id = f.adt_id
+        where b.bookmark = true
+    </select>
+
 
 </mapper>

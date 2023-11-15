@@ -27,19 +27,18 @@ public class UserServiceImpl implements UserService {
     //optional이 있는 값을 반환하려면 get()이 필요.
     //또한 get()사용하기전에 isPresent()로 값이 있는지 확인이 필요
     @Override
-    public LoginForm login(LoginForm loginForm) {
-
+    public MemberVO login(LoginForm loginForm) {
+//MemberVO 생성자를 만들어 아이디, grade, 등의 정보만을 반환하도록 함.
         Optional<MemberVO> member = memberRepository.findMember(loginForm.getLogin_id());
-        if(member.isPresent()){
-            MemberVO finedMember = member.get();
-            log.info("userImpl finedMember={}",finedMember);
-            if(!encoder.matches(loginForm.getPassword(),finedMember.getPassword())){
-                throw new UserException("비밀번호 불일치");
-            }
-        }else{
-            throw new UserException("존재하지 않는 아이디");
+        if(!member.isPresent()){
+            throw new UserException("존재하지 않는 아이디.");
         }
-        return loginForm;
+        MemberVO finedMember = member.get();
+        log.info("userImpl finedMember={}",finedMember);
+        if(!encoder.matches(loginForm.getPassword(),finedMember.getPassword())){
+            throw new UserException("비밀번호 불일치");
+        }
+        return new MemberVO(finedMember.getLogin_id(), finedMember.getNickname(), finedMember.getGrade());
     }
     @Override
     public HttpStatus join(JoinForm joinForm) {

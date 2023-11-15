@@ -51,7 +51,7 @@
     </select>
 
     <select id="getAsideList" parameterType="AnimalBoardVO" resultType="AnimalBoardVO">
-        select SIGUN_NM, PBLANC_END_DE, SPECIES_NM, IMAGE_COURS from animals where DATEDIFF(NOW(),PBLANC_END_DE) LIMIT 3;
+        select SIGUN_NM, DATE_FORMAT(PBLANC_END_DE,'%Y-%m-%d') as 'PBLANC_END_DE', SPECIES_NM, IMAGE_COURS, aseq from animals where DATEDIFF(NOW(),PBLANC_END_DE) LIMIT 3;
     </select>
 
 

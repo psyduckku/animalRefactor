@@ -11,6 +11,7 @@ public class UploadFileVO {
     private String store_file_name;
     private String ext_name;
     private double file_size;
+    private boolean bookmark;
 
 
     /****

@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.io.PrintWriter;
 import java.util.UUID;
 
 @Slf4j
@@ -19,9 +20,15 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
         log.info("requestURI={}", requestURI);
         HttpSession session = request.getSession();
+        response.setContentType("text/html;charset=UTF-8");
+//        String backUrl = request.getRequestURI();
         if(session==null || session.getAttribute(KeyCollection.LOGIN_ID) == null){
             log.info("미인증 사용자 요청");
-            response.sendRedirect("/base/login");
+            PrintWriter printWriter = response.getWriter();
+            printWriter.print("<script>alert('로그인을 해주세요.'); location.href='/base/login';</script>");
+            printWriter.flush();
+            printWriter.close();
+//            response.sendRedirect("/base/login");
             return false;
         }
 

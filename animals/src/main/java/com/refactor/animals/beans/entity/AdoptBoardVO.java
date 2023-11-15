@@ -18,7 +18,9 @@ public class AdoptBoardVO {
     private List<MultipartFile> image_files;
 
     private int cnt;
-    private boolean flag;
+    private boolean bookmark;
+
+    private int count;
 
     /***
      * 게시물 등록

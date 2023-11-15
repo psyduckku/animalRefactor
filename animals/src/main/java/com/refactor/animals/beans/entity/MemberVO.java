@@ -50,16 +50,25 @@ public class MemberVO {
         this.extra_address = extra_address;
     }
 
-    /**
-     * 로그인 생성자
+    /***
+     * 로그인 convert용 생성자
      * @param login_id
      * @param password
      */
-    public MemberVO(String login_id, String password){
+    public MemberVO(String login_id, String password) {
         this.login_id = login_id;
         this.password = password;
     }
 
-
-
+    /****
+     * 로그인 반환
+     * @param login_id
+     * @param nickname
+     * @param grade
+     */
+    public MemberVO(String login_id, String nickname, String grade) {
+        this.login_id = login_id;
+        this.nickname = nickname;
+        this.grade = grade;
+    }
 }

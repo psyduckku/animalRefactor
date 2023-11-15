@@ -11,14 +11,15 @@ body{
     text-align: center;
     background-color: #ffc0cb;
 }
+li{ list-style: none; }
 .parent{
     height: 100%;
     display: grid;
     grid-template-areas:
-				". animal1 info ."
-				". animal2 rList1 ."
-                ". animal3 rList2 ."
-                ". animal4 rList3 .";
+				". animal0 info ."
+				". animal1 rList0 ."
+                ". animal2 rList1 ."
+                ". animal3 rList2 .";
 
     grid-template-rows: 1fr 1fr 1fr 1fr; /*수직 행*/
     grid-template-columns: 300px 1fr 400px 300px; /*수평 열*/
@@ -37,6 +38,9 @@ body{
 .info{
     grid-area: info;
 }
+.animal0{
+    grid-area: animal0;
+}
 .animal1{
     grid-area: animal1;
 }
@@ -46,8 +50,8 @@ body{
 .animal3{
     grid-area: animal3;
 }
-.animal4{
-    grid-area: animal4;
+.rList0{
+    grid-area: rList0;
 }
 .rList1{
     grid-area: rList1;
@@ -55,9 +59,12 @@ body{
 .rList2{
     grid-area: rList2;
 }
-.rList3{
-    grid-area: rList3;
-}
 .animal_pic{
     width: 25rem;
+}
+.side{ padding-left: 3px;
+    text-align: left;
+}
+img{
+    border-radius: 3px;
 }

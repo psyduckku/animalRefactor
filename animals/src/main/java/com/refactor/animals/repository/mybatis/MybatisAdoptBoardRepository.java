@@ -3,6 +3,7 @@ package com.refactor.animals.repository.mybatis;
 import com.refactor.animals.beans.dto.PagingResponse;
 import com.refactor.animals.beans.dto.SearchDto;
 import com.refactor.animals.beans.entity.AdoptBoardVO;
+import com.refactor.animals.beans.entity.BookmarkList;
 import com.refactor.animals.repository.AdoptBoardRepository;
 import com.refactor.animals.repository.mybatis.AdoptBoardMapper;
 import lombok.RequiredArgsConstructor;
@@ -37,13 +38,28 @@ public class MybatisAdoptBoardRepository implements AdoptBoardRepository {
     }
 
     @Override
-    public int count(SearchDto dto) {
-        return mapper.count(dto);
+    public int boardCount(SearchDto dto) {
+        return mapper.boardCount(dto);
     }
 
     @Override
-    public int update(AdoptBoardVO vo) {
-         int row = mapper.update(vo);
+    public int cntUpdate(AdoptBoardVO vo) {
+         int row = mapper.cntUpdate(vo);
          return row;
+    }
+
+    @Override
+    public int bookmarkCount() {
+        return mapper.bookmarkCount();
+    }
+
+    @Override
+    public int bookmark(AdoptBoardVO vo) {
+        return mapper.bookmark(vo);
+    }
+
+    @Override
+    public List<BookmarkList> bookmarkList() {
+        return mapper.bookmarkList();
     }
 }

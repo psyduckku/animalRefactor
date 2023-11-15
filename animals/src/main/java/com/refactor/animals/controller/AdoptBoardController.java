@@ -1,10 +1,10 @@
 package com.refactor.animals.controller;
 
-import com.ibm.icu.impl.UResource;
 import com.refactor.animals.beans.dto.AdoptBoardForm;
 import com.refactor.animals.beans.dto.PagingResponse;
 import com.refactor.animals.beans.dto.SearchDto;
 import com.refactor.animals.beans.entity.AdoptBoardVO;
+import com.refactor.animals.beans.entity.BookmarkList;
 import com.refactor.animals.beans.entity.FileStore;
 import com.refactor.animals.beans.entity.UploadFileVO;
 import com.refactor.animals.service.AdoptBoardService;
@@ -14,21 +14,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriUtils;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static com.refactor.animals.common.KeyCollection.LOGIN_ID;
-import static org.hibernate.loader.internal.AliasConstantsHelper.get;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -95,7 +92,7 @@ public class AdoptBoardController {
     }
 
     @ResponseBody
-    @GetMapping("/images/{filename}")
+    @GetMapping("/images/{filename}") //이미지 보이게
     public Resource drawImage(@PathVariable String filename) throws MalformedURLException {
         return new UrlResource("file:"+fileStore.getFullPath(filename));
     }
@@ -112,4 +109,36 @@ public class AdoptBoardController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .body(resource);
     }
+
+    @PostMapping("/bookmark/{adt_id}")
+    public ResponseEntity markUp(@PathVariable int adt_id, @RequestBody boolean bookmark, AdoptBoardVO vo){
+        log.info("adt_id={}",adt_id);
+        log.info("북마크 bookmark={}",bookmark);
+        int count = adoptBoardservice.bookmarkCount();
+        vo.setAdt_id(adt_id);
+        int result=0;
+
+        if(bookmark==true && count >4){
+            return new ResponseEntity("over",HttpStatus.NOT_ACCEPTABLE);
+        }else if(bookmark==true){
+            vo.setBookmark(false);
+            result = adoptBoardservice.bookmark(vo);
+            return new ResponseEntity(false, HttpStatus.OK);
+        }else{
+            vo.setBookmark(true);
+            result = adoptBoardservice.bookmark(vo);
+        }
+
+        return new ResponseEntity(true, HttpStatus.OK);
+    }
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @PostMapping("/bookmarkList")
+    public List<BookmarkList> bookmarkList(){
+        log.info("북마크리스트 진입");
+        List<BookmarkList> list = adoptBoardservice.bookmarkList();
+        log.info("북마크리스트 : list={}",list);
+        return list;
+    }
+
 }

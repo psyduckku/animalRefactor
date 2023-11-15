@@ -10,6 +10,14 @@
 <body>
       <div class="parent">
         <div class="box info">info</div>
+        <div class="box animal0">
+          <div class="box animal_pic">
+            사진
+          </div>
+          <div class="box animal_con">
+            내용
+          </div>
+        </div>
         <div class="box animal1">
           <div class="box animal_pic">
             사진
@@ -34,31 +42,26 @@
             내용
           </div>
         </div>
-        <div class="box animal4">
-          <div class="box animal_pic">
-            사진
-          </div>
-          <div class="box animal_con">
-            내용
+        <div class="box rList0">
+          <div class="image"> <a id="a_img0"><img id="img0"></a> </div>
+          <div>
+            <ul class="side" id="side0">
+
+            </ul>
           </div>
         </div>
         <div class="box rList1">
+          <div class="image"><a id="a_img1"><img id="img1"></a></div>
           <div>
-            <ul class="area" id="area1">
+            <ul class="side" id="side1">
 
             </ul>
           </div>
         </div>
         <div class="box rList2">
+          <div class="image"><a id="a_img2"><img id="img2"></a></div>
           <div>
-            <ul class="area" id="area2">
-
-            </ul>
-          </div>
-        </div>
-        <div class="box rList3">
-          <div>
-            <ul class="area" id="area3">
+            <ul class="side" id="side2">
 
             </ul>
           </div>
@@ -75,8 +78,42 @@
         },
       })
        data = await response.json();
-      document.createElement("li")
-      
+      for(i=0; i<= data.length; i++){
+         let side = document.getElementById(`side${i}`);
+         let li0 = document.createElement('li');
+         let li1 = document.createElement('li');
+         let li2 = document.createElement('li');
+         let img= document.getElementById(`img${i}`)
+         let a = document.getElementById(`a_img${i}`);
+         li0.innerHTML = '<li> 지역 : ' + data[i].sigun_NM + '</li>';
+         li1.innerHTML = '<li> 공고종료일: <br> ' + data[i].pblanc_END_DE +'</li>';
+         li2.innerHTML = '<li> 종별 : ' + data[i].species_NM +'</li>';
+         img.setAttribute('src', data[i].image_COURS);
+         img.setAttribute('width', '180px');
+         side.appendChild(li0);
+         side.appendChild(li1);
+         side.appendChild(li2);
+         a.setAttribute('href', '/animalBoard/animalBoard?ASEQ='+data[i].aseq);
+      }
+    }catch(error){
+      console.error(error);
+    }
+  }
+
+  async function getBookmarkList() {
+
+    try {
+      const response = await fetch('/adoptBoard/bookmarkList', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+          'method' : 'POST',
+      })
+        if(response.ok){
+          const result = response.json();
+          console.log(result);
+        }
+
     }catch(error){
       console.error(error);
     }
@@ -84,6 +121,7 @@
 
   window.addEventListener('DOMContentLoaded', ()=>{
     getAsideList();
+    getBookmarkList();
   });
 </script>
 </html>

@@ -8,7 +8,7 @@
         )
     </insert>
     <select id="findMember" resultType="com.refactor.animals.beans.entity.MemberVO" parameterType="MemberVO">
-        SELECT login_id, password from members where login_id = #{login_id}
+        SELECT login_id, password, grade from members where login_id = #{login_id}
     </select>
     <select id="findAll" resultType="com.refactor.animals.beans.entity.MemberVO" parameterType="MemberVO">
         SELECT login_id, name, nickname, phone, postcode, detail_address from members;

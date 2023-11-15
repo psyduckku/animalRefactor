@@ -3,6 +3,7 @@ package com.refactor.animals.controller;
 import com.refactor.animals.beans.dto.JoinForm;
 import com.refactor.animals.beans.dto.LoginForm;
 import com.refactor.animals.beans.entity.AnimalBoardVO;
+import com.refactor.animals.beans.entity.MemberVO;
 import com.refactor.animals.exception.ErrorResult;
 import com.refactor.animals.exception.LoginRespObject;
 import com.refactor.animals.exception.validator.JoinDTOValidator;
@@ -45,15 +46,14 @@ public class ApiController {
     @PostMapping("/login")            //RequestBody => mediaType이 application/json임(json요청만받는다)
     public LoginRespObject login(@RequestBody LoginForm loginForm, HttpServletRequest request) {
 
-        LoginForm loginMember = userService.login(loginForm);        //Service 로직에서 예외처리를 했기 때문에 Valid 불필요
+        /***
+         * login_id, nickname, grade 반환
+         */
+        MemberVO loginMember = userService.login(loginForm);        //Service 로직에서 예외처리를 했기 때문에 Valid 불필요
         HttpSession session = request.getSession();
-        log.info("컨트롤러 로그인 객체 loginMember={}", loginMember);
-        log.info("api login login_id="+loginMember.getLogin_id());
         session.setAttribute("login_id", loginMember.getLogin_id());
+        session.setAttribute("grade", loginMember.getGrade());
         new Date(session.getCreationTime()); //session 생성시간
-
-        String login_id = (String) session.getAttribute("login_id");
-        log.info("세션 로그인 아이디 : "+login_id);
         return new LoginRespObject("login.success","true",HttpStatus.OK);
     }
 

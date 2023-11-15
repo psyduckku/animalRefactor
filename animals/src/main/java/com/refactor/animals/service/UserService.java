@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserService {
 
-    LoginForm login(LoginForm loginForm);
+     MemberVO login(LoginForm loginForm);
 //    UserDTO getUserInfo(UserDTO userDTO);
 
     HttpStatus join(JoinForm joinForm);

@@ -4,6 +4,7 @@ import com.refactor.animals.beans.dto.Pagination;
 import com.refactor.animals.beans.dto.PagingResponse;
 import com.refactor.animals.beans.dto.SearchDto;
 import com.refactor.animals.beans.entity.AdoptBoardVO;
+import com.refactor.animals.beans.entity.BookmarkList;
 import com.refactor.animals.exception.UserException;
 import com.refactor.animals.repository.mybatis.MybatisAdoptBoardRepository;
 import com.refactor.animals.service.AdoptBoardService;
@@ -24,7 +25,7 @@ public class AdoptBoardImpl implements AdoptBoardService {
     @Override
     public PagingResponse<AdoptBoardVO> boardList(SearchDto params) {
 
-        int count = repository.count(params);
+        int count = repository.boardCount(params);
         if(count < 1){
             return new PagingResponse<>(Collections.emptyList(), null);
         }
@@ -44,7 +45,7 @@ public class AdoptBoardImpl implements AdoptBoardService {
         if(board!=null){
             board.setCnt(board.getCnt()+1);
             log.info("조회수확인");
-            repository.update(board); //조회수 증가
+            repository.cntUpdate(board); //조회수 증가
             return board;
         }else{
             throw new UserException("게시물을 찾을 수 없습니다");
@@ -61,12 +62,27 @@ public class AdoptBoardImpl implements AdoptBoardService {
     }
 
     @Override
-    public void update(AdoptBoardVO vo) {
-        repository.update(vo);
+    public void cntUpdate(AdoptBoardVO vo) {
+        repository.cntUpdate(vo);
     }
 
     @Override
-    public int count(SearchDto params) {
-        return repository.count(params);
+    public int boardCount(SearchDto params) {
+        return repository.boardCount(params);
+    }
+
+    @Override
+    public int bookmarkCount() {
+        return repository.bookmarkCount();
+    }
+
+    @Override
+    public int bookmark(AdoptBoardVO vo) {
+        return repository.bookmark(vo);
+    }
+
+    @Override
+    public List<BookmarkList> bookmarkList() {
+        return repository.bookmarkList();
     }
 }
