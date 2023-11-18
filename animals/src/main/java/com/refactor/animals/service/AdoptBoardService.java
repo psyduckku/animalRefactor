@@ -2,8 +2,9 @@ package com.refactor.animals.service;
 
 import com.refactor.animals.beans.dto.PagingResponse;
 import com.refactor.animals.beans.dto.SearchDto;
+import com.refactor.animals.beans.entity.AdoptBoardBookMarkVO;
 import com.refactor.animals.beans.entity.AdoptBoardVO;
-import com.refactor.animals.beans.entity.BookmarkList;
+import com.refactor.animals.beans.entity.ThumbnailVO;
 
 import java.util.List;
 
@@ -16,6 +17,6 @@ public interface AdoptBoardService {
     int boardCount(SearchDto dto);
     int bookmarkCount();
     int bookmark(AdoptBoardVO vo);
-    List<BookmarkList> bookmarkList();
+    List<AdoptBoardBookMarkVO> bookmarkList();
 
 }

@@ -28,7 +28,8 @@ public class WebConfig implements WebMvcConfigurer {
                          "/animal/api/join", "/", "/animal/api/isLoginIdDuplicate",
                         "/adoptBoard/adoptBoardList", "/animalBoard/animalBoardList",
                         "/animalBoard/animalBoard", "/animalReplyBoard/boardList",
-                        "/animal/api/logout", "/animalBoard/getAsideBoard"
+                        "/animal/api/logout", "/animalBoard/getAsideBoard",
+                        "/adoptBoard/bookmarkList"
 
 
                 );

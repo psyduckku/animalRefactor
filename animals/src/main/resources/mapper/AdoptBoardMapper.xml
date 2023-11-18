@@ -56,31 +56,24 @@
         update adopt_board set bookmark = #{bookmark} where adt_id = #{adt_id}
     </update>
 
-    <resultMap id="adoptBoardVO" type="AdoptBoardVO">
-        <result column="title" property="title" />
-        <result column="login_id" property="login_id"/>
-        <result column="content" property="content"/>
-        <result column="adt_id" property="adt_id"/>
-    </resultMap>
-    <resultMap id="uploadFileVO" type="UploadFileVO">
-        <result column="store_id" property="store_id"/>
-        <result column="adt_id" property="adt_id"/>
-        <result column="store_file_name" property="store_file_name"/>
-        <result column="upload_file_name" property="upload_file_name"/>
-        <result column="bookmark" property="bookmark"/>
-    </resultMap>
-    <resultMap id="BookMarkList" type="BookmarkList">
-        <association property="adopt_board" resultMap="adoptBoardVO"/>
-        <association property="file_store" resultMap="uploadFileVO"/>
-    </resultMap>
-
-    <select id="bookmarkList" resultType="BookmarkList">
-        select b.title, b.content, b.login_id, f.store_id, f.store_file_name, b.bookmark
-        from adopt_board b
-        left join file_store f
-        on b.adt_id = f.adt_id
-        where b.bookmark = true
+    <select id="bookmarkList" parameterType="AdoptBoardVO" resultType="AdoptBoardBookMarkVO">
+        select adt_id, title, content, login_id
+        from adopt_board
+        where bookmark = true
     </select>
 
-
+<!--    <resultMap id="upload_file" type="UploadFileVO">-->
+<!--        <id property="store_id" column="store_id"/>-->
+<!--        <result property="store_file_name" column="store_file_name"/>-->
+<!--    </resultMap>-->
+<!--    <resultMap id="adopt_board" type="AdoptBoardVO">-->
+<!--        <id property="adt_id" column="adt_id"/>-->
+<!--        <result property="login_id" column="login_id"/>-->
+<!--        <result property="regdate" column="regdate"/>-->
+<!--        <result property="title" column="title"/>-->
+<!--        <result property="content" column="content"/>-->
+<!--        <result property="cnt" column="cnt"/>-->
+<!--        <result property="bookmark" column="bookmark"/>-->
+<!--        <result property="count" column="count"/>-->
+<!--    </resultMap>-->
 </mapper>

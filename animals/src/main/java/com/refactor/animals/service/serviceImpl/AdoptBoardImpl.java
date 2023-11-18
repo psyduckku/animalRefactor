@@ -3,14 +3,14 @@ package com.refactor.animals.service.serviceImpl;
 import com.refactor.animals.beans.dto.Pagination;
 import com.refactor.animals.beans.dto.PagingResponse;
 import com.refactor.animals.beans.dto.SearchDto;
+import com.refactor.animals.beans.entity.AdoptBoardBookMarkVO;
 import com.refactor.animals.beans.entity.AdoptBoardVO;
-import com.refactor.animals.beans.entity.BookmarkList;
+import com.refactor.animals.beans.entity.ThumbnailVO;
 import com.refactor.animals.exception.UserException;
 import com.refactor.animals.repository.mybatis.MybatisAdoptBoardRepository;
 import com.refactor.animals.service.AdoptBoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -82,7 +82,7 @@ public class AdoptBoardImpl implements AdoptBoardService {
     }
 
     @Override
-    public List<BookmarkList> bookmarkList() {
+    public List<AdoptBoardBookMarkVO> bookmarkList() {
         return repository.bookmarkList();
     }
 }

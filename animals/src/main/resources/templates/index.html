@@ -11,35 +11,35 @@
       <div class="parent">
         <div class="box info">info</div>
         <div class="box animal0">
-          <div class="box animal_pic">
-            사진
+          <div class="box animal_pic" id="main_pic0">
+
           </div>
-          <div class="box animal_con">
-            내용
+          <div class="box animal_con" id="main_con0">
+
           </div>
         </div>
         <div class="box animal1">
-          <div class="box animal_pic">
-            사진
+          <div class="box animal_pic" id="main_pic1">
+
           </div>
-          <div class="box animal_con">
-            내용
+          <div class="box animal_con" id="main_con1">
+
           </div>
         </div>
         <div class="box animal2">
-          <div class="box animal_pic">
-            사진
+          <div class="box animal_pic" id="main_pic2">
+
           </div>
-          <div class="box animal_con">
-            내용
+          <div class="box animal_con" id="main_con2">
+
           </div>
         </div>
         <div class="box animal3">
-          <div class="box animal_pic">
-            사진
+          <div class="box animal_pic" id="main_pic3">
+
           </div>
-          <div class="box animal_con">
-            내용
+          <div class="box animal_con" id="main_con3">
+
           </div>
         </div>
         <div class="box rList0">
@@ -70,6 +70,8 @@
 </body>
 <script th:inline="javascript">
   let data=null;
+  let bookmark=null;
+  let main_pic_div='';
   async function getAsideList() {
     try{
       const response = await fetch('/animalBoard/getAsideBoard', {
@@ -110,8 +112,23 @@
           'method' : 'POST',
       })
         if(response.ok){
-          const result = response.json();
-          console.log(result);
+          bookmark = await response.json();
+
+          for(i=0; i<bookmark.thumbnailList.length;i++){
+            main_pic_div =  document.getElementById(`main_pic${i}`);
+            const main_con_div = document.getElementById(`main_con${i}`);
+            const p_pic = document.createElement('p');
+            const title_p = document.createElement('p');
+            const content_p = document.createElement('p');
+            p_pic.innerText= bookmark.thumbnailList[i].store_file_name;
+            title_p.innerText = bookmark.boardList[i].title;
+            content_p.innerText = bookmark.boardList[i].content;
+            main_pic_div.appendChild(p_pic);
+            main_con_div.appendChild(title_p);
+            main_con_div.appendChild(content_p);
+            console.log(main_pic_div);
+
+          }
         }
 
     }catch(error){

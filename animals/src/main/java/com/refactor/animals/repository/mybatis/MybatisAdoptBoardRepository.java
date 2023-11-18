@@ -1,11 +1,9 @@
 package com.refactor.animals.repository.mybatis;
 
-import com.refactor.animals.beans.dto.PagingResponse;
 import com.refactor.animals.beans.dto.SearchDto;
+import com.refactor.animals.beans.entity.AdoptBoardBookMarkVO;
 import com.refactor.animals.beans.entity.AdoptBoardVO;
-import com.refactor.animals.beans.entity.BookmarkList;
 import com.refactor.animals.repository.AdoptBoardRepository;
-import com.refactor.animals.repository.mybatis.AdoptBoardMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -59,7 +57,7 @@ public class MybatisAdoptBoardRepository implements AdoptBoardRepository {
     }
 
     @Override
-    public List<BookmarkList> bookmarkList() {
+    public List<AdoptBoardBookMarkVO> bookmarkList() {
         return mapper.bookmarkList();
     }
 }

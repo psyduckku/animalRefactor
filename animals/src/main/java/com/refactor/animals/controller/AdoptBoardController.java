@@ -3,14 +3,12 @@ package com.refactor.animals.controller;
 import com.refactor.animals.beans.dto.AdoptBoardForm;
 import com.refactor.animals.beans.dto.PagingResponse;
 import com.refactor.animals.beans.dto.SearchDto;
-import com.refactor.animals.beans.entity.AdoptBoardVO;
-import com.refactor.animals.beans.entity.BookmarkList;
-import com.refactor.animals.beans.entity.FileStore;
-import com.refactor.animals.beans.entity.UploadFileVO;
+import com.refactor.animals.beans.entity.*;
 import com.refactor.animals.service.AdoptBoardService;
 import com.refactor.animals.service.UploadFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.MethodParameter;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +22,10 @@ import org.springframework.web.util.UriUtils;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -56,7 +57,7 @@ public class AdoptBoardController {
     public String adoptBoard(AdoptBoardVO vo, Model model) {
         AdoptBoardVO board = adoptBoardservice.getBoard(vo);
         List<UploadFileVO> files = uploadFileService.getFiles(vo.getAdt_id());
-        log.info("info={}", board);
+        log.info("files={}",files);
         model.addAttribute("board", board);
         model.addAttribute("files", files);
         return "adoptBoard";
@@ -131,14 +132,21 @@ public class AdoptBoardController {
 
         return new ResponseEntity(true, HttpStatus.OK);
     }
-    @ResponseStatus(HttpStatus.OK)
+//    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @PostMapping("/bookmarkList")
-    public List<BookmarkList> bookmarkList(){
-        log.info("북마크리스트 진입");
-        List<BookmarkList> list = adoptBoardservice.bookmarkList();
-        log.info("북마크리스트 : list={}",list);
-        return list;
+    public Map<String, List<?>> bookmarkList(){
+        Map<String, List<?>> map = new HashMap<>();
+        List<AdoptBoardBookMarkVO> list = adoptBoardservice.bookmarkList();
+        List<ThumbnailVO> thumbnailList = new ArrayList<>();
+        for (AdoptBoardBookMarkVO li : list) {
+            ThumbnailVO fileName = uploadFileService.getThumbnail(li.getAdt_id());
+            thumbnailList.add(fileName);
+        }
+        map.put("boardList",list);
+        map.put("thumbnailList", thumbnailList);
+
+        return map;
     }
 
 }

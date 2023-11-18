@@ -1,5 +1,6 @@
 package com.refactor.animals.repository.mybatis;
 
+import com.refactor.animals.beans.entity.ThumbnailVO;
 import com.refactor.animals.beans.entity.UploadFileVO;
 import com.refactor.animals.repository.UploadFileRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,10 @@ public class MybatisUploadFileRepository implements UploadFileRepository {
     @Override
     public UploadFileVO downloadImage(int store_id) {
         return mapper.downloadImage(store_id);
+    }
+
+    @Override
+    public ThumbnailVO getThumbnail(int adt_id) {
+        return mapper.getThumbnail(adt_id);
     }
 }

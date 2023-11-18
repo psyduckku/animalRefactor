@@ -13,14 +13,12 @@ public class AdoptBoardVO {
     private String regdate;
     private String title;
     private String content;
-
-//    private MultipartFile attach_file;
-    private List<MultipartFile> image_files;
-
+    private List<MultipartFile> image_files; //image_files에서
     private int cnt;
     private boolean bookmark;
-
     private int count;
+//    private String thumbnail;
+
 
     /***
      * 게시물 등록

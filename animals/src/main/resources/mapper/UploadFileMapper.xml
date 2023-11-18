@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.refactor.animals.repository.mybatis.UploadFileMapper">
     <insert id="insertFiles" parameterType="list">
-        insert into file_store (adt_id, upload_file_name, store_file_name, ext_name, file_size)
+        insert into upload_file (adt_id, upload_file_name, store_file_name, ext_name, file_size)
         values
         <foreach collection="list" item="UploadFileVO" separator=",">
             (#{UploadFileVO.adt_id}, #{UploadFileVO.upload_file_name}, #{UploadFileVO.store_file_name}, #{UploadFileVO.ext_name}, #{UploadFileVO.file_size})
@@ -11,12 +11,14 @@
 
     <select id="getFiles" parameterType="int" resultType="UploadFileVO">
         select store_id, adt_id, upload_file_name, store_file_name, file_size, ext_name
-        from file_store where adt_id = #{adt_id}
+        from upload_file where adt_id = #{adt_id}
     </select>
 
     <select id="downloadImage" parameterType="int" resultType="UploadFileVO">
         select store_id, adt_id, upload_file_name, store_file_name, file_size, ext_name
-        from file_store where store_id = #{store_id}
+        from upload_file where store_id = #{store_id}
     </select>
-
+    <select id="getThumbnail" parameterType="int" resultType="ThumbnailVO">
+        select adt_id, store_file_name from upload_file where adt_id = #{adt_id} limit 1
+    </select>
 </mapper>

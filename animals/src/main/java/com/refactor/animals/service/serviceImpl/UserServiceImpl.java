@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public HttpStatus join(JoinForm joinForm) {
-        //encoder필요
         log.info("userServiceImpl 진입");
         JoinFormConverter joinFormConverter = new JoinFormConverter();
         MemberVO convertedMember = joinFormConverter.converter(joinForm, encoder);

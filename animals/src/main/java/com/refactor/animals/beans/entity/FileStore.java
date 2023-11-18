@@ -49,7 +49,7 @@ public class FileStore {
         return uuid+"."+ext;
     }
 
-    private static String extracted(String originalFilename) {
+    private static String extracted(String originalFilename) { //확장자뽑기
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
     }

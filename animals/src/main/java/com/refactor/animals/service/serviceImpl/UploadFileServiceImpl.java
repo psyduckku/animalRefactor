@@ -1,5 +1,6 @@
 package com.refactor.animals.service.serviceImpl;
 
+import com.refactor.animals.beans.entity.ThumbnailVO;
 import com.refactor.animals.beans.entity.UploadFileVO;
 import com.refactor.animals.repository.UploadFileRepository;
 import com.refactor.animals.service.UploadFileService;
@@ -29,5 +30,10 @@ public class UploadFileServiceImpl implements UploadFileService {
     @Override
     public UploadFileVO downloadImage(int store_id) {
         return repository.downloadImage(store_id);
+    }
+
+    @Override
+    public ThumbnailVO getThumbnail(int adt_id) {
+        return repository.getThumbnail(adt_id);
     }
 }
