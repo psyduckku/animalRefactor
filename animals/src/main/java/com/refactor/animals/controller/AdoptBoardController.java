@@ -13,10 +13,12 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriUtils;
 import java.io.IOException;
@@ -68,7 +70,7 @@ public class AdoptBoardController {
         model.addAttribute("adoptBoardForm", form);
         return "adoptBoardForm";
     }
-    @PostMapping("/add") //게시물 저장
+//    @PostMapping("/add") //게시물 저장
     public String saveBoard(@ModelAttribute AdoptBoardForm adoptBoardForm, @SessionAttribute(name="login_id") String login_id,
                        RedirectAttributes redirectAttributes) throws IOException {
 
@@ -90,6 +92,17 @@ public class AdoptBoardController {
 
         redirectAttributes.addAttribute("adt_id",adt_id);
         return "redirect:/adoptBoard/{adt_id}";
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(value ="/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public void saveBoard2(@RequestPart(value="adoptBoardForm") AdoptBoardForm adoptBoardForm, @RequestPart(value="file") List<MultipartFile> file){
+        log.info("폼데이터adoptBoardForm={}", adoptBoardForm);
+        file.stream().map(MultipartFile::getOriginalFilename).forEach(fileName -> {
+           log.info("파일이름: {}", fileName);
+        });
+
     }
 
     @ResponseBody
@@ -116,21 +129,21 @@ public class AdoptBoardController {
         log.info("adt_id={}",adt_id);
         log.info("북마크 bookmark={}",bookmark);
         int count = adoptBoardservice.bookmarkCount();
+        log.info("카운트count={}",count);
+        log.info("북마크bookmark={}", bookmark);
         vo.setAdt_id(adt_id);
-        int result=0;
 
         if(bookmark==true && count >4){
-            return new ResponseEntity("over",HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity("\"over\"",HttpStatus.OK);
         }else if(bookmark==true){
-            vo.setBookmark(false);
-            result = adoptBoardservice.bookmark(vo);
-            return new ResponseEntity(false, HttpStatus.OK);
-        }else{
             vo.setBookmark(true);
-            result = adoptBoardservice.bookmark(vo);
+            adoptBoardservice.bookmark(vo);
+            return new ResponseEntity(true, HttpStatus.OK);
         }
 
-        return new ResponseEntity(true, HttpStatus.OK);
+            vo.setBookmark(false);
+            adoptBoardservice.bookmark(vo);
+        return new ResponseEntity(false, HttpStatus.OK);
     }
 //    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -147,6 +160,16 @@ public class AdoptBoardController {
         map.put("thumbnailList", thumbnailList);
 
         return map;
+    }
+
+    @RequestMapping("/deleteBoard/{adt_id}")
+    public String deleteBoard(@PathVariable int adt_id){
+        int deleteFile = uploadFileService.deleteFile(adt_id);
+        log.info("삭제된 파일 deleteFile={}",deleteFile);
+        int result = adoptBoardservice.deleteBoard(adt_id);
+        log.info("삭제된 게시글 result={}", result);
+
+        return "redirect:/adoptBoard/adoptBoardList";
     }
 
 }

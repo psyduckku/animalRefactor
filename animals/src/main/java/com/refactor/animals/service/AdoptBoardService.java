@@ -19,4 +19,6 @@ public interface AdoptBoardService {
     int bookmark(AdoptBoardVO vo);
     List<AdoptBoardBookMarkVO> bookmarkList();
 
+    int deleteBoard(int adt_id);
+
 }

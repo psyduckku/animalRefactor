@@ -35,4 +35,10 @@ public class MybatisUploadFileRepository implements UploadFileRepository {
     public ThumbnailVO getThumbnail(int adt_id) {
         return mapper.getThumbnail(adt_id);
     }
+
+    @Override
+    public int deleteFile(int adt_id) {
+        return mapper.deleteFile(adt_id);
+    }
+
 }

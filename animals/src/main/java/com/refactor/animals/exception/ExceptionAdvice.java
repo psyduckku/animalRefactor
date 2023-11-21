@@ -12,6 +12,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -21,7 +22,6 @@ import java.util.Locale;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class ExceptionAdvice {
-
 
     @Qualifier("errorMessageSource")
     private final MessageSource messageSource;
@@ -45,6 +45,7 @@ public class ExceptionAdvice {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @ResponseBody
     @ExceptionHandler(UserException.class)
     public LoginRespObject loginFormException(){
         return new LoginRespObject("loginForm.mismatch", "로그인 정보 불일치.", HttpStatus.UNAUTHORIZED);

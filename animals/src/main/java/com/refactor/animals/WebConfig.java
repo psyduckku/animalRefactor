@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns(
                         "/css/**", "/*.ico", "/error", "/bootstrap/bootstrap.min.css",
-                        "/bootstrap/bootstrap.min.css.map",
+                        "/bootstrap/bootstrap.min.css.map", "/adoptBoard/images/**",
                         "/js/**", "/img/**",
                         "/base/", "/base/join","/base/login","/animal/api/login",
                          "/animal/api/join", "/", "/animal/api/isLoginIdDuplicate",

@@ -12,6 +12,6 @@ public interface UploadFileMapper {
     int insertFiles(List<UploadFileVO> vo);
     List<UploadFileVO> getFiles(int adt_id);
     UploadFileVO downloadImage(int store_id);
-
     ThumbnailVO getThumbnail(int adt_id);
+    int deleteFile(int adt_id);
 }

@@ -36,4 +36,9 @@ public class UploadFileServiceImpl implements UploadFileService {
     public ThumbnailVO getThumbnail(int adt_id) {
         return repository.getThumbnail(adt_id);
     }
+
+    @Override
+    public int deleteFile(int adt_id) {
+        return repository.deleteFile(adt_id);
+    }
 }

@@ -8,24 +8,34 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     <title>Insert title here</title>
 </head>
 <body>
-<div class="container-fluid" style="position: relative;">
+<div id="overlay"></div>
+<div class="container-fluid">
+
 <h1>분양후기 게시판</h1>
+    <div id="option_container">
+        <div id="option_wrap">
+            <div class="option_bar" id="deleteBtn"><span>삭제하기</span></div>
+            <div class="option_bar" id="updateBtn"> <a th:href="|/adoptBoard/upadteBoard/${board.adt_id}|"> <span>수정하기</span></a></div>
+        </div>
+    </div>
+    <div id="option_icon_wrap"><span><img src="/img/icon/dots-vertical.png" style="width: 20px"> </span></div>
     <div class="bookmark_box">
         <a th:if="${board.bookmark == false}" href="#" class="bookmark">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
                 <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
             </svg>
         </a>
         <a th:if="${board.bookmark == true}" href="#" class="bookmark">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-bookmark-check" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bookmark-check" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
                 <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
             </svg>
         </a>
     </div>
-<table class="table">
+<div id="table_container">
 
-    <thead class="table-dark">
+<table class="table">
+    <thead class="table-white">
     <tr>
         <td th:text="|작성자 ${board.login_id}|"></td>
     </tr>
@@ -48,7 +58,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     </ul>
         </div>
     </th:block>
-
+</div>
 <table class="table table-hover" id="replyList">
     <tr><td>내용</td> <td>작성자</td><td></td></tr>
 
@@ -72,9 +82,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 </div>
 </body>
 <script type="text/javascript" th:inline="javascript">
-
 const adt_id = [[${board.adt_id}]];
 let bookmark = [[${board.bookmark}]];
+const overlay = document.getElementById('overlay');
+const option_container = document.getElementById('option_container');
 async function markUp(){
 
     try{
@@ -87,15 +98,14 @@ async function markUp(){
     })
         if(response.ok){
             let result = await response.json();
-            if(result==true){
-                alert('북마크가 되었습니다.');
-                window.location=`/adoptBoard/${adt_id}`;
-            }else if(result=='over'){
+            if(result===true){
+                alert('북마크가 등록 되었습니다.');
+            }else if(result==='over'){
                 alert('북마크가 최대치(4개)입니다. 북마크 해제 후 등록해주세요.');
             }else{
                 alert('북마크가 해제되었습니다.');
-                window.location=`/adoptBoard/${adt_id}`;
             }
+            window.location=`/adoptBoard/${adt_id}`;
         }
     }catch(error){
         console.error(error);
@@ -103,12 +113,37 @@ async function markUp(){
 }
 
 document.querySelector('.bookmark').addEventListener('click', ()=>{
-    if(bookmark==false){
-        confirm('북마크를 등록하시겠습니까?')? markUp(): false;
+    let result;
+    if(bookmark){
+        result = confirm('북마크를 해제하시겠습니까?');
+        if(result){
+            bookmark=false;
+            markUp();
+        }
     }else{
-        confirm('북마크를 해제하시겠습니까?')? markUp(): false;
+        result = confirm('북마크를 등록하시겠습니까?');
+        if(result){
+            bookmark=true;
+            markUp();
+        }
     }
 });
+
+document.getElementById('option_icon_wrap').addEventListener('click',()=>{
+    option_container.style.display="block";
+    overlay.style.display="block";
+})
+overlay.addEventListener('click', ()=>{
+    option_container.style.display="none";
+    overlay.style.display="none";
+})
+
+document.getElementById('deleteBtn').addEventListener('click', ()=>{
+    const result = confirm('삭제하시겠습니까?');
+    if(result){
+        location.href=`/adoptBoard/deleteBoard/${adt_id}`;
+    }
+})
 
 </script>
 </html>

@@ -21,4 +21,7 @@
     <select id="getThumbnail" parameterType="int" resultType="ThumbnailVO">
         select adt_id, store_file_name from upload_file where adt_id = #{adt_id} limit 1
     </select>
+    <delete id="deleteFile" parameterType="int">
+        delete from upload_file where adt_id = ${adt_id}
+    </delete>
 </mapper>

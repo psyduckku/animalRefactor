@@ -6,35 +6,27 @@ body{
 }
 .box{
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center;  /* 가로방향으로 가운데로 정렬 */
+    align-items: center; /* 세로축(방향)에서 가운데로정렬 */
     text-align: center;
-    background-color: #ffc0cb;
+    background-color:#C7EFF6;
+    overflow: hidden;
 }
 li{ list-style: none; }
 .parent{
     height: 100%;
+    width: 100%;
     display: grid;
+    justify-content: center;
     grid-template-areas:
 				". animal0 info ."
 				". animal1 rList0 ."
                 ". animal2 rList1 ."
                 ". animal3 rList2 .";
-
     grid-template-rows: 1fr 1fr 1fr 1fr; /*수직 행*/
-    grid-template-columns: 300px 1fr 400px 300px; /*수평 열*/
+    grid-template-columns: 200px 600px 400px 200px; /*수평 열*/
     gap: 10px;
 }
-
-.box{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: pink;
-    text-align: center;
-}
-
 .info{
     grid-area: info;
 }
@@ -59,12 +51,74 @@ li{ list-style: none; }
 .rList2{
     grid-area: rList2;
 }
+.side_wrap{
+    display: flex;
+    flex-direction: row;
+}
 .animal_pic{
-    width: 25rem;
+    width: 30%;
+}
+.animal_pic img{
+    width: 90%;
+}
+.animal_con{
+    width: 70%;
+}
+.animal_con .title_div, .content_div{
+    width: 90%;
 }
 .side{ padding-left: 3px;
-    text-align: left;
 }
-img{
-    border-radius: 3px;
+.side_img_wrap{
+    width: 30%;
+}
+
+.animal_con{
+    display: flex;
+    flex-direction: column;
+}
+.box animal0{
+    display: flex;
+    flex-direction: row;
+}
+.box animal1{
+    display: flex;
+    flex-direction: row;
+}
+.box animal2{
+    display: flex;
+    flex-direction: row;
+}
+.box animal3{
+    display: flex;
+    flex-direction: row;
+}
+.title_div{
+    height: 20%;
+}
+#main_con0{
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+}
+
+.title_div, .content_div{
+    padding: 2px;
+}
+.content_div{
+    overflow: hidden;
+}
+.side_wrap{
+    display: flex;
+    flex-direction: row;
+}
+.side_img_wrap{
+    width: 30%;
+}
+.side_img_wrap img{
+    width: 90%;
+}
+.side_con_wrap{
+    width: 65%;
+    text-align: left;
 }

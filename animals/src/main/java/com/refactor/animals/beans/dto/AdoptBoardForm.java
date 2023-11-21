@@ -1,8 +1,6 @@
 package com.refactor.animals.beans.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -10,6 +8,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class AdoptBoardForm {
     private String login_id;
     private String title;
@@ -26,5 +25,11 @@ public class AdoptBoardForm {
         this.title = title;
         this.content = content;
         this.image_files = image_files;
+    }
+
+    public AdoptBoardForm(String login_id, String title, String content) {
+        this.login_id = login_id;
+        this.title = title;
+        this.content = content;
     }
 }

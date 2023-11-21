@@ -60,4 +60,9 @@ public class MybatisAdoptBoardRepository implements AdoptBoardRepository {
     public List<AdoptBoardBookMarkVO> bookmarkList() {
         return mapper.bookmarkList();
     }
+
+    @Override
+    public int deleteBoard(int adt_id) {
+        return mapper.deleteBoard(adt_id);
+    }
 }

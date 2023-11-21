@@ -16,8 +16,8 @@ public interface AdoptBoardRepository {
     int cntUpdate(AdoptBoardVO vo);
     int bookmarkCount();
     int bookmark(AdoptBoardVO vo);
-
     List<AdoptBoardBookMarkVO> bookmarkList();
+    int deleteBoard(int adt_id);
 
 
 }

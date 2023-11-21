@@ -85,4 +85,9 @@ public class AdoptBoardImpl implements AdoptBoardService {
     public List<AdoptBoardBookMarkVO> bookmarkList() {
         return repository.bookmarkList();
     }
+
+    @Override
+    public int deleteBoard(int adt_id) {
+        return repository.deleteBoard(adt_id);
+    }
 }

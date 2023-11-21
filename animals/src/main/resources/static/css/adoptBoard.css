@@ -5,6 +5,53 @@
 th, td{
     font-family: 'Noto Sans KR', sans-serif;
 }
+.container-fluid{
+    position: relative;
+}
 .bookmark_box{
-    width:300px; height:300px; position: absolute; top: 180px; right: 300px;
+    width:30px; height:30px; position: absolute; top: 50px; right: 150px;
+}
+.bookmark{
+
+}
+
+#option_icon_wrap{
+    position: absolute; top: 50px; right: 90px;
+    cursor: pointer;
+}
+#overlay{
+    display: none;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 666;
+    background: rgba(0,0,0,0.5);
+}
+
+#option_container{
+    position: absolute;
+    display: none;
+    right: 50px;
+    z-index: 999; /*최상단에 위치하도록함*/
+}
+#option_wrap{
+    width: 130px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+
+}
+.option_bar{
+    border: 1px solid black;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    background-color: white;
+}
+a{
+    cursor:pointer;
+}
+#deleteBtn:hover{
+    text-decoration:underline;
 }

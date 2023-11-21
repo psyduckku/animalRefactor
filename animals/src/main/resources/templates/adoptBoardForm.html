@@ -14,24 +14,28 @@
 <div class="container">
   <div class="container text-center"><h1>게시글 작성</h1></div>
 <div class="mb-3">
-  <form method="post" th:action th:object="${adoptBoardForm}" enctype="multipart/form-data">
-    <div class="col-10" id="title">
-        <input class="form-control" th:field="*{title}" required="required" placeholder="제목">
+  <form method="post" th:object="${adoptBoardForm}" enctype="multipart/form-data" id="form">
+    <div class="col-10">
+        <input class="form-control" id="title" name="title" required="required" placeholder="제목">
     </div>
     <div class="col-10" id="content">
         <td><textarea rows="10" class="form-control" th:field="*{content}"
                       required="required" placeholder="내용"></textarea></td>
-          <input type="hidden" th:field="*{login_id}" th:value="${session.login_id}">
+        <input type="hidden" id="login_id" name="login_id" th:value="${session.login_id}">
     </div>
-    <div class="col-10" id="files">
+    <div class="col-10">
           <ul>
 <!--              <li>첨부파일 <input type="file" name="image_files"></li>-->
-              <li>이미지파일 <input type="file" multiple="multiple" th:field="*{image_files}"></li>
+              <li>이미지파일 <input type="file" id="file" name="file" multiple="multiple"></li>
           </ul>
 
+        <p>첨부된 파일</p>
+        <div id="preview">
+
+        </div>
     </div>
     <div>
-        <button type="submit" class="btn btn-outline-primary">글쓰기</button>
+        <button type="button" id="submit_btn" class="btn btn-outline-primary">글쓰기</button>
     </div>
   </form>
 </div>
@@ -40,5 +44,75 @@
 <script th:inline="javascript">
   const login_id = [[${session.login_id}]];
   alert(login_id);
+
+
+  async function formSubmit() {
+
+      try {
+          const data = {
+              title : document.getElementById('title').value,
+              content : document.getElementById('content').value,
+              login_id : document.getElementById('login_id').value
+          };
+          const file = document.getElementById('file').files;
+          const formData = new FormData(document.getElementById('form'));
+            formData.append('adoptBoardForm', new Blob([JSON.stringify(data)], {type: "application/json"}));
+            formData.append('file', file);
+
+          const response = fetch('/adoptBoard/add', {
+              method: 'POST',
+              body: formData,
+          })
+          if (response.ok) {
+              let data = response.json();
+              console.log(data);
+          }
+      } catch (error) {
+          console.error(error);
+      }
+  }
+
+      document.getElementById('submit_btn').addEventListener('click', formSubmit);
+
+  const handler = {
+      init() {
+          const file_input = document.querySelector('#file_input');
+          const preview = document.querySelector('#preview');
+          file_input.addEventListener('change', ()=>{
+              console.dir(file_input);
+              const files = Array.from(file_input.files);
+              files.forEach(file=>{
+                  preview.innerHTML += `
+                    <p id="${file.lastModified}">
+                    ${file.name}
+                    <button data-index='${file.lastModified}'
+                     class="file_remove">X</button>
+                     </p>`;
+              });
+          });
+      },
+
+      removeFile: ()=>{
+          document.addEventListener('click', (e)=>{
+              if(e.target.className !== 'file_remove') return;
+              const removeTargetId = e.target.dataset.index;
+              const removeTarget = document.getElementById(removeTargetId);
+              const files = document.querySelector('#file-input').files;
+              const dataTransfer = new DataTransfer();
+              e.preventDefault();
+              Array.from(files)
+                  .filter(file => file.lastModified != removeTargetId)
+                  .forEach(file =>{
+                      dataTransfer.items.add(file);
+                  });
+
+              document.querySelector('#file_input').files = dataTransfer.files;
+
+              removeTarget.remove();
+          })
+      }
+  }
+  handler.init()
+  handler.removeFile();
 </script>
 </html>
