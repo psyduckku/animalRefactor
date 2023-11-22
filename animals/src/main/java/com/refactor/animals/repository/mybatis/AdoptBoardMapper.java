@@ -1,5 +1,6 @@
 package com.refactor.animals.repository.mybatis;
 
+import com.refactor.animals.beans.dto.AdoptBoardForm;
 import com.refactor.animals.beans.dto.SearchDto;
 import com.refactor.animals.beans.entity.AdoptBoardBookMarkVO;
 import com.refactor.animals.beans.entity.AdoptBoardVO;
@@ -20,5 +21,7 @@ public interface AdoptBoardMapper {
     int bookmark(AdoptBoardVO vo);
     List<AdoptBoardBookMarkVO> bookmarkList();
     int deleteBoard(int adt_id);
+
+    int updateBoard(AdoptBoardVO vo);
 
 }

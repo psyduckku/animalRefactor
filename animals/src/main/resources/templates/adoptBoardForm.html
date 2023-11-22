@@ -10,62 +10,68 @@
 <script type="text/javascript">
 </script>
 <body>
-
 <div class="container">
   <div class="container text-center"><h1>게시글 작성</h1></div>
-<div class="mb-3">
-  <form method="post" th:object="${adoptBoardForm}" enctype="multipart/form-data" id="form">
-    <div class="col-10">
-        <input class="form-control" id="title" name="title" required="required" placeholder="제목">
-    </div>
-    <div class="col-10" id="content">
-        <td><textarea rows="10" class="form-control" th:field="*{content}"
-                      required="required" placeholder="내용"></textarea></td>
-        <input type="hidden" id="login_id" name="login_id" th:value="${session.login_id}">
-    </div>
-    <div class="col-10">
-          <ul>
-<!--              <li>첨부파일 <input type="file" name="image_files"></li>-->
-              <li>이미지파일 <input type="file" id="file" name="file" multiple="multiple"></li>
-          </ul>
-
-        <p>첨부된 파일</p>
-        <div id="preview">
-
+    <div class="mb-3">
+      <form method="post" enctype="multipart/form-data" id="form">
+        <div class="col-10">
+            <input class="form-control" id="title" name="title" required="required" placeholder="제목">
         </div>
+        <div class="col-10">
+            <td><textarea rows="10" class="form-control"
+                          required="required" placeholder="내용" id="content_a" wrap="hard"></textarea></td>
+            <input type="hidden" id="login_id" name="login_id" th:value="${session.login_id}">
+        </div>
+        <div class="col-10">
+              <ul>
+                  <li>이미지파일 <input type="file" id="file" name="file" multiple="multiple"></li>
+              </ul>
+        </div>
+          <div id="preview_wrap">
+              <p>첨부된 파일</p>
+              <div id="preview">
+
+              </div>
+          </div>
+        <div>
+            <button type="button" id="submit_btn" class="btn btn-outline-primary">글쓰기</button>
+        </div>
+      </form>
     </div>
-    <div>
-        <button type="button" id="submit_btn" class="btn btn-outline-primary">글쓰기</button>
-    </div>
-  </form>
-</div>
 </div>
 </body>
 <script th:inline="javascript">
   const login_id = [[${session.login_id}]];
   alert(login_id);
-
+// let response='';
+// let result_data='';
 
   async function formSubmit() {
 
       try {
-          const data = {
+          const adoptBoardForm = {
               title : document.getElementById('title').value,
-              content : document.getElementById('content').value,
+              content: document.querySelector('#content_a').value.replace(/(?:\r\n|\r|\n)/g, '<br/>').replace(/ /g, '&nbsp;'),
               login_id : document.getElementById('login_id').value
           };
-          const file = document.getElementById('file').files;
-          const formData = new FormData(document.getElementById('form'));
-            formData.append('adoptBoardForm', new Blob([JSON.stringify(data)], {type: "application/json"}));
-            formData.append('file', file);
 
-          const response = fetch('/adoptBoard/add', {
+          const file = document.getElementById('file').files;
+
+          const formData = new FormData(document.getElementById('form'));
+            formData.append('adoptBoardForm', new Blob([JSON.stringify(adoptBoardForm)], {type: "application/json"}));
+            // formData는 파일 업로드할때 사용. 바이너리 데이터로 변환해줘야함
+            if(file){
+                formData.append('file', file);
+            }
+
+          const response = await fetch('/adoptBoard/add', { //헤더는 formData가 알아서해줌. 넣지말것
               method: 'POST',
               body: formData,
           })
+          console.log(response.ok);
           if (response.ok) {
-              let data = response.json();
-              console.log(data);
+              const result_data = await response.json();
+              window.location.replace(`/adoptBoard/${result_data}`);
           }
       } catch (error) {
           console.error(error);
@@ -74,45 +80,45 @@
 
       document.getElementById('submit_btn').addEventListener('click', formSubmit);
 
-  const handler = {
-      init() {
-          const file_input = document.querySelector('#file_input');
-          const preview = document.querySelector('#preview');
-          file_input.addEventListener('change', ()=>{
-              console.dir(file_input);
-              const files = Array.from(file_input.files);
-              files.forEach(file=>{
-                  preview.innerHTML += `
-                    <p id="${file.lastModified}">
-                    ${file.name}
-                    <button data-index='${file.lastModified}'
-                     class="file_remove">X</button>
-                     </p>`;
-              });
-          });
-      },
-
-      removeFile: ()=>{
-          document.addEventListener('click', (e)=>{
-              if(e.target.className !== 'file_remove') return;
-              const removeTargetId = e.target.dataset.index;
-              const removeTarget = document.getElementById(removeTargetId);
-              const files = document.querySelector('#file-input').files;
-              const dataTransfer = new DataTransfer();
-              e.preventDefault();
-              Array.from(files)
-                  .filter(file => file.lastModified != removeTargetId)
-                  .forEach(file =>{
-                      dataTransfer.items.add(file);
-                  });
-
-              document.querySelector('#file_input').files = dataTransfer.files;
-
-              removeTarget.remove();
-          })
-      }
-  }
-  handler.init()
-  handler.removeFile();
+  // const handler = {
+  //     init() {
+  //         const file_input = document.querySelector('#file_input');
+  //         const preview = document.querySelector('#preview');
+  //         file_input.addEventListener('change', ()=>{
+  //             console.dir(file_input);
+  //             const files = Array.from(file_input.files);
+  //             files.forEach(file=>{
+  //                 preview.innerHTML += `
+  //                   <p id="${file.lastModified}">
+  //                   ${file.name}
+  //                   <button data-index='${file.lastModified}'
+  //                    class="file_remove">X</button>
+  //                    </p>`;
+  //             });
+  //         });
+  //     },
+  //
+  //     removeFile: ()=>{
+  //         document.addEventListener('click', (e)=>{
+  //             if(e.target.className !== 'file_remove') return;
+  //             const removeTargetId = e.target.dataset.index;
+  //             const removeTarget = document.getElementById(removeTargetId);
+  //             const files = document.querySelector('#file-input').files;
+  //             const dataTransfer = new DataTransfer();
+  //             e.preventDefault();
+  //             Array.from(files)
+  //                 .filter(file => file.lastModified != removeTargetId)
+  //                 .forEach(file =>{
+  //                     dataTransfer.items.add(file);
+  //                 });
+  //
+  //             document.querySelector('#file_input').files = dataTransfer.files;
+  //
+  //             removeTarget.remove();
+  //         })
+  //     }
+  // }
+  // handler.init()
+  // handler.removeFile();
 </script>
 </html>

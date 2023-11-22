@@ -14,7 +14,6 @@ import java.util.List;
 @Repository
 public class MybatisAdoptBoardRepository implements AdoptBoardRepository {
 
-
     private final AdoptBoardMapper mapper;
 
     @Override
@@ -65,4 +64,10 @@ public class MybatisAdoptBoardRepository implements AdoptBoardRepository {
     public int deleteBoard(int adt_id) {
         return mapper.deleteBoard(adt_id);
     }
+
+    @Override
+    public int updateBoard(AdoptBoardVO vo) {
+        return mapper.updateBoard(vo);
+    }
+
 }

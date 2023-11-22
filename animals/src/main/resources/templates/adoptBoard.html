@@ -10,12 +10,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 <body>
 <div id="overlay"></div>
 <div class="container-fluid">
-
 <h1>분양후기 게시판</h1>
     <div id="option_container">
         <div id="option_wrap">
             <div class="option_bar" id="deleteBtn"><span>삭제하기</span></div>
-            <div class="option_bar" id="updateBtn"> <a th:href="|/adoptBoard/upadteBoard/${board.adt_id}|"> <span>수정하기</span></a></div>
+<!--            <div class="option_bar" id="updateBtn"> <a th:href="@{|/adoptBoard/updateBoardForm/${board.adt_id}|}"> <span>수정하기</span></a></div>-->
+            <div calss="option_bar" id="updateBtn"><span>수정하기</span></div>
         </div>
     </div>
     <div id="option_icon_wrap"><span><img src="/img/icon/dots-vertical.png" style="width: 20px"> </span></div>
@@ -44,7 +44,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         <td th:text="${board.title}"></td>
     </tr>
     <tr>
-        <td th:text="${board.content}"></td>
+        <td th:utext="${#strings.replace(board.content, '\n', '<br/>')}"></td>
     </tr>
 </table>
 
@@ -143,6 +143,9 @@ document.getElementById('deleteBtn').addEventListener('click', ()=>{
     if(result){
         location.href=`/adoptBoard/deleteBoard/${adt_id}`;
     }
+})
+document.getElementById('updateBtn').addEventListener('click', ()=>{
+    location.href=`/adoptBoard/updateBoardForm/${adt_id}`;
 })
 
 </script>

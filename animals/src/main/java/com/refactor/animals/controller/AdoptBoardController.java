@@ -56,7 +56,7 @@ public class AdoptBoardController {
     }
 
     @GetMapping("/{adt_id}") //보기
-    public String adoptBoard(AdoptBoardVO vo, Model model) {
+    public String adoptBoard(AdoptBoardVO vo, Model model) { //vo 필드에 adt_id가 일치할 경우 자동으로 바인딩됨
         AdoptBoardVO board = adoptBoardservice.getBoard(vo);
         List<UploadFileVO> files = uploadFileService.getFiles(vo.getAdt_id());
         log.info("files={}",files);
@@ -74,35 +74,45 @@ public class AdoptBoardController {
     public String saveBoard(@ModelAttribute AdoptBoardForm adoptBoardForm, @SessionAttribute(name="login_id") String login_id,
                        RedirectAttributes redirectAttributes) throws IOException {
 
-        adoptBoardForm.setLogin_id(login_id);
-        AdoptBoardVO adoptBoardVO = new AdoptBoardVO(adoptBoardForm.getLogin_id(),
-                adoptBoardForm.getTitle(), adoptBoardForm.getContent());
+//        adoptBoardForm.setLogin_id(login_id);
+//        AdoptBoardVO adoptBoardVO = new AdoptBoardVO(adoptBoardForm.getLogin_id(),
+//                adoptBoardForm.getTitle(), adoptBoardForm.getContent());
+//
+//        int adt_id = adoptBoardservice.insertBoard(adoptBoardVO);
+//        log.info("adt_id={}",adt_id);
+//        log.info(adoptBoardForm.getImage_files().toString());
 
-        int adt_id = adoptBoardservice.insertBoard(adoptBoardVO);
-        log.info("adt_id={}",adt_id);
-        log.info(adoptBoardForm.getImage_files().toString());
-
-            List<UploadFileVO> storeFileList = fileStore.storeFiles(adoptBoardForm.getImage_files(), adt_id); //파일업로드
-            log.info("저장된 파일정보 storeFileList={}",storeFileList);
-            if(!storeFileList.isEmpty()){
-                int row = uploadFileService.insertFiles(storeFileList);
-                log.info("업로드된 파일 row={}", row);
+//            List<UploadFileVO> storeFileList = fileStore.storeFiles(adoptBoardForm.getImage_files(), adt_id); //파일업로드
+//            log.info("저장된 파일정보 storeFileList={}",storeFileList);
+//            if(!storeFileList.isEmpty()){
+//                int row = uploadFileService.insertFiles(storeFileList);
+//                log.info("업로드된 파일 row={}", row);
                 //이제 mapper에서 원본, 저장된파일, 확장자. 이렇게 3개 저장하기
-            }
+//            }
 
-        redirectAttributes.addAttribute("adt_id",adt_id);
+//        redirectAttributes.addAttribute("adt_id",adt_id);
         return "redirect:/adoptBoard/{adt_id}";
     }
 
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(value ="/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public void saveBoard2(@RequestPart(value="adoptBoardForm") AdoptBoardForm adoptBoardForm, @RequestPart(value="file") List<MultipartFile> file){
+    public int saveBoard2(@RequestPart(value="adoptBoardForm") AdoptBoardForm adoptBoardForm, @RequestPart(value="file") List<MultipartFile> file) throws IOException {
         log.info("폼데이터adoptBoardForm={}", adoptBoardForm);
+
         file.stream().map(MultipartFile::getOriginalFilename).forEach(fileName -> {
-           log.info("파일이름: {}", fileName);
+            log.info("파일이름: {}", fileName);
         });
 
+        AdoptBoardVO vo = new AdoptBoardVO(adoptBoardForm.getLogin_id(), adoptBoardForm.getTitle(), adoptBoardForm.getContent());
+        int adt_id = adoptBoardservice.insertBoard(vo);
+        List<UploadFileVO> storeFileList = fileStore.storeFiles(file, adt_id);
+        if(!storeFileList.isEmpty()){
+            int row = uploadFileService.insertFiles(storeFileList);
+            log.info("upload된 row={}",row);
+        }
+
+        return adt_id;
     }
 
     @ResponseBody
@@ -170,6 +180,30 @@ public class AdoptBoardController {
         log.info("삭제된 게시글 result={}", result);
 
         return "redirect:/adoptBoard/adoptBoardList";
+    }
+
+    @RequestMapping("/updateBoardForm/{adt_id}")
+    public String updateBoardForm(@PathVariable int adt_id, AdoptBoardVO vo, Model model){
+        vo.setAdt_id(adt_id);
+        AdoptBoardVO board = adoptBoardservice.getBoard(vo);
+        model.addAttribute("board", board);
+
+
+        return "adoptBoardUpdateForm";
+    }
+
+    @ResponseBody
+    @PostMapping(value="/updateBoard/{adt_id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity updateBoard(@PathVariable int adt_id, @RequestPart(value="adoptBoardForm") AdoptBoardForm form,
+                                        @RequestPart(value="file") MultipartFile file){
+
+        form.setAdt_id(adt_id);
+        AdoptBoardVO vo =  new AdoptBoardVO(form.getAdt_id(), form.getTitle(), form.getContent());
+        int row =  adoptBoardservice.updateBoard(vo);
+        log.info("adt_id={}",adt_id);
+        log.info("row={}",row);
+
+        return new ResponseEntity(row, HttpStatus.OK);
     }
 
 }

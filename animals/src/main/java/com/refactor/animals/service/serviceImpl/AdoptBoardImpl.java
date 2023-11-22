@@ -90,4 +90,9 @@ public class AdoptBoardImpl implements AdoptBoardService {
     public int deleteBoard(int adt_id) {
         return repository.deleteBoard(adt_id);
     }
+
+    @Override
+    public int updateBoard(AdoptBoardVO vo) {
+        return repository.updateBoard(vo);
+    }
 }

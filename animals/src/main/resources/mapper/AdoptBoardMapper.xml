@@ -66,6 +66,10 @@
         delete from adopt_board where adt_id = #{adt_id}
     </delete>
 
+    <update id="updateBoard" parameterType="AdoptBoardVO">
+        update adopt_board set title = #{title}, content = #{content} where adt_id = #{adt_id}
+    </update>
+
 <!--    <resultMap id="upload_file" type="UploadFileVO">-->
 <!--        <id property="store_id" column="store_id"/>-->
 <!--        <result property="store_file_name" column="store_file_name"/>-->

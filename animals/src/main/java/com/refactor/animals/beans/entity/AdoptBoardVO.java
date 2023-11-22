@@ -1,11 +1,13 @@
 package com.refactor.animals.beans.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class AdoptBoardVO {
 
     private int adt_id;
@@ -29,6 +31,18 @@ public class AdoptBoardVO {
 
     public AdoptBoardVO(String login_id, String title, String content) {
         this.login_id = login_id;
+        this.title = title;
+        this.content = content;
+    }
+
+    /***
+     * 게시물 수정
+     * @param adt_id
+     * @param title
+     * @param content
+     */
+    public AdoptBoardVO(int adt_id, String title, String content) {
+        this.adt_id = adt_id;
         this.title = title;
         this.content = content;
     }

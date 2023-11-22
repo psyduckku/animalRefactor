@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--      layout:decorate="~{/template/common/layout/defaultLayout.html}"-->
+<!--      layout:fragment="content">-->
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}">
+</head>
+<body>
+<div class="container">
+    <div class="container text-center"><h1>게시글 수정</h1></div>
+    <div class="mb-3">
+        <form method="post" enctype="multipart/form-data" id="form">
+            <div class="col-10">
+                <input class="form-control" id="title" name="title" th:value="${board.title}" required="required" placeholder="제목">
+            </div>
+            <div class="col-10">
+                <td><textarea rows="25" class="form-control"
+                              required="required" placeholder="내용" id="content" wrap="hard"
+                style="white-space: pre-line"></textarea></td>
+                <input type="hidden" id="login_id" name="login_id" th:value="${session.login_id}">
+            </div>
+            <div class="col-10">
+                <ul>
+                    <li>이미지파일 <input type="file" id="file" name="file" multiple="multiple"></li>
+                </ul>
+            </div>
+            <div id="preview_wrap">
+                <p>첨부된 파일</p>
+                <div id="preview">
+
+                </div>
+            </div>
+            <div>
+                <button type="button" id="submit_btn" class="btn btn-outline-primary">글쓰기</button>
+                <button type="button" id="cancel_btn" class="btn btn-outline-primary">취소</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    const content = [[${board.content}]];
+    const adt_id = [[${board.adt_id}]];
+    alert(adt_id);
+    document.getElementById('content').innerHTML= content.replace(/<br\s*\/?>/gi, '\n').replace(/&nbsp;/g, ' '); //br과 뛰어쓰기를 변환
+
+    async function submit() {
+
+        try{
+            const adoptBoardForm = {
+                title : document.getElementById('title').value,
+                content : document.getElementById('content').value,
+                login_id : document.getElementById('login_id').value
+            }
+            const file = document.getElementById('file').files;
+            const formData = new FormData(document.getElementById('form'));
+            formData.append('adoptBoardForm', new Blob([JSON.stringify(adoptBoardForm)], {type: "application/json"}));
+            if(file){
+                formData.append('file', file);
+            }
+
+            const response = await fetch(`/adoptBoard/updateBoard/${adt_id}`, {
+                method: 'POST',
+                body: formData,
+            })
+                if(response.ok){
+                    const data = response.json();
+                    console.log(data);
+                    window.location.replace(`/adoptBoard/${adt_id}`);
+                }
+        }catch(error){
+            console.error(error);
+        }
+    }
+
+    document.getElementById('submit_btn').addEventListener('click', submit);
+
+</script>
+</html>

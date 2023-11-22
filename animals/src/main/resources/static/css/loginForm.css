@@ -1,0 +1,100 @@
+@charset "UTF-8";
+*{
+    margin: 0 auto; padding: 0; box-sizing: border-box;
+}
+
+.container{
+    height: 100vh;
+}
+@media (max-width: 600px){
+    .container{
+        width: 80%;
+    }
+}
+
+.logo_bar{
+    height: 70px;
+}
+.wrap_form{
+    /*padding: 59px, 69px, 49px, 69px;*/
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+#title{
+    font-size: 45px;
+}
+.content_section{
+    position: relative; /*부모(기준점)*/
+    display: flex;
+    justify-content: center;    /* 박스내 수평 정렬시키기*/
+    align-items: center;
+}
+.login_box{
+    display: flex;
+    position: absolute; /* relative의 자식으로 두기*/
+    top: 100px;         /* 부모 relative와의 거리 */
+    flex-direction: column; /*박스내 요소 세로정렬*/
+    width: 480px;
+    height: 600px;
+    border: 1px solid grey;
+    padding: 60px 70px;
+    border-radius: 10px;
+
+}
+.top{
+    display: flex;
+    align-items: center; /*세로 중앙정렬*/
+    justify-content: center;/*가로 중앙정렬*/
+    height: 15%;
+    width: 100%;
+
+}
+.middle{
+    height: 50%;
+    width: 100%;
+}
+.head{
+    margin-top: 5px;
+    height: 23%;
+    width: 100%;
+}
+#middle_bar{
+    position: relative;
+    margin-top: 10px;
+    height: 13%;
+    width: 100%;
+}
+#login_btn{
+width: 100%;
+    height: 90%;
+}
+.bottom{
+    height: 10%;
+    width: 100%;
+    display: flex;
+    flex-direction: row; /*div를 수평 정렬*/
+
+}
+.option{
+    display: flex;
+    width: 30%;
+    height: 100%;
+    align-items: center; /* 요소 세로중앙정렬 */
+    /*justify-content: space-evenly;*/
+}
+input{
+    width: 100%;
+    height: 100%;
+    padding-left: 30px;
+    font-size: 20px;
+}
+.subject{
+    padding-left: 10px;
+    padding-top: 30px;
+}
+#login_bar_text{
+    font-size: 20px;
+}

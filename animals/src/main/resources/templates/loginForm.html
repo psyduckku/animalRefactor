@@ -1,36 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http//thymeleaf.org">
 <head>
-  <link rel="stylesheet" th:href="@{/css/login.css}"/>
+  <link rel="stylesheet" th:href="@{/css/loginForm.css}"/>
   <meta charset="UTF-8">
   <title>Insert title here</title>
 </head>
 <body>
 <div class="container">
   <div class="top_section"></div>
-  <div class="form_section">
-    <div class="wrap_form">
+  <div class="content_section">
       <div class="login_box">
-        <div class="logo_bar"> <h1>로그인</h1> </div>
-
-        <div class="user_box">
-          <form>
-            <ul>
-              <li>
-                <div class="head">아이디</div> <input type="text" id="login_id">
-              </li>
-              <li>
-                <div class="head">비밀번호</div> <input type="password" id="password">
-              </li>
-            </ul>
-            <button type="button" id="loginBtn">로그인</button>
-          </form>
-          <div class="info_user">
-            <a th:href="@{/base/join}" class="join_a">회원가입</a> <a th:href="@{/base/memberList}">회원정보확인</a>
-          </div>
+        <div class="top"> <span id="title">SaveAnimals</span> </div>
+        <div class="middle">
+            <div class="head subject">아이디</div>
+            <div class="head" id="input_id"><input type="text" id="login_id"></div>
+            <div class="head subject">비밀번호</div>
+            <div class="head" id="input_password"><input type="password" id="password"></div>
+        </div>
+        <div id="middle_bar">
+              <button type="button" id="login_btn"><span id="login_bar_text">로그인</span></button>
+        </div>
+        <div class="bottom">
+            <div class="option" id="join_div"><a th:href="@{/base/join}" class="join_a">회원가입</a></div>
+            <div class="option" id="find_div"><a th:href="@{/base/memberList}">회원정보찾기</a> </div>
         </div>
       </div>
-    </div>
   </div>
 </div>
 <script th:inline="javascript">
