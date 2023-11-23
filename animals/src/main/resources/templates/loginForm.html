@@ -22,7 +22,7 @@
         </div>
         <div class="bottom">
             <div class="option" id="join_div"><a th:href="@{/base/join}" class="join_a">회원가입</a></div>
-            <div class="option" id="find_div"><a th:href="@{/base/memberList}">회원정보찾기</a> </div>
+            <div class="option" id="find_div"><a th:href="@{/base/findInfo}">회원정보찾기</a> </div>
         </div>
       </div>
   </div>
@@ -62,7 +62,7 @@
     //Promise method changing
   }
 
-  document.getElementById('loginBtn').addEventListener('click', login);
+  document.getElementById('login_btn').addEventListener('click', login);
 
   const welcome = /*[[${param.welcome}]]*/ '';
   if(welcome){

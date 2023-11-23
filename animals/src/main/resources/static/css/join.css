@@ -9,7 +9,7 @@
 
 .join_box{
     margin-top: 30px;
-    width: 600px;
+    width: 650px;
     height: 1000px;
     border: 1px solid  #e3e3e3;
     padding: 82px 69px;
@@ -17,20 +17,41 @@
 }
 li{
     list-style-type: none;
-    height: 75px;
+    height: 80px;
+}
+#email_li{
+    height: 90px;
 }
 .head{
     display: inline-block;
-    width: 130px;
+    width: 100px;
 }
 .title{
     height: 60px;
 }
 
 input{
-    width: 300px;
-    height: 47px;
+    width: 172px;
+    height: 35px;
     outline: 0.3px solid gray;
+}
+#email_address{
+    width: 140px;
+}
+#email_auth_btn{
+    width: 60px;
+    height: 30px;
+    margin-left: 2px;
+    margin-top: 2px;
+}
+select{
+    height: 35px;
+}
+#email_option{
+    margin-left: 123px; margin-top: 8px;
+}
+#auth_number{
+    width: 140px;
 }
 #login_id{
     width: 200px;
@@ -49,8 +70,8 @@ input{
     height: 40px;
 }
 #duplicationCheck{
-    width: 120px;
-    height: 40px;
+    width: 90px;
+    height: 35px;
 }
 #address{
     width: 450px;

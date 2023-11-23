@@ -1,13 +1,14 @@
 package com.refactor.animals.exception;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.springframework.context.MessageSource;
 import org.springframework.validation.FieldError;
 
 import java.util.Locale;
 
-//@Value
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Value
 public class FieldErrorDetail {
 
     private String objectName;

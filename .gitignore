@@ -2,3 +2,4 @@
 최종물/
 animals/src/main/resources/templates/adminPage.html
 animals/src/main/resources/templates/personal.text
+animals/src/main/resources/application.properties

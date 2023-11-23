@@ -44,7 +44,8 @@ public class JoinDTOValidator implements Validator {
 
         if(!StringUtils.hasText(joinForm.getPhone())){
             errors.rejectValue("phone", "field.required", "핸드폰 번호를 입력해주세요");
-        }else if(!joinForm.getPhone().matches("^[0-9]+$")){
+        }
+        else if(!joinForm.getPhone().matches("^[0-9]+$")){
             errors.rejectValue("phone", "field.matches","숫자 이외에는 입력할 수 없습니다.");
         }
 

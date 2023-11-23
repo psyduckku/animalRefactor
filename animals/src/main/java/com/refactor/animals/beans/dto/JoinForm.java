@@ -1,9 +1,5 @@
 package com.refactor.animals.beans.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @ToString
@@ -31,15 +27,17 @@ public class JoinForm {
 //    @NotNull(message= "닉네임을 입력해주세요")
 //    @NotBlank(message = "닉네임을 입력해주세요")
     private String nickname;
+    private String email;
+
 
 //    @Size(min = 10, max = 11, message = "핸드폰 번호는 10~11자 이내여야 합니다.")
 //    @Pattern(regexp = "^[0-9]+$", message = "핸드폰 번호는 숫자만 입력해야 합니다.")
 //    @NotBlank
     private String phone;
-
     private String postcode; //생략가능
     private String address; //생략가능
     private String detail_address; //생략가능
     private String extra_address; //생략가능
+
 
 }

@@ -48,8 +48,25 @@
                 th:errorclass="field-error">
             <div id="field_nickname" class="exception">닉네임 알림</div>
           </li>
-          <li>
 
+          <li id="email_li">
+            <div class="head" th:text="#{join.email}">이메일</div>
+            <input type="text" class="form-control" id="email_head"> @
+            <input type="text" class="form-control" id="email_address">
+<!--            <input type="hidden" th:field="*{email}" id="email">-->
+            <button type="button" id="email_auth_btn">메일발송</button>
+            <select id="email_option">
+              <option value="">====이메일 선택=====</option>
+              <option value="daum.net">daum.net</option>
+              <option value="naver.com">naver.com</option>
+              <option value="google.com">google.com</option>
+              <option value="etc">기타</option>
+            </select>
+            <input type="text" id="input_random_number">
+          </li>
+
+
+          <li>
             <div class="head" th:text="#{join.phone}"> 번호 </div>
             <input type="text" th:field="*{phone}" class="form-control" id="phone"
                 th:errorclass="field-error">
@@ -102,6 +119,128 @@
   let detail_address_input = document.getElementById('detail_address');
   let extra_addr_input = document.getElementById('extra_address');
   let address_input = document.getElementById('address');
+  let email='';
+  let email_head = document.getElementById('email_head');
+  let email_option = document.getElementById('email_option');
+  let email_address = document.getElementById('email_address');
+  let email_auth_btn = document.getElementById('email_auth_btn');
+  let random_number= null;
+  let input_random_number = document.getElementById('input_random_number'); //사용자 입력 난수
+  let mail_pass = false;
+
+      //사용자 입력 값 변경 감지 핸들러 시작
+      email_option.addEventListener('change', () => {
+        email_address.value = email_option.value;
+        email_auth_btn.disabled = false;
+        email_auth_btn.innerText = '메일발송';
+
+        if (email_option.value == 'etc') {
+          email_address.focus();
+          email_address.value = '';
+        }
+      })
+      email_head.addEventListener('input', () => {
+        email_auth_btn.disabled = false;
+        email_auth_btn.innerText = '메일발송';
+      })
+      email_address.addEventListener('input', () => {
+        email_auth_btn.disabled = false;
+        email_auth_btn.innerText = '메일발송';
+      });
+      input_random_number.addEventListener('input', () => {
+        email_auth_btn.disabled = false;
+      });
+      //사용자 입력 값 변경 감지 핸들러 끝
+
+      //--------버튼 텍스트를 통해 분기
+      async function sendMail_or_authNumber() {
+        //------------------------버튼 클릭시 이메일 중복체크 추가하기-----------------------
+
+        if(mail_pass==true){
+          return;
+        }
+
+        email_auth_btn.disabled = true;       //발동시 버튼 정지
+
+        if (email_auth_btn.innerText === '메일발송') {  // 버튼의 내용으로 분기
+          if (email_head.value == '' || email_address.value == '') {  //값이 없다면 중단
+            email_auth_btn.disabled = false;
+            alert('이메일을 입력해주세요');
+            return;
+          }
+          email_auth_btn.innerText = '인증';    //메일 발송후 값 인증 버튼 변경
+
+          //메일 발송 이벤트 실시
+
+          random_number = random_number_maker();
+          email = `${email_head.value}@${email_address.value}`; //버튼 클릭시 이메일 값 가져옴
+          //난수생성
+
+          const subject = "Animals 회원인증번호 발송";
+          const body = `안녕하세요 Animals에서 인증 번호 보내드립니다. \n
+            회원가입 인증번호 : ${random_number}`;
+
+          let params = {
+            email: email,
+            random_number: random_number,
+            subject: subject,
+            body: body,
+            //내용필요
+          }
+          console.log(email);
+          console.log(params);
+
+
+
+          try {
+
+            const response = await fetch('/email/auth/sendEmail', {
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+              },
+              method: 'POST',
+              body: JSON.stringify(params), //js 객체이기 때문에 변환필요(원래 안해도됐던것같은데 아닌가;)
+            });
+            if (response.ok) {
+              random_number = await response.json();
+              email_auth_btn.disabled=true;
+              alert('메일이 발송되었습니다.');
+              //메일 발송 및 발신난수
+            }
+          } catch (error) {
+            console.error('fetch error', error);
+          }
+        } else {
+          if (input_random_number.value == '') {          //인증 분기임에도 인증코드 없으면 버튼 상태 변경
+            email_auth_btn.innerText = '메일발송';
+            return;
+          }
+          email_auth_btn.innerText = '인증';
+          //인증이벤트 실시
+          console.log(input_random_number.value + "/" + random_number);
+          if (input_random_number.value == random_number) {
+            email_auth_btn.disabled = true;
+            mail_pass = true;
+            email_head.disabled=true;
+            email_address.disabled=true;
+            email_option.disabled=true;
+            input_random_number.disabled=true;
+             //인증 이후 변경 불가능하도록함
+            alert('인증되었습니다.');
+          }
+        }
+      };
+
+
+
+  email_auth_btn.addEventListener('click', sendMail_or_authNumber);
+
+  random_number_maker =()=>{
+    return Math.floor(Math.random()*1000000).toString().padStart(6, "0");
+  }
+
+
+
   async function joinProcess(){
 
     if(confirmId!==login_Id.value||idDuplicationCheck==false){
@@ -109,6 +248,14 @@
       alert('아이디 확인을 해주세요.');
       return;
     }
+
+    if(mail_pass==false){
+      alert('메일 인증을 해주세요.');
+      return;
+    }
+
+    //이메일 인증상태 확인
+
 
     try{
       let joinForm = {
@@ -122,6 +269,7 @@
         address : address_input.value,
         detail_address : detail_address_input.value,
         extra_address : extra_addr_input.value,
+        email : email
       }
 
       resp = await fetch('/animal/api/join', {
@@ -197,6 +345,7 @@
   document.querySelector('#duplicationCheck').addEventListener('click', isLoginIdDuplicate);
   document.querySelector('#confirm_password').addEventListener('change', isPasswordSame);
   document.querySelector('#joinBtn').addEventListener('click', joinProcess);
+
 
   function execPostcode() {
     new daum.Postcode({

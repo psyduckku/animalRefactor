@@ -111,4 +111,11 @@ public class BaseController {
         return "adminPage";
     }
 
+    @RequestMapping("/findInfo")
+    public String findInfo(){
+
+        return "findInfo";
+    }
+
+
 }

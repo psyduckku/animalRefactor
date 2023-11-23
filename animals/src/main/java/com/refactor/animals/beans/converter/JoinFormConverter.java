@@ -12,26 +12,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //@NoArgsConstructor
 public class JoinFormConverter {
 
-    public MemberVO converter(JoinForm joinForm, BCryptPasswordEncoder encoder){
+    public MemberVO converter(JoinForm joinForm, BCryptPasswordEncoder encoder) {
         return new MemberVO(joinForm.getLogin_id(),
-                 encoder.encode(joinForm.getPassword()),
+                encoder.encode(joinForm.getPassword()),
                 joinForm.getName(),
                 joinForm.getNickname(),
                 joinForm.getPhone(),
                 joinForm.getAddress(),
                 joinForm.getPostcode(),
                 joinForm.getDetail_address(),
-                joinForm.getExtra_address()
+                joinForm.getExtra_address(),
+                joinForm.getEmail()
         );
     }
 
 //얘내들은 회원가입시 회원가입 컨트롤러에서 사용될 예정임
 //    Member member = new Member();
-
-
-    private static String getBeanNullCheck(String bean){
-        return bean !=null ? bean : "none";
-    }
-    //class 객체만 넣으면 됨.
-   // Member member = new Member();
 }

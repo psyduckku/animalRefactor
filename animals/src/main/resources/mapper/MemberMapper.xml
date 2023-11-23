@@ -3,8 +3,8 @@
 
 <mapper namespace="com.refactor.animals.repository.mybatis.MemberMapper">
     <insert id="save" parameterType="MemberVO">
-        INSERT INTO MEMBERS (login_id, password, name, nickname, phone, postcode, address , detail_address, extra_address)
-        VALUES(#{login_id},#{password},#{name},#{nickname},#{phone},#{postcode}, #{address} ,#{detail_address},#{extra_address}
+        INSERT INTO MEMBERS (login_id, password, name, nickname,phone, postcode, address , detail_address, extra_address,email)
+        VALUES(#{login_id},#{password},#{name},#{nickname},#{phone},#{postcode}, #{address} ,#{detail_address},#{extra_address},#{email}
         )
     </insert>
     <select id="findMember" resultType="com.refactor.animals.beans.entity.MemberVO" parameterType="MemberVO">

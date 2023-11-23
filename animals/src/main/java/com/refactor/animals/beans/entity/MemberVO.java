@@ -17,7 +17,6 @@ public class MemberVO {
     private String update_info_password;
     private String name;
     private String nickname;
-    private String phone;
     private String address;
     private String postcode;
     private String detail_address;
@@ -27,8 +26,9 @@ public class MemberVO {
     private String access_ip;
     private String browser;
     private String withdrawal_date;
-
     private String grade;
+    private String phone;
+    private String email;
 
     /**
      * 회원가입 생성자
@@ -38,7 +38,7 @@ public class MemberVO {
     public MemberVO(String login_id, String password, String name,
                     String nickname, String phone, String address,
                     String postcode, String detail_address, String
-                  extra_address) {
+                  extra_address, String email) {
         this.login_id = login_id;
         this.password = password;
         this.name = name;
@@ -48,6 +48,7 @@ public class MemberVO {
         this.postcode = postcode;
         this.detail_address = detail_address;
         this.extra_address = extra_address;
+        this.email = email;
     }
 
     /***

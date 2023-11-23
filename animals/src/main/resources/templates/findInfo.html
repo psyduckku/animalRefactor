@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http//thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/loginForm.css}"/>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+</head>
+<body>
+<div class="container">
+  <div class="top_section"></div>
+  <div class="content_section">
+    <div class="login_box">
+      <div class="top"> <span id="title">회원정보찾기</span> </div>
+      <div class="middle">
+        <div class="head subject1">이메일</div>
+        <div class="head" id="input_email"><input type="text" id="email"></div>
+        <div class="head subject2">아이디</div>
+        <div class="head" id="input_user_id"><input type="text" id="login_id"></div>
+        <div class="head subject3">인증번호</div>
+        <div class="head" id="input_auth_number"><input type="text" id="auth_number"></div>
+      </div>
+      <div id="middle_bar">
+        <button type="button" id="confirm_btn"><span id="login_bar_text">확인</span></button>
+      </div>
+      <div class="bottom">
+        <div class="option" id="join_div"><a th:href="@{/base/join}" class="join_a">회원가입</a></div>
+        <div class="option" id="find_div"><a th:href="@{/base/memberList}">회원정보찾기</a> </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script th:inline="javascript">
+  let authentic_code = '';
+
+  async function send_email(){
+    const serialNo = random_code(6);
+    const subject = "Animals 회원인증번호 발송";
+    const body = `안녕하세요 Animals에서 인증 번호 보내드립니다. \n 회원가입인증번호:
+    ${serialNo}`;
+
+    let params = {
+      email : document.getElementById('email').value,
+      subject : subject,
+      body : body,
+      random_number : serialNo,
+    }
+
+    if(serialNo==''){
+      alert('인증번호를 입력해주세요.');
+      return false;
+    }
+    try{
+
+      const response = await fetch('/email/auth/sendEmail', {
+        headers : {
+          'Content-Type' : 'application/json; charset=utf-8',
+        },
+        method: 'POST',
+        body : JSON.stringify(params),
+      })
+      if(response.ok){
+        authentic_code = await response.json();
+      }
+    }catch(error){
+      console.error(error);
+    }
+  }
+
+random_code = () =>{
+    return Math.floor(Math.random()*1000000).toString().padStart(6, "0");
+}
+
+
+  document.getElementById('confirm_btn').addEventListener('click',send_email);
+
+</script>
+</body>
+</html>

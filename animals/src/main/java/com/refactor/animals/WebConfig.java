@@ -24,12 +24,14 @@ public class WebConfig implements WebMvcConfigurer {
                         "/css/**", "/*.ico", "/error", "/bootstrap/bootstrap.min.css",
                         "/bootstrap/bootstrap.min.css.map", "/adoptBoard/images/**",
                         "/js/**", "/img/**",
-                        "/base/", "/base/join","/base/login","/animal/api/login",
+                        "/base/", "/base/join","/base/login", "/base/findInfo"
+                        ,"/animal/api/login",
                          "/animal/api/join", "/", "/animal/api/isLoginIdDuplicate",
                         "/adoptBoard/adoptBoardList", "/animalBoard/animalBoardList",
                         "/animalBoard/animalBoard", "/animalReplyBoard/boardList",
                         "/animal/api/logout", "/animalBoard/getAsideBoard",
-                        "/adoptBoard/bookmarkList"
+                        "/adoptBoard/bookmarkList",
+                        "/email/auth/sendEmail"
 
 
                 );
