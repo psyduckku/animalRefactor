@@ -15,6 +15,7 @@
 <div class="form_section">
   <div class="wrap_form">
     <div class="join_box">
+      <a href="javascript:window.history.back()"><img id="backward" src="/img/icon/backward.png"></a>
       <div class="title" align="center"> <h1 th:text="#{join.signUp}">회원가입</h1></div>
       <form th:object="${joinForm}" th:action method="post" id="joinForm">
         <ul>
@@ -62,7 +63,7 @@
               <option value="google.com">google.com</option>
               <option value="etc">기타</option>
             </select>
-            <input type="text" id="input_random_number">
+            <input type="text" id="input_random_number" placeholder="인증번호">
           </li>
 
 
@@ -199,7 +200,7 @@
                 'Content-Type': 'application/json; charset=utf-8',
               },
               method: 'POST',
-              body: JSON.stringify(params), //js 객체이기 때문에 변환필요(원래 안해도됐던것같은데 아닌가;)
+              body: JSON.stringify(params),
             });
             if (response.ok) {
               random_number = await response.json();

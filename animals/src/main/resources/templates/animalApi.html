@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>openAPI1</title>
+  <link rel="shortcut icon" href="#">
+</head>
+<body>
+<a href="index.jsp">홈으로가기</a>
+<button id="getAnimalDataBtn">데이터 가져오기</button>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script type="text/javascript">
+  let animalObg='';
+  let animalList=[];
+  let animal;
+
+  function getAnimalsData(){
+    $.ajax({
+      method: "GET",
+      url: "https://openapi.gg.go.kr/AbdmAnimalProtect?Key=3279648f0a3746a9949f23a9e1b6718f&Type=json&pIndex=1&pSize=300",
+      dataType: "json",
+      success: function (data) {
+        console.dir(data.AbdmAnimalProtect[1].row);
+        if (data.AbdmAnimalProtect[1].row.length > 0) {
+          console.log(data.AbdmAnimalProtect[1].row);
+          animalObg=data.AbdmAnimalProtect[1].row;
+          for (let i in data.AbdmAnimalProtect[1].row) {
+            animal= {
+              SIGUN_CD : data.AbdmAnimalProtect[1].row[i].SIGUN_CD,
+              SIGUN_NM : data.AbdmAnimalProtect[1].row[i].SIGUN_NM,
+              ABDM_IDNTFY_NO : data.AbdmAnimalProtect[1].row[i].ABDM_IDNTFY_NO,
+              RECEPT_DE : data.AbdmAnimalProtect[1].row[i].RECEPT_DE,
+              DISCVRY_PLC_INFO : data.AbdmAnimalProtect[1].row[i].DISCVRY_PLC_INFO,
+              STATE_NM : data.AbdmAnimalProtect[1].row[i].STATE_NM,
+              PBLANC_IDNTFY_NO : data.AbdmAnimalProtect[1].row[i].PBLANC_IDNTFY_NO,
+              PBLANC_BEGIN_DE : data.AbdmAnimalProtect[1].row[i].PBLANC_BEGIN_DE,
+              PBLANC_END_DE : data.AbdmAnimalProtect[1].row[i].PBLANC_END_DE,
+              SPECIES_NM : data.AbdmAnimalProtect[1].row[i].SPECIES_NM,
+              COLOR_NM : data.AbdmAnimalProtect[1].row[i].COLOR_NM,
+              AGE_INFO : data.AbdmAnimalProtect[1].row[i].AGE_INFO,
+              BDWGH_INFO : data.AbdmAnimalProtect[1].row[i].BDWGH_INFO,
+              SEX_NM : data.AbdmAnimalProtect[1].row[i].SEX_NM,
+              NEUT_YN : data.AbdmAnimalProtect[1].row[i].NEUT_YN,
+              SFETR_INFO : data.AbdmAnimalProtect[1].row[i].SFETR_INFO,
+              SHTER_NM : data.AbdmAnimalProtect[1].row[i].SHTER_NM,
+              SHTER_TELNO : data.AbdmAnimalProtect[1].row[i].SHTER_TELNO,
+              PROTECT_PLC : data.AbdmAnimalProtect[1].row[i].PROTECT_PLC,
+              REFINE_ROADNM_ADDR : data.AbdmAnimalProtect[1].row[i].REFINE_ROADNM_ADDR,
+              REFINE_LOTNO_ADDR : data.AbdmAnimalProtect[1].row[i].REFINE_LOTNO_ADDR,
+              REFINE_ZIP_CD : data.AbdmAnimalProtect[1].row[i].REFINE_ZIP_CD,
+              JURISD_INST_NM : data.AbdmAnimalProtect[1].row[i].JURISD_INST_NM,
+              IMAGE_COURS : data.AbdmAnimalProtect[1].row[i].IMAGE_COURS,
+              THUMB_IMAGE_COURS : data.AbdmAnimalProtect[1].row[i].THUMB_IMAGE_COURS
+            }
+            animalList.push(animal);
+          }
+          $.ajax({
+            method: "POST",
+            url: "/animal/api/updateAnimals",
+            dataType: "application/json",
+            data: { target: JSON.stringify(animalList) },
+            success: function (data){
+              console.log(data);
+            },error(error){
+
+            }
+          })
+        }
+      },
+      error(error){
+        console.log(error);
+      }
+
+    })
+  }
+  document.getElementById('getAnimalDataBtn').addEventListener('click', getAnimalsData);
+</script>
+</html>

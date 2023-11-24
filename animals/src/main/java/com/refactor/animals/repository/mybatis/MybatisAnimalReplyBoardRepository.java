@@ -17,4 +17,11 @@ public class MybatisAnimalReplyBoardRepository implements AnimalReplyBoardReposi
     public List<AnimalReplyBoardVO> boardList(AnimalReplyBoardVO vo) {
         return mapper.boardList(vo);
     }
+
+    @Override
+    public int insertReply(AnimalReplyBoardVO vo) {
+        return mapper.insertReply(vo);
+    }
+
+
 }

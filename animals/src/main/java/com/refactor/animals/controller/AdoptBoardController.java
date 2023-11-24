@@ -2,9 +2,11 @@ package com.refactor.animals.controller;
 
 import com.refactor.animals.beans.dto.AdoptBoardForm;
 import com.refactor.animals.beans.dto.PagingResponse;
+import com.refactor.animals.beans.dto.ReplyParam;
 import com.refactor.animals.beans.dto.SearchDto;
 import com.refactor.animals.beans.entity.*;
 import com.refactor.animals.service.AdoptBoardService;
+import com.refactor.animals.service.AdoptReplyBoardService;
 import com.refactor.animals.service.UploadFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +39,7 @@ import java.util.Map;
 public class AdoptBoardController {
 
     private final AdoptBoardService adoptBoardservice;
+    private final AdoptReplyBoardService adoptReplyBoardService;
     private final FileStore fileStore;
     private final UploadFileService uploadFileService;
 
@@ -55,13 +58,19 @@ public class AdoptBoardController {
         return "adoptBoardList";
     }
 
-    @GetMapping("/{adt_id}") //보기
-    public String adoptBoard(AdoptBoardVO vo, Model model) { //vo 필드에 adt_id가 일치할 경우 자동으로 바인딩됨
+    @GetMapping("/{adt_id}")
+    public String adoptBoard(AdoptBoardVO vo, Model model, ReplyParam param) { //vo 필드에 adt_id가 일치할 경우 자동으로 바인딩됨
         AdoptBoardVO board = adoptBoardservice.getBoard(vo);
         List<UploadFileVO> files = uploadFileService.getFiles(vo.getAdt_id());
+
+        param.setAdt_id(param.getAdt_id());
+
+
+        List<AdoptReplyBoardVO> replyList = adoptReplyBoardService.getReplyList(param);
         log.info("files={}",files);
         model.addAttribute("board", board);
         model.addAttribute("files", files);
+        model.addAttribute("replyList", replyList);
         return "adoptBoard";
     }
 
@@ -69,29 +78,6 @@ public class AdoptBoardController {
     public String add(@ModelAttribute AdoptBoardForm form, Model model) {
         model.addAttribute("adoptBoardForm", form);
         return "adoptBoardForm";
-    }
-//    @PostMapping("/add") //게시물 저장
-    public String saveBoard(@ModelAttribute AdoptBoardForm adoptBoardForm, @SessionAttribute(name="login_id") String login_id,
-                       RedirectAttributes redirectAttributes) throws IOException {
-
-//        adoptBoardForm.setLogin_id(login_id);
-//        AdoptBoardVO adoptBoardVO = new AdoptBoardVO(adoptBoardForm.getLogin_id(),
-//                adoptBoardForm.getTitle(), adoptBoardForm.getContent());
-//
-//        int adt_id = adoptBoardservice.insertBoard(adoptBoardVO);
-//        log.info("adt_id={}",adt_id);
-//        log.info(adoptBoardForm.getImage_files().toString());
-
-//            List<UploadFileVO> storeFileList = fileStore.storeFiles(adoptBoardForm.getImage_files(), adt_id); //파일업로드
-//            log.info("저장된 파일정보 storeFileList={}",storeFileList);
-//            if(!storeFileList.isEmpty()){
-//                int row = uploadFileService.insertFiles(storeFileList);
-//                log.info("업로드된 파일 row={}", row);
-                //이제 mapper에서 원본, 저장된파일, 확장자. 이렇게 3개 저장하기
-//            }
-
-//        redirectAttributes.addAttribute("adt_id",adt_id);
-        return "redirect:/adoptBoard/{adt_id}";
     }
 
     @ResponseBody
@@ -155,7 +141,6 @@ public class AdoptBoardController {
             adoptBoardservice.bookmark(vo);
         return new ResponseEntity(false, HttpStatus.OK);
     }
-//    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @PostMapping("/bookmarkList")
     public Map<String, List<?>> bookmarkList(){

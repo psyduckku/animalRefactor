@@ -1,5 +1,6 @@
 package com.refactor.animals.service.serviceImpl;
 
+import com.refactor.animals.beans.entity.AdoptReplyBoardVO;
 import com.refactor.animals.beans.entity.AnimalReplyBoardVO;
 import com.refactor.animals.repository.AnimalReplyBoardRepository;
 import com.refactor.animals.service.AnimalReplyBoardService;
@@ -16,5 +17,10 @@ public class AnimalReplyBoardServiceImpl implements AnimalReplyBoardService {
     @Override
     public List<AnimalReplyBoardVO> boardList(AnimalReplyBoardVO vo) {
         return repository.boardList(vo);
+    }
+
+    @Override
+    public int insertReply(AdoptReplyBoardVO vo) {
+        return 0;
     }
 }

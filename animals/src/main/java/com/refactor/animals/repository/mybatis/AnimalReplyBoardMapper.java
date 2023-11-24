@@ -9,4 +9,5 @@ import java.util.List;
 public interface AnimalReplyBoardMapper {
 
     List<AnimalReplyBoardVO> boardList(AnimalReplyBoardVO vo);
+    int insertReply(AnimalReplyBoardVO vo);
 }

@@ -59,27 +59,40 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         </div>
     </th:block>
 </div>
-<table class="table table-hover" id="replyList">
-    <tr><td>내용</td> <td>작성자</td><td></td></tr>
-
-</table>
-
-<form id="replyForm">
-    <table class="table table-hover">
-        <tr>
-            <td>
-                <div class="form-group">
-                    <label for="reply" class="form-label mt-4">댓글남기기</label>
-                    <input type="hidden" name="seq" value="${adoptBoard.SEQ}" id="seq">
-                    <input type="text" name="reply" class="form-control" id="reply" aria-describedby="emailHelp" placeholder="Enter Reply">
-                    <small id="notice" class="form-text text-muted">댓글을 입력하세요</small>
-                    <button id="insertReply" type="button" class="btn btn-primary">Submit</button>
-                </div>
-            </td>
-        </tr>
+    <table class="table table-hover" id="replyList">
+            <tr>
+                <td class="reply_head" id="head_content">내용</td>
+                <td class="reply_head" id="head_writer">작성자</td>
+                <td> </td>
+            </tr>
+        <th:block th:each="reply : ${replyList}">
+            <tr>
+                <td id="reply_content" th:text="${reply.content}"></td>
+                <td id="reply_id" th:text="${reply.getLogin_id()}"></td>
+                <td>
+                    <span><a id="like_before"><img class="heart" src="/img/icon/heart_before.png"></a></span>
+                    <span><a id="unlike_before"><img class="broken_heart" id="broken_heart_before" src="/img/icon/brokenheart_before.png"></a></span>
+                </td>
+            </tr>
+        </th:block>
     </table>
-</form>
+
+
+    <form id="replyForm">
+        <table class="table table-hover">
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <input type="text" name="content" class="form-control" id="content_a" aria-describedby="emailHelp">
+                        <small id="notice" class="form-text text-muted">댓글을 입력하세요</small>
+                        <button id="reply_btn" type="button" class="btn btn-primary">Submit</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
 </div>
+
 </body>
 <script type="text/javascript" th:inline="javascript">
 const adt_id = [[${board.adt_id}]];
@@ -129,7 +142,44 @@ document.querySelector('.bookmark').addEventListener('click', ()=>{
     }
 });
 
-document.getElementById('option_icon_wrap').addEventListener('click',()=>{
+async function send_reply(){
+    const upper_id=''; //내 댓글의 부모
+    const content = document.getElementById('content_a').value;
+    if(content==''){
+        alert('내용을 입력하세요.');
+        return;
+    }
+
+    const replyForm = {
+        adt_id : adt_id,
+        upper_id : upper_id,
+        content :content,
+    }
+
+    try{
+        const response = await fetch('/adoptReplyBoard/insertReply', {
+            headers : {
+                'Content-Type' : 'application/json',
+            },
+            method : 'POST',
+            body : JSON.stringify(replyForm),
+        });
+        if(response.ok){
+            // const data = await response.json();
+            location.reload();
+        }
+
+    }catch(error){
+        console.error(error);
+    }
+}
+
+async function send_evaluation(){
+
+}
+
+
+document.getElementById('option_icon_wrap').addEventListener('click', ()=> {
     option_container.style.display="block";
     overlay.style.display="block";
 })
@@ -138,15 +188,19 @@ overlay.addEventListener('click', ()=>{
     overlay.style.display="none";
 })
 
-document.getElementById('deleteBtn').addEventListener('click', ()=>{
+document.getElementById('deleteBtn').addEventListener('click', ()=> {
     const result = confirm('삭제하시겠습니까?');
     if(result){
         location.href=`/adoptBoard/deleteBoard/${adt_id}`;
     }
 })
-document.getElementById('updateBtn').addEventListener('click', ()=>{
+document.getElementById('updateBtn').addEventListener('click', ()=> {
     location.href=`/adoptBoard/updateBoardForm/${adt_id}`;
 })
+
+document.getElementById('reply_btn').addEventListener('click', send_reply);
+document.getElementById('likeit').addEventListener('click', send_evaluation);
+
 
 </script>
 </html>

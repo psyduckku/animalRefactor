@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.refactor.animals.repository.mybatis.AdoptReplyBoardMapper">
+
+    <insert id="insertReply" parameterType="AdoptReplyBoardVO" useGeneratedKeys="true" keyProperty="reply_id" >
+        insert adopt_reply_board(adt_id, upper_id, login_id, content) values
+        (#{adt_id}, #{upper_id}, #{login_id}, #{content})
+    </insert>
+
+    <select id="getReplyList" parameterType="ReplyParam">
+        select adt_id, upper_id, login_id, content, like, unlike, good_count, bad_count, report_count
+        from adopt_reply_board
+        where adt_id = #{adt_id}
+        <trim prefix="ORDER BY">
+            <if test="orderby =='recent'">adt_id desc</if>
+            <if test="orderby =='latest'">adt_id asc</if>
+        </trim>
+    </select>
+
+    <update id="like_evaluation" parameterType="ReplyParam">
+        update adopt_reply_board set like = #{like} from adopt_reply_board
+    </update>
+
+    <update id="unlike_evaluation" parameterType="ReplyParam">
+        update adopt_reply_board set unlike = #{unlike} from adopt_reply_board
+    </update>
+
+</mapper>

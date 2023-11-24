@@ -11,9 +11,6 @@ th, td{
 .bookmark_box{
     width:30px; height:30px; position: absolute; top: 50px; right: 150px;
 }
-.bookmark{
-
-}
 
 #option_icon_wrap{
     position: absolute; top: 50px; right: 90px;
@@ -54,4 +51,25 @@ a{
 }
 #deleteBtn:hover{
     text-decoration:underline;
+}
+.reply_head{
+    text-align:center;
+}
+#head_content{
+    width: 300px;
+}
+#head_writer{
+    width: 100px;
+}
+#reply_id{
+    text-align:center;
+}
+#reply_content{
+    padding-left: 19px;
+}
+.heart{
+    width: 20px;
+}
+#broken_heart_before{
+    width: 22px;
 }

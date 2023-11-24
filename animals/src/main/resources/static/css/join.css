@@ -6,18 +6,22 @@
     background-color: #e3e3e3;
 }
 .form_section{}
-
+#backward{
+    width:35px;
+    margin-left: 5px;
+}
 .join_box{
     margin-top: 30px;
     width: 650px;
-    height: 1000px;
+    height: 915px;
     border: 1px solid  #e3e3e3;
     padding: 82px 69px;
     border-radius: 20px;
+    margin-bottom: 70px;
 }
 li{
     list-style-type: none;
-    height: 80px;
+    height: 55px;
 }
 #email_li{
     height: 90px;
@@ -33,7 +37,14 @@ li{
 input{
     width: 172px;
     height: 35px;
-    outline: 0.3px solid gray;
+    /*outline: 0.2px solid gray;*/
+    padding-left: 5px;
+}
+input:focus{
+    animation-name:border-focus;
+    animation-duration: 1s;
+    animation-fill-mode:forwards;
+    outline-color: lightskyblue;
 }
 #email_address{
     width: 140px;
@@ -41,17 +52,21 @@ input{
 #email_auth_btn{
     width: 60px;
     height: 30px;
-    margin-left: 2px;
+    margin-left: 5px;
     margin-top: 2px;
 }
 select{
     height: 35px;
 }
 #email_option{
-    margin-left: 123px; margin-top: 8px;
+    margin-left: 109px; margin-top: 8px;
 }
 #auth_number{
     width: 140px;
+}
+#input_random_number{
+    width:90px;
+    margin-left:27px;
 }
 #login_id{
     width: 200px;
@@ -65,9 +80,15 @@ select{
     margin-top: 10px;
     width: 402px;
 }
-#postcode, #search_addr{
-    width: 130px;
+#postcode{
+    width: 172px;
     height: 40px;
+}
+#search_addr{
+    width: 100px;
+    height: 35px;
+    margin-left: 19px;
+    padding-left: 0px;
 }
 #duplicationCheck{
     width: 90px;
@@ -80,7 +101,7 @@ select{
     width: 280px;
 }
 #extra_address{
-    width: 155px;
+    width: 167px;
 }
 .exception{
     visibility: hidden;
