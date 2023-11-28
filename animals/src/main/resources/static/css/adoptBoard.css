@@ -67,9 +67,18 @@ a{
 #reply_content{
     padding-left: 19px;
 }
-.heart{
-    width: 20px;
+#good_before{
+    width: 23px;
 }
-#broken_heart_before{
-    width: 22px;
+#good_after{
+    width: 23px;
+}
+#bad_after{
+    width: 23px;
+}
+#bad_before{
+    width: 23px;
+}
+.evalu_count{
+    display: inline;
 }

@@ -52,7 +52,6 @@ public class AdoptBoardController {
             searchDto.setSearchType("내용");
         }
         PagingResponse<AdoptBoardVO> pagingResponse = adoptBoardservice.boardList(searchDto);
-        log.info("controller pagingResponse={}", pagingResponse);
 
         model.addAttribute("response", pagingResponse);
         return "adoptBoardList";
@@ -67,7 +66,6 @@ public class AdoptBoardController {
 
 
         List<AdoptReplyBoardVO> replyList = adoptReplyBoardService.getReplyList(param);
-        log.info("files={}",files);
         model.addAttribute("board", board);
         model.addAttribute("files", files);
         model.addAttribute("replyList", replyList);
@@ -84,10 +82,8 @@ public class AdoptBoardController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(value ="/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public int saveBoard2(@RequestPart(value="adoptBoardForm") AdoptBoardForm adoptBoardForm, @RequestPart(value="file") List<MultipartFile> file) throws IOException {
-        log.info("폼데이터adoptBoardForm={}", adoptBoardForm);
 
         file.stream().map(MultipartFile::getOriginalFilename).forEach(fileName -> {
-            log.info("파일이름: {}", fileName);
         });
 
         AdoptBoardVO vo = new AdoptBoardVO(adoptBoardForm.getLogin_id(), adoptBoardForm.getTitle(), adoptBoardForm.getContent());
@@ -95,7 +91,6 @@ public class AdoptBoardController {
         List<UploadFileVO> storeFileList = fileStore.storeFiles(file, adt_id);
         if(!storeFileList.isEmpty()){
             int row = uploadFileService.insertFiles(storeFileList);
-            log.info("upload된 row={}",row);
         }
 
         return adt_id;
@@ -122,11 +117,7 @@ public class AdoptBoardController {
 
     @PostMapping("/bookmark/{adt_id}")
     public ResponseEntity markUp(@PathVariable int adt_id, @RequestBody boolean bookmark, AdoptBoardVO vo){
-        log.info("adt_id={}",adt_id);
-        log.info("북마크 bookmark={}",bookmark);
         int count = adoptBoardservice.bookmarkCount();
-        log.info("카운트count={}",count);
-        log.info("북마크bookmark={}", bookmark);
         vo.setAdt_id(adt_id);
 
         if(bookmark==true && count >4){
@@ -160,9 +151,7 @@ public class AdoptBoardController {
     @RequestMapping("/deleteBoard/{adt_id}")
     public String deleteBoard(@PathVariable int adt_id){
         int deleteFile = uploadFileService.deleteFile(adt_id);
-        log.info("삭제된 파일 deleteFile={}",deleteFile);
         int result = adoptBoardservice.deleteBoard(adt_id);
-        log.info("삭제된 게시글 result={}", result);
 
         return "redirect:/adoptBoard/adoptBoardList";
     }
@@ -185,8 +174,6 @@ public class AdoptBoardController {
         form.setAdt_id(adt_id);
         AdoptBoardVO vo =  new AdoptBoardVO(form.getAdt_id(), form.getTitle(), form.getContent());
         int row =  adoptBoardservice.updateBoard(vo);
-        log.info("adt_id={}",adt_id);
-        log.info("row={}",row);
 
         return new ResponseEntity(row, HttpStatus.OK);
     }

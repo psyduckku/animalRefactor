@@ -1,7 +1,6 @@
 package com.refactor.animals.service.serviceImpl;
 
 import com.refactor.animals.beans.dto.ReplyParam;
-import com.refactor.animals.beans.entity.AdoptBoardVO;
 import com.refactor.animals.beans.entity.AdoptReplyBoardVO;
 import com.refactor.animals.repository.AdoptReplyBoardRepository;
 import com.refactor.animals.service.AdoptReplyBoardService;
@@ -27,4 +26,25 @@ public class AdoptReplyBoardServiceImpl implements AdoptReplyBoardService {
         }
         return repository.getReplyList(param);
     }
+
+    @Override
+    public AdoptReplyBoardVO checkEvaluation(ReplyParam param) {
+        return repository.checkEvaluation(param);
+    }
+
+    @Override
+    public int goodEvaluation(ReplyParam param) {
+        return repository.goodEvaluation(param);
+    }
+
+    @Override
+    public int badEvaluation(ReplyParam param) {
+        return repository.badEvaluation(param);
+    }
+
+    @Override
+    public int deleteReply(ReplyParam param) {
+        return repository.deleteReply(param);
+    }
+
 }

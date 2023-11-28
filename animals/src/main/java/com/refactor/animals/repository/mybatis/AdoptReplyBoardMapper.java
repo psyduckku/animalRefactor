@@ -12,6 +12,9 @@ public interface AdoptReplyBoardMapper {
 
     int insertReply(AdoptReplyBoardVO vo);
     List<AdoptReplyBoardVO> getReplyList(ReplyParam param);
-
+    AdoptReplyBoardVO checkEvaluation(ReplyParam param);
+    int goodEvaluation(ReplyParam param);
+    int badEvaluation(ReplyParam param);
+    int deleteReply(ReplyParam param);
 
 }

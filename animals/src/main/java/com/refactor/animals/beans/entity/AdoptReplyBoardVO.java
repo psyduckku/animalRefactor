@@ -15,8 +15,8 @@ public class AdoptReplyBoardVO {
     private int good_count;
     private int bad_count;
     private int report_count;
-    private boolean like;
-    private boolean unlike;
+    private boolean good;
+    private boolean bad;
 
     /****
      *  댓글 쓰기

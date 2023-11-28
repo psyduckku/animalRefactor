@@ -65,13 +65,29 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
                 <td class="reply_head" id="head_writer">작성자</td>
                 <td> </td>
             </tr>
+        <th:block th:if="${replyList.empty}">
+            <tr>
+                <td colspan="3">등록 댓글이 없습니다.</td>
+            </tr>
+
+        </th:block>
         <th:block th:each="reply : ${replyList}">
             <tr>
                 <td id="reply_content" th:text="${reply.content}"></td>
-                <td id="reply_id" th:text="${reply.getLogin_id()}"></td>
+                <td id="reply_id" th:text="${reply.login_id}"></td>
                 <td>
-                    <span><a id="like_before"><img class="heart" src="/img/icon/heart_before.png"></a></span>
-                    <span><a id="unlike_before"><img class="broken_heart" id="broken_heart_before" src="/img/icon/brokenheart_before.png"></a></span>
+                    <span th:if="${reply.good}==false"> <a class="good_btn" data-value="false" th:onclick="send_good([[${reply.reply_id}]], [[${reply.good}]], [[${reply.bad}]])">
+                        <img id="good_before" class="heart" src="/img/icon/heart_before.png"></a> <p class="evalu_count" th:text="${reply.good_count}"></p></span>
+
+                    <span th:if="${reply.good}==true"><a class="good_btn" data-value="true" th:onclick="send_good([[${reply.reply_id}]], [[${reply.good}]], [[${reply.bad}]])">
+                        <img id="good_after" src="/img/icon/heart_after.png"> </a> <p class="evalu_count" th:text="${reply.good_count}"></p></span>
+
+                    <span th:if="${reply.bad}==false"><a class="bad_btn"  data-value="false" th:onclick="send_bad([[${reply.reply_id}]], [[${reply.bad}]], [[${reply.good}]])">
+                        <img id="bad_before" class="broken_heart" src="/img/icon/brokenheart_before.png"></a> <p class="evalu_count" th:text="${reply.bad_count}"></p></span>
+
+                    <span th:if="${reply.bad}==true"><a class="bad_btn"  data-value="true" th:onclick="send_bad([[${reply.reply_id}]], [[${reply.bad}]] , [[${reply.good}]])">
+                        <img id="bad_after" src="/img/icon/brokenheart_after.png"> </a> <p class="evalu_count" th:text="${reply.bad_count}"></p> </span>
+                    <a class="del_btn" th:onclick="del_reply([[${reply.reply_id}]])">x</a>
                 </td>
             </tr>
         </th:block>
@@ -99,6 +115,83 @@ const adt_id = [[${board.adt_id}]];
 let bookmark = [[${board.bookmark}]];
 const overlay = document.getElementById('overlay');
 const option_container = document.getElementById('option_container');
+async function del_reply(reply_id){
+
+    const data = {reply_id}
+
+    try {
+        const response = await fetch(`/adoptReplyBoard/deleteReply`, {
+            headers : {
+                'Content-Type' : 'application/json',
+            },
+            method: 'POST',
+            body : JSON.stringify(data),
+        })
+        if(response.ok){
+            window.location.reload();
+        }
+    }catch (error){
+        console.error(error);
+    }
+
+}
+async function send_good(reply_id, good_status, bad_status){
+    alert(`reply_id : ${reply_id} / good_status : ${good_status} / bad_status: ${bad_status}`);
+    if(bad_status==true){
+        alert('이미 평가가 완료된 댓글입니다.');
+        return;
+    }
+
+    try{
+    const adoptReplyBoardVO = {
+        reply_id : reply_id,
+        good : good_status,
+    }
+    const response = await fetch('/adoptReplyBoard/good', {
+        headers: {
+            'Content-Type' : 'application/json',
+        },
+        method : 'POST',
+        body : JSON.stringify(adoptReplyBoardVO),
+    })
+        if(response.ok){
+            location.reload();
+        }
+    }catch(error){
+        console.error(error);
+    }
+
+}
+
+async function send_bad(reply_id, bad_status, good_status){
+    alert(`reply_id : ${reply_id} / bad_status : ${bad_status} / good_status: ${good_status}`);
+
+    if(good_status==true){
+        alert('이미 평가가 완료된 댓글입니다.');
+        return;
+    }
+
+    const adoptReplyBoardVO = {
+        reply_id : reply_id,
+        bad : bad_status,
+    }
+    try {
+
+
+        const response = await fetch('/adoptReplyBoard/bad', {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(adoptReplyBoardVO),
+        })
+        if (response.ok) {
+            location.reload();
+        }
+    }catch(error){
+        console.error(error);
+    }
+}
 async function markUp(){
 
     try{
@@ -127,18 +220,22 @@ async function markUp(){
 
 document.querySelector('.bookmark').addEventListener('click', ()=>{
     let result;
-    if(bookmark){
-        result = confirm('북마크를 해제하시겠습니까?');
-        if(result){
-            bookmark=false;
-            markUp();
+    try {
+        if (bookmark) {
+            result = confirm('북마크를 해제하시겠습니까?');
+            if (result) {
+                bookmark = false;
+                markUp();
+            }
+        } else {
+            result = confirm('북마크를 등록하시겠습니까?');
+            if (result) {
+                bookmark = true;
+                markUp();
+            }
         }
-    }else{
-        result = confirm('북마크를 등록하시겠습니까?');
-        if(result){
-            bookmark=true;
-            markUp();
-        }
+    }catch(error){
+        console.error(error);
     }
 });
 
@@ -165,7 +262,6 @@ async function send_reply(){
             body : JSON.stringify(replyForm),
         });
         if(response.ok){
-            // const data = await response.json();
             location.reload();
         }
 
@@ -174,9 +270,6 @@ async function send_reply(){
     }
 }
 
-async function send_evaluation(){
-
-}
 
 
 document.getElementById('option_icon_wrap').addEventListener('click', ()=> {
@@ -199,7 +292,6 @@ document.getElementById('updateBtn').addEventListener('click', ()=> {
 })
 
 document.getElementById('reply_btn').addEventListener('click', send_reply);
-document.getElementById('likeit').addEventListener('click', send_evaluation);
 
 
 </script>

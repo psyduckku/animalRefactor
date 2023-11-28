@@ -1,6 +1,7 @@
 package com.refactor.animals.controller;
 
 import com.refactor.animals.beans.dto.ReplyForm;
+import com.refactor.animals.beans.dto.ReplyParam;
 import com.refactor.animals.beans.entity.AdoptReplyBoardVO;
 import com.refactor.animals.service.AdoptReplyBoardService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,6 +33,71 @@ public class AdoptReplyBoardController {
         log.info("row={}", row);
         return new ResponseEntity(row, HttpStatus.OK);
     }
+
+    @ResponseBody
+    @PostMapping("/good")
+    public ResponseEntity good(@RequestBody ReplyParam param){
+        int row= 0;
+        log.info("param={}", param);
+        AdoptReplyBoardVO check = adoptReplyBoardService.checkEvaluation(param);
+            log.info("/good 체크 check={}", check);
+            log.info("/good 체크 카운트 check.getGood_count()={}", check.getGood_count());
+
+            if(param.isGood()==true){
+                param.setGood(false);
+                param.setGood_count(check.getGood_count()-1);
+            }else{
+                param.setGood(true);
+                param.setGood_count(check.getGood_count()+1);
+            }
+            row = adoptReplyBoardService.goodEvaluation(param);
+
+            log.info("row={}", row);
+
+            if(row<1){
+                return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping("/bad")
+    public ResponseEntity bad(@RequestBody ReplyParam param){
+        int row;
+
+
+        AdoptReplyBoardVO check = adoptReplyBoardService.checkEvaluation(param);
+        log.info("/bad 체크 check={}", check);
+        log.info("/베드카운트 check.getBad_count()={}", check.getBad_count());
+
+        if(param.isBad()==true){
+            param.setBad(false);
+            param.setBad_count(check.getBad_count()-1);
+        }else{
+            param.setBad(true);
+            param.setBad_count(check.getBad_count()+1);
+        }
+        row = adoptReplyBoardService.badEvaluation(param);
+        if(row<1){
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping("/deleteReply")
+    public ResponseEntity deleteReply(@RequestBody ReplyParam param){
+
+        int row = adoptReplyBoardService.deleteReply(param);
+        if(row<1){
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
 
 
 }

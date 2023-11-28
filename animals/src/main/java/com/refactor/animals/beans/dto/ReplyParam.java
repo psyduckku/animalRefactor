@@ -5,11 +5,12 @@ import lombok.Data;
 @Data
 public class ReplyParam {
 
-    int adt_id;
-    String orderby;
-    boolean like;
-    boolean unlike;
-
-
+    private int adt_id;
+    private int reply_id;
+    private String orderby;
+    private boolean good;
+    private boolean bad;
+    private int good_count;
+    private int bad_count;
 
 }

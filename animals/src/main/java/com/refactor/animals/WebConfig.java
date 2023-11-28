@@ -31,7 +31,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "/animalBoard/animalBoard", "/animalReplyBoard/boardList",
                         "/animal/api/logout", "/animalBoard/getAsideBoard",
                         "/adoptBoard/bookmarkList",
-                        "/email/auth/sendEmail"
+                        "/email/auth/sendEmail",
+                        "/adoptReplyBoard/good"
 
 
                 );
