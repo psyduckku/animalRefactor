@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.refactor.animals.repository.mybatis.ReplyAddInfoMapper">
+
+    <insert id="insertReplyAddInfo" parameterType="ReplyAddInfo" useGeneratedKeys="true" keyProperty="his_id">
+        insert into reply_add_info(reply_id, table_name) values
+        (#{reply_id}, #{table_name})
+    </insert>
+
+<!--    <select id="getReplyAddInfo" resultMap="adoptReplyBoard">-->
+<!--        r.reply_id, r.adt_id, r.upper_id, r.login_id, r.content, r.report_status, r.regdate, r.best_reply,-->
+<!--        a.reply_id, a.good, a.bad, a.good_count, a.bad_count-->
+<!--        from adopt_reply_board r-->
+<!--        left join reply_action_history a-->
+<!--        on r.reply_id = a.reply_id-->
+<!--        where r.adt_id = #{adt_id}-->
+<!--    </select>-->
+
+<!--    <resultMap id="adoptReplyBoard" type="AdoptReplyBoardVO">-->
+<!--        <id property="reply_id" column="reply_id"/>-->
+<!--        <result property="adt_id" column="adt_id"/>-->
+<!--        <result property="table_name" column="table_name"/>-->
+<!--        <result property="upper_id" column="upper_id"/>-->
+<!--        <result property="login_id" column="login_id"/>-->
+<!--        <result property="content" column="content"/>-->
+<!--        <result property="regdate" column="regdate"/>-->
+<!--        <association property="replyAddInfo" javaType="ReplyAddInfo">-->
+<!--            <id property="his_id" column="his_id"/>-->
+<!--            <result property="reply_id" column="his_id"/>-->
+<!--            <result property="table_name" column="table_name"/>-->
+<!--            <result property="good" column="good"/>-->
+<!--            <result property="bad" column="bad"/>-->
+<!--            <result property="report_count" column="report_count"/>-->
+<!--        </association>-->
+<!--    </resultMap>-->
+
+</mapper>

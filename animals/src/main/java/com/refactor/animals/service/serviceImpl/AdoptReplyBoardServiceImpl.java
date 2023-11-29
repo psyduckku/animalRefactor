@@ -28,21 +28,6 @@ public class AdoptReplyBoardServiceImpl implements AdoptReplyBoardService {
     }
 
     @Override
-    public AdoptReplyBoardVO checkEvaluation(ReplyParam param) {
-        return repository.checkEvaluation(param);
-    }
-
-    @Override
-    public int goodEvaluation(ReplyParam param) {
-        return repository.goodEvaluation(param);
-    }
-
-    @Override
-    public int badEvaluation(ReplyParam param) {
-        return repository.badEvaluation(param);
-    }
-
-    @Override
     public int deleteReply(ReplyParam param) {
         return repository.deleteReply(param);
     }

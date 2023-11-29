@@ -61,14 +61,11 @@ public class AdoptBoardController {
     public String adoptBoard(AdoptBoardVO vo, Model model, ReplyParam param) { //vo 필드에 adt_id가 일치할 경우 자동으로 바인딩됨
         AdoptBoardVO board = adoptBoardservice.getBoard(vo);
         List<UploadFileVO> files = uploadFileService.getFiles(vo.getAdt_id());
-
         param.setAdt_id(param.getAdt_id());
-
-
-        List<AdoptReplyBoardVO> replyList = adoptReplyBoardService.getReplyList(param);
+//        List<AdoptReplyBoardVO> replyList = adoptReplyBoardService.getReplyList(param);
         model.addAttribute("board", board);
         model.addAttribute("files", files);
-        model.addAttribute("replyList", replyList);
+//        model.addAttribute("replyList", replyList);
         return "adoptBoard";
     }
 

@@ -24,21 +24,6 @@ public class MybatisAdoptReplyBoardRepository implements AdoptReplyBoardReposito
     }
 
     @Override
-    public AdoptReplyBoardVO checkEvaluation(ReplyParam param) {
-        return mapper.checkEvaluation(param);
-    }
-
-    @Override
-    public int goodEvaluation(ReplyParam param) {
-        return mapper.goodEvaluation(param);
-    }
-
-    @Override
-    public int badEvaluation(ReplyParam param) {
-        return mapper.badEvaluation(param);
-    }
-
-    @Override
     public int deleteReply(ReplyParam param) {
         return mapper.deleteReply(param);
     }

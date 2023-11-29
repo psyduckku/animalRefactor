@@ -12,11 +12,8 @@ public class AdoptReplyBoardVO {
     private String login_id;
     private String content;
     private String regdate;
-    private int good_count;
-    private int bad_count;
-    private int report_count;
-    private boolean good;
-    private boolean bad;
+
+    ReplyAddInfo replyAddInfo;
 
     /****
      *  댓글 쓰기

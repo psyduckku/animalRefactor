@@ -65,32 +65,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
                 <td class="reply_head" id="head_writer">작성자</td>
                 <td> </td>
             </tr>
-        <th:block th:if="${replyList.empty}">
-            <tr>
-                <td colspan="3">등록 댓글이 없습니다.</td>
-            </tr>
 
-        </th:block>
-        <th:block th:each="reply : ${replyList}">
-            <tr>
-                <td id="reply_content" th:text="${reply.content}"></td>
-                <td id="reply_id" th:text="${reply.login_id}"></td>
-                <td>
-                    <span th:if="${reply.good}==false"> <a class="good_btn" data-value="false" th:onclick="send_good([[${reply.reply_id}]], [[${reply.good}]], [[${reply.bad}]])">
-                        <img id="good_before" class="heart" src="/img/icon/heart_before.png"></a> <p class="evalu_count" th:text="${reply.good_count}"></p></span>
-
-                    <span th:if="${reply.good}==true"><a class="good_btn" data-value="true" th:onclick="send_good([[${reply.reply_id}]], [[${reply.good}]], [[${reply.bad}]])">
-                        <img id="good_after" src="/img/icon/heart_after.png"> </a> <p class="evalu_count" th:text="${reply.good_count}"></p></span>
-
-                    <span th:if="${reply.bad}==false"><a class="bad_btn"  data-value="false" th:onclick="send_bad([[${reply.reply_id}]], [[${reply.bad}]], [[${reply.good}]])">
-                        <img id="bad_before" class="broken_heart" src="/img/icon/brokenheart_before.png"></a> <p class="evalu_count" th:text="${reply.bad_count}"></p></span>
-
-                    <span th:if="${reply.bad}==true"><a class="bad_btn"  data-value="true" th:onclick="send_bad([[${reply.reply_id}]], [[${reply.bad}]] , [[${reply.good}]])">
-                        <img id="bad_after" src="/img/icon/brokenheart_after.png"> </a> <p class="evalu_count" th:text="${reply.bad_count}"></p> </span>
-                    <a class="del_btn" th:onclick="del_reply([[${reply.reply_id}]])">x</a>
-                </td>
-            </tr>
-        </th:block>
     </table>
 
 
@@ -115,6 +90,27 @@ const adt_id = [[${board.adt_id}]];
 let bookmark = [[${board.bookmark}]];
 const overlay = document.getElementById('overlay');
 const option_container = document.getElementById('option_container');
+
+window.addEventListener('DOMContentLoaded', (e)=>{
+    getList();
+
+})
+
+async function getList(){
+//get은 어차피 쿼리스트링이니 헤더를 설정할 필요없음
+
+    const response = await fetch(`/adoptReplyBoard/${adt_id}`, {
+        headers : {
+            'Accept' : 'application/json',
+        }
+    })
+        if(response.ok){
+            const data = await response.json();
+            console.log(data);
+        }
+
+}
+
 async function del_reply(reply_id){
 
     const data = {reply_id}
