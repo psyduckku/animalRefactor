@@ -70,18 +70,18 @@
         update adopt_board set title = #{title}, content = #{content} where adt_id = #{adt_id}
     </update>
 
-<!--    <resultMap id="upload_file" type="UploadFileVO">-->
-<!--        <id property="store_id" column="store_id"/>-->
-<!--        <result property="store_file_name" column="store_file_name"/>-->
-<!--    </resultMap>-->
-<!--    <resultMap id="adopt_board" type="AdoptBoardVO">-->
-<!--        <id property="adt_id" column="adt_id"/>-->
-<!--        <result property="login_id" column="login_id"/>-->
-<!--        <result property="regdate" column="regdate"/>-->
-<!--        <result property="title" column="title"/>-->
-<!--        <result property="content" column="content"/>-->
-<!--        <result property="cnt" column="cnt"/>-->
-<!--        <result property="bookmark" column="bookmark"/>-->
-<!--        <result property="count" column="count"/>-->
-<!--    </resultMap>-->
+    <resultMap id="upload_file" type="UploadFileVO">
+        <id property="store_id" column="store_id"/>
+        <result property="store_file_name" column="store_file_name"/>
+    </resultMap>
+    <resultMap id="adopt_board" type="AdoptBoardVO">
+        <id property="adt_id" column="adt_id"/>
+        <result property="login_id" column="login_id"/>
+        <result property="regdate" column="regdate"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="cnt" column="cnt"/>
+        <result property="bookmark" column="bookmark"/>
+        <result property="count" column="count"/>
+    </resultMap>
 </mapper>
