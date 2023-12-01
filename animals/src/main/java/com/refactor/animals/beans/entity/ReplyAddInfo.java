@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ReplyAddInfo {
-    private int his_id;
+    private int info_id;
     private int reply_id;
     private String table_name;
-    private int good;
-    private int bad;
-    private int report_count;
+    private int good_status;
+    private int bad_status;
+    private int report;
+    private String regdate;
 
 }

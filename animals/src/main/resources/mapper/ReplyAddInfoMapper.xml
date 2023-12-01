@@ -3,9 +3,14 @@
 <mapper namespace="com.refactor.animals.repository.mybatis.ReplyAddInfoMapper">
 
     <insert id="insertReplyAddInfo" parameterType="ReplyAddInfo" useGeneratedKeys="true" keyProperty="his_id">
-        insert into reply_add_info(reply_id, table_name) values
-        (#{reply_id}, #{table_name})
+        insert into reply_add_info(reply_id, login_id, table_name, good_status, bad_status, report) values
+        (
+            #{reply_id}, #{login_id}, #{table_name}, #{good_status}, #{bad_status}, #{report}
+        )
     </insert>
+
+
+
 
 <!--    <select id="getReplyAddInfo" resultMap="adoptReplyBoard">-->
 <!--        r.reply_id, r.adt_id, r.upper_id, r.login_id, r.content, r.report_status, r.regdate, r.best_reply,-->

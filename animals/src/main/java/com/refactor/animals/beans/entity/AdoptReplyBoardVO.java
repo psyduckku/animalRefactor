@@ -11,6 +11,9 @@ public class AdoptReplyBoardVO {
     private String upper_id;
     private String login_id;
     private String content;
+    private int good_count;
+    private int bad_count;
+    private boolean best_reply;
     private String regdate;
 
     ReplyAddInfo replyAddInfo;

@@ -8,20 +8,40 @@ batis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
         (#{adt_id}, #{upper_id}, #{login_id}, #{content})
     </insert>
 
-
     <select id="getReplyList" parameterType="ReplyParam" resultMap="adoptReplyBoard">
-        select
-        r.reply_id, r.adt_id, r.upper_id, r.login_id, r.content, r.report_status, r.regdate, r.best_reply,
-        a.reply_id, a.good, a.bad
+        select distinct r.reply_id, r.content, r.login_id, r.regdate, good_count, bad_count
+        (i.login_id=#{i.login_id} and i.good_status=1) as 'good_stauts'
+        (i.login_id=#{i.login_id} and i.bad_status=1) as 'bad_status',
         from adopt_reply_board r
-        left join reply_add_info a
-        on r.reply_id = a.reply_id
-        where r.adt_id = #{adt_id}
+        left join reply_add_info i
+        on r.reply_id= i.reply_id
+        where r.adt_id=#{adt_id}
+        group by r.reply_id;
         <trim prefix="ORDER BY">
             <if test="orderby =='recent'">adt_id desc</if>
             <if test="orderby =='latest'">adt_id asc</if>
         </trim>
     </select>
+
+    <update id="addGoodCount" parameterType="int">
+        update adopt_reply_board set
+        good_count = good_count+1 where reply_id = #{reply_id};
+    </update>
+
+    <update id="addBadCount" parameterType="int">
+        update adopt_reply_board set
+        bad_count = bad_count+1 where reply_id = #{reply_id};
+    </update>
+
+    <update id="undoGoodCount" parameterType="int">
+        update adopt_reply_board set
+        good_count = good_count-1 where reply_id = #{reply_id}
+    </update>
+
+    <update id="undoBadCount" parameterType="int">
+        update adopt_reply_board set
+        bad_count = bad_count-1 where reply_id = #{reply_id}
+    </update>
 
 <!--    <resultMap id="adoptReplyBoard" type="AdoptReplyBoardVO">-->
 <!--        <id property="reply_id" column="reply_id"/>-->
