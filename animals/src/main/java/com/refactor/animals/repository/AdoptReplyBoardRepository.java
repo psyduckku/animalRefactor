@@ -11,5 +11,9 @@ public interface AdoptReplyBoardRepository {
     int insertReply(AdoptReplyBoardVO vo);
     List<AdoptReplyBoardVO> getReplyList(ReplyParam param);
     int deleteReply(ReplyParam param);
+    int addGoodCount(int reply_id); //+1
+    int addBadCount(int reply_id);  //+1
+    int undoGoodCount(int reply_id); //-1
+    int undoBadCount(int reply_id); //-1
 
 }

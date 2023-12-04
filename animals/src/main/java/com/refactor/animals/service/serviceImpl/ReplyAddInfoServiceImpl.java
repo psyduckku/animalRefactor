@@ -16,6 +16,9 @@ public class ReplyAddInfoServiceImpl implements ReplyAddInfoService {
 
     @Override
     public int insertReplyAddInfo(ReplyAddInfo replyAddInfo) {
+//        if(replyAddInfo.getTable_name()==null){
+//            replyAddInfo.setTable_name("adopt_board");
+//        }
         return repository.insertReplyAddInfo(replyAddInfo);
     }
 }

@@ -32,4 +32,5 @@ public class AdoptReplyBoardVO {
         this.login_id = login_id;
         this.content = content;
     }
+
 }

@@ -36,6 +36,7 @@ public class AdoptReplyBoardController {
         log.info("vo={}", vo);
         int reply_id = adoptReplyBoardService.insertReply(vo);
         addInfoVO.setReply_id(reply_id);
+        addInfoVO.setTable_name("adopt_board");
         int row = replyAddInfoService.insertReplyAddInfo(addInfoVO);
         if(row<1){
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);

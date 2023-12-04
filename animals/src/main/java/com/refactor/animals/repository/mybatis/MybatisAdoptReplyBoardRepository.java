@@ -28,4 +28,24 @@ public class MybatisAdoptReplyBoardRepository implements AdoptReplyBoardReposito
         return mapper.deleteReply(param);
     }
 
+    @Override
+    public int addGoodCount(int reply_id) {
+        return mapper.addGoodCount(reply_id);
+    }
+
+    @Override
+    public int addBadCount(int reply_id) {
+        return mapper.addBadCount(reply_id);
+    }
+
+    @Override
+    public int undoGoodCount(int reply_id) {
+        return mapper.undoGoodCount(reply_id);
+    }
+
+    @Override
+    public int undoBadCount(int reply_id) {
+        return mapper.undoBadCount(reply_id);
+    }
+
 }

@@ -62,10 +62,11 @@ public class AdoptBoardController {
         AdoptBoardVO board = adoptBoardservice.getBoard(vo);
         List<UploadFileVO> files = uploadFileService.getFiles(vo.getAdt_id());
         param.setAdt_id(param.getAdt_id());
-//        List<AdoptReplyBoardVO> replyList = adoptReplyBoardService.getReplyList(param);
+        List<AdoptReplyBoardVO> replyList = adoptReplyBoardService.getReplyList(param);
         model.addAttribute("board", board);
+        model.addAttribute("replyList", replyList);
         model.addAttribute("files", files);
-//        model.addAttribute("replyList", replyList);
+        log.info("aa");
         return "adoptBoard";
     }
 

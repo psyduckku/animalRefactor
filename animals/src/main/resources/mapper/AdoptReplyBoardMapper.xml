@@ -9,13 +9,14 @@ batis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     </insert>
 
     <select id="getReplyList" parameterType="ReplyParam" resultMap="adoptReplyBoard">
-        select distinct r.reply_id, r.content, r.login_id, r.regdate, good_count, bad_count
-        (i.login_id=#{i.login_id} and i.good_status=1) as 'good_stauts'
-        (i.login_id=#{i.login_id} and i.bad_status=1) as 'bad_status',
-        from adopt_reply_board r
-        left join reply_add_info i
+        select distinct r.reply_id, r.content, r.login_id, r.regdate, r.good_count, r.bad_count,
+        i.table_name, i.report,
+        (i.login_id=#{login_id} and i.good_status=1) as 'good_status',
+        (i.login_id=#{login_id} and i.bad_status=1) as 'bad_status'
+        from adopt_reply_board as r
+        left join reply_add_info as i
         on r.reply_id= i.reply_id
-        where r.adt_id=#{adt_id}
+        where adt_id= #{adt_id}
         group by r.reply_id;
         <trim prefix="ORDER BY">
             <if test="orderby =='recent'">adt_id desc</if>
@@ -64,21 +65,25 @@ batis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     <resultMap id="adoptReplyBoard" type="AdoptReplyBoardVO">
         <id property="reply_id" column="reply_id"/>
         <result property="adt_id" column="adt_id"/>
-        <result property="table_name" column="table_name"/>
         <result property="upper_id" column="upper_id"/>
         <result property="login_id" column="login_id"/>
         <result property="content" column="content"/>
+        <result property="good_count" column="good_count"/>
+        <result property="bad_count" column="bad_count"/>
+        <result property="best_reply" column="best_reply"/>
         <result property="regdate" column="regdate"/>
         <collection property="replyAddInfo" resultMap="replyAddInfo"/>
     </resultMap>
 
     <resultMap id="replyAddInfo" type="ReplyAddInfo">
-        <id property="his_id" column="his_id"/>
+        <id property="info_id" column="info_id"/>
         <result property="reply_id" column="reply_id"/>
+        <result property="login_id" column="login_id"/>
         <result property="table_name" column="table_name"/>
-        <result property="good" column="good"/>
-        <result property="bad" column="bad"/>
+        <result property="good_status" column="good_status"/>
+        <result property="bad_status" column="bad_status"/>
         <result property="report" column="report"/>
+        <result property="regdate" column="regdate"/>
     </resultMap>
 
     <select id="checkEvaluation" parameterType="ReplyParam" resultType="AdoptReplyBoardVO">
