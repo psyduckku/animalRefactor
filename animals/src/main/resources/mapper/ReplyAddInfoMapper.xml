@@ -3,13 +3,20 @@
 <mapper namespace="com.refactor.animals.repository.mybatis.ReplyAddInfoMapper">
 
     <insert id="insertReplyAddInfo" parameterType="ReplyAddInfo" useGeneratedKeys="true" keyProperty="info_id">
-        insert into reply_add_info(reply_id, login_id, table_name, good_status, bad_status, report) values
+        insert into reply_add_info(reply_id, login_id, table_name, good_status) values
         (
-            #{reply_id}, #{login_id}, COALESCE(#{table_name},'adopt_board'), #{good_status}, #{bad_status}, #{report}
+            #{reply_id}, #{login_id}, COALESCE(#{table_name},'adopt_board'), #{good_status}
         )
     </insert>
 
-
+    <select id="getReplyAddInfo" parameterType="ReplyAddInfoParam" resultType="ReplyAddInfo">
+        select info_id, i.reply_id, table_name, good_status, bad_status, report, r.login_id
+        from
+        reply_add_info i
+        left join adopt_reply_board r
+        on i.reply_id = r.reply_id
+        where r.login_id = #{login_id} and r.adt_id = #{adt_id} and i.reply_id = #{reply_id}
+    </select>
 
 
 <!--    <select id="getReplyAddInfo" resultMap="adoptReplyBoard">-->

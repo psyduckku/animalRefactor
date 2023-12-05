@@ -9,15 +9,11 @@ batis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     </insert>
 
     <select id="getReplyList" parameterType="ReplyParam" resultMap="adoptReplyBoard">
-        select distinct r.reply_id, r.content, r.login_id, r.regdate, r.good_count, r.bad_count,
-        i.table_name, i.report,
-        (i.login_id=#{login_id} and i.good_status=1) as 'good_status',
-        (i.login_id=#{login_id} and i.bad_status=1) as 'bad_status'
-        from adopt_reply_board as r
-        left join reply_add_info as i
-        on r.reply_id= i.reply_id
-        where adt_id= #{adt_id}
-        group by r.reply_id;
+        select
+        reply_id, adt_id, upper_id, login_id, content, good_count, bad_count,
+        report_status, regdate, best_reply
+        from adopt_reply_board
+        where adt_id = #{adt_id}
         <trim prefix="ORDER BY">
             <if test="orderby =='recent'">adt_id desc</if>
             <if test="orderby =='latest'">adt_id asc</if>

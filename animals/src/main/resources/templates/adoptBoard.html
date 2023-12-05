@@ -88,15 +88,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 <script type="text/javascript" th:inline="javascript">
 const adt_id = [[${board.adt_id}]];
 let bookmark = [[${board.bookmark}]];
+const login_id = [[${session.login_id}]];
 const overlay = document.getElementById('overlay');
 const option_container = document.getElementById('option_container');
+let reply_id_arr = [];
 
 window.addEventListener('DOMContentLoaded', (e)=>{
-    getList();
+    get_list();
 
 })
 
-async function getList(){
+async function get_list(){
 //get은 어차피 쿼리스트링이니 헤더를 설정할 필요없음
 
     const response = await fetch(`/adoptReplyBoard/${adt_id}`, {
@@ -112,17 +114,40 @@ async function getList(){
                 const tr = document.createElement('tr');
                 const td_content = document.createElement('td');
                 const td_id = document.createElement('td');
-                td_content.innerText=reply.content;
+                td_content.innerHTML=`${reply.content}`;
                 td_id.innerHTML=`${reply.login_id}`;
                 tr.appendChild(td_content);
                 tr.appendChild(td_id);
                 reply_table.appendChild(tr);
-
+                reply_id_arr.push(reply.reply_id);
             })
-
-
-            }
+            await get_list_add_info();
+        }
 }
+
+async function get_list_add_info(){
+    const ReplyAddInfoParam = {
+        adt_id : adt_id,
+        reply_id_arr : reply_id_arr,
+        login_id : login_id
+    }
+    alert(JSON.stringify(ReplyAddInfoParam, null, 2));
+
+    const response = await fetch(`/adoptReplyBoard/getListAddInfo`, {
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(ReplyAddInfoParam),
+    })
+        if(response.ok){
+            const data = await response.json();
+            console.log(data);
+            // 댓글과 값을 매칭시켜야함.
+        }
+}
+
+
 async function del_reply(reply_id){
 
     const data = {reply_id}

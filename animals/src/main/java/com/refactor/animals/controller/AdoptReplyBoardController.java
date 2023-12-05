@@ -1,5 +1,6 @@
 package com.refactor.animals.controller;
 
+import com.refactor.animals.beans.dto.ReplyAddInfoParam;
 import com.refactor.animals.beans.dto.ReplyForm;
 import com.refactor.animals.beans.dto.ReplyParam;
 import com.refactor.animals.beans.entity.AdoptReplyBoardVO;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -39,10 +41,10 @@ public class AdoptReplyBoardController {
         addInfoVO.setTable_name("adopt_board");
         int row = replyAddInfoService.insertReplyAddInfo(addInfoVO);
         if(row<1){
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
         }
         log.info("reply_id={}", reply_id);
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok(row);
     }
 
     @ResponseBody
@@ -53,7 +55,26 @@ public class AdoptReplyBoardController {
         List<AdoptReplyBoardVO> list = adoptReplyBoardService.getReplyList(param);
         log.info("list={}", list);
 
-        return new ResponseEntity(list, HttpStatus.OK);
+        return ResponseEntity.ok(list);
+    }
+
+    @ResponseBody
+    @PostMapping("/getListAddInfo")
+    public ResponseEntity getListAddInfo(@RequestBody ReplyAddInfoParam param){
+        log.info("adt_id={}",param.getAdt_id());
+        log.info("reply_id_arr={}", param.getReply_id_arr());
+        log.info("param.getLogin_id={}", param.getLogin_id());
+        List<ReplyAddInfo> replyAddInfoList = new ArrayList<>();
+        param.getReply_id_arr().forEach(reply_id ->{
+            param.setReply_id(reply_id);
+            ReplyAddInfo info = replyAddInfoService.getReplyAddInfo(param);
+            replyAddInfoList.add(info);
+        });
+        log.info("replyAddInfoList={}",replyAddInfoList);
+        if(replyAddInfoList.isEmpty()){
+            return ResponseEntity.ok(null);
+        }
+        return ResponseEntity.ok(replyAddInfoList);
     }
 
     @ResponseBody

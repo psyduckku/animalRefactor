@@ -1,5 +1,6 @@
 package com.refactor.animals.service.serviceImpl;
 
+import com.refactor.animals.beans.dto.ReplyAddInfoParam;
 import com.refactor.animals.beans.entity.ReplyAddInfo;
 import com.refactor.animals.repository.ReplyAddInfoRepository;
 import com.refactor.animals.service.ReplyAddInfoService;
@@ -20,5 +21,9 @@ public class ReplyAddInfoServiceImpl implements ReplyAddInfoService {
 //            replyAddInfo.setTable_name("adopt_board");
 //        }
         return repository.insertReplyAddInfo(replyAddInfo);
+    }
+    @Override
+    public ReplyAddInfo getReplyAddInfo(ReplyAddInfoParam param) {
+        return repository.getReplyAddInfo(param);
     }
 }

@@ -1,6 +1,9 @@
 package com.refactor.animals.beans.dto;
 
 import lombok.Data;
+import org.w3c.dom.stylesheets.LinkStyle;
+
+import java.util.Map;
 
 @Data
 public class ReplyParam {
@@ -13,7 +16,5 @@ public class ReplyParam {
     private boolean bad;
     private int good_count;
     private int bad_count;
-
-
 
 }
