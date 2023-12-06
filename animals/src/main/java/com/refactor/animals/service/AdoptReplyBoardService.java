@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AdoptReplyBoardService {
 
-    int insertReply(AdoptReplyBoardVO vo);
+    int insertReply(ReplyParam vo);
     List<AdoptReplyBoardVO> getReplyList(ReplyParam param);
     int deleteReply(ReplyParam param);
 

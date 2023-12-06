@@ -5,17 +5,20 @@ import com.refactor.animals.beans.dto.ReplyParam;
 import com.refactor.animals.beans.entity.AdoptReplyBoardVO;
 import com.refactor.animals.repository.AdoptReplyBoardRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class MybatisAdoptReplyBoardRepository implements AdoptReplyBoardRepository {
     private final AdoptReplyBoardMapper mapper;
 
     @Override
-    public int insertReply(AdoptReplyBoardVO vo) {
+    public int insertReply(ReplyParam vo) {
+        log.info("repo insert");
         return mapper.insertReply(vo);
     }
     @Override

@@ -8,7 +8,10 @@ import java.util.List;
 
 @Mapper
 public interface ReplyAddInfoMapper {
-    int insertReplyAddInfo(ReplyAddInfo ReplyAddInfo);
+    int addGood(ReplyAddInfo replyAddInfo);
+    int addBad(ReplyAddInfo replyAddInfo);
+    int minGood(ReplyAddInfo replyAddInfo);
+    int minBad(ReplyAddInfo replyAddInfo);
     ReplyAddInfo getReplyAddInfo(ReplyAddInfoParam param);
 
 }

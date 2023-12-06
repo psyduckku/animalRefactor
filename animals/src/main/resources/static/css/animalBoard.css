@@ -27,3 +27,22 @@
 th, td{
     font-family: 'Noto Sans KR', sans-serif;
 }
+#good_before{
+    width: 27px;
+}
+#bad_before{
+    width: 30px;
+}
+#good_after{
+    width: 18px;
+}
+#bad_after{
+    width: 20px;
+}
+
+.evalu_count{
+    display: inline;
+}
+#headline{
+    margin-bottom : 3px;
+}

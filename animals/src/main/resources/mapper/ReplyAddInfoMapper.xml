@@ -2,10 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.refactor.animals.repository.mybatis.ReplyAddInfoMapper">
 
-    <insert id="insertReplyAddInfo" parameterType="ReplyAddInfo" useGeneratedKeys="true" keyProperty="info_id">
+    <insert id="addGood" parameterType="ReplyAddInfo" useGeneratedKeys="true" keyProperty="info_id">
         insert into reply_add_info(reply_id, login_id, table_name, good_status) values
         (
             #{reply_id}, #{login_id}, COALESCE(#{table_name},'adopt_board'), #{good_status}
+        )
+    </insert>
+
+    <insert id="addBad" parameterType="ReplyAddInfo" useGeneratedKeys="true" keyProperty="info_id">
+        insert into reply_add_info(reply_id, login_id, table_name, bad_status) values
+        (
+        #{reply_id}, #{login_id}, COALESCE(#{table_name},'adopt_board'), #{bad_status}
         )
     </insert>
 
@@ -15,8 +22,10 @@
         reply_add_info i
         left join adopt_reply_board r
         on i.reply_id = r.reply_id
-        where r.login_id = #{login_id} and r.adt_id = #{adt_id} and i.reply_id = #{reply_id}
+        where i.login_id = #{login_id} and r.adt_id = #{adt_id} and i.reply_id = #{reply_id}
     </select>
+
+
 
 
 <!--    <select id="getReplyAddInfo" resultMap="adoptReplyBoard">-->

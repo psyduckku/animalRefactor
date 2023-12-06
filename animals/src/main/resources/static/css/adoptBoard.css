@@ -1,7 +1,9 @@
 @charset "UTF-8";
 *{ margin: 0 auto; padding: 0; box-sizing: border-box;}
 
-
+#container{
+    width: 1200px;
+}
 th, td{
     font-family: 'Noto Sans KR', sans-serif;
 }
@@ -68,7 +70,10 @@ a{
     padding-left: 19px;
 }
 #good_before{
-    width: 23px;
+    width: 32px;
+}
+#bad_before{
+    width: 35px;
 }
 #good_after{
     width: 23px;
@@ -76,8 +81,9 @@ a{
 #bad_after{
     width: 23px;
 }
-#bad_before{
-    width: 23px;
+#reply_table {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 .evalu_count{
     display: inline;

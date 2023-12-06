@@ -9,7 +9,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 </head>
 <body>
 <div id="overlay"></div>
-<div class="container-fluid">
+<div class="container-sm">
 <h1>분양후기 게시판</h1>
     <div id="option_container">
         <div id="option_wrap">
@@ -92,6 +92,7 @@ const login_id = [[${session.login_id}]];
 const overlay = document.getElementById('overlay');
 const option_container = document.getElementById('option_container');
 let reply_id_arr = [];
+let reply_info_arr = [];
 
 window.addEventListener('DOMContentLoaded', (e)=>{
     get_list();
@@ -108,16 +109,20 @@ async function get_list(){
     })
         if(response.ok){
             const data = await response.json();
-
             const reply_table = document.getElementById('reply_table');
-            data.forEach(reply=>{
+            data.forEach((reply,index)=>{
                 const tr = document.createElement('tr');
                 const td_content = document.createElement('td');
                 const td_id = document.createElement('td');
+                const likes = document.createElement('td');
                 td_content.innerHTML=`${reply.content}`;
                 td_id.innerHTML=`${reply.login_id}`;
+                likes.innerHTML=
+                    `<a src="#" onclick="add_good(${index}, ${reply.reply_id})"><img id="good_before" class="heart" src="/img/icon/heart_before.png"></a> <p class="evalu_count" th:text="${reply.good_count}"></a>${reply.good_count}
+                <a src="#" onclick="add_bad(${index}, ${reply.reply_id})"><img id="bad_before" class="broken_heart" src="/img/icon/brokenheart_before.png"></a> <p class="evalu_count" th:text="${reply.bad_count}"></a>${reply.bad_count}`;
                 tr.appendChild(td_content);
                 tr.appendChild(td_id);
+                tr.appendChild(likes)
                 reply_table.appendChild(tr);
                 reply_id_arr.push(reply.reply_id);
             })
@@ -126,25 +131,86 @@ async function get_list(){
 }
 
 async function get_list_add_info(){
-    const ReplyAddInfoParam = {
+    const replyAddInfoParam = {
         adt_id : adt_id,
         reply_id_arr : reply_id_arr,
         login_id : login_id
     }
-    alert(JSON.stringify(ReplyAddInfoParam, null, 2));
+    // alert(JSON.stringify(replyAddInfoParam, null, 2));
 
     const response = await fetch(`/adoptReplyBoard/getListAddInfo`, {
         headers:{
             'Content-Type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify(ReplyAddInfoParam),
+        body: JSON.stringify(replyAddInfoParam),
     })
         if(response.ok){
-            const data = await response.json();
-            console.log(data);
+            reply_info_arr = await response.json();
+            console.log(reply_info_arr);
             // 댓글과 값을 매칭시켜야함.
         }
+}
+async function add_good(index, reply_id){
+    alert(index);
+    if(reply_info_arr[index]){
+        if(reply_info_arr[index].bad_status==1){
+            alert('이미 평가된 댓글입니다.');
+            return;
+        }else if(reply_info_arr[index].good_status==1){
+            alert('좋아요 취소');
+            return;
+        }
+    }
+    const replyAddInfo = {
+        adt_id : adt_id,
+        reply_id : reply_id,
+        login_id : login_id,
+        good_status : 1,
+    };
+    const response = await fetch(`/adoptReplyBoard/addGood`, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        method : 'POST',
+        body: JSON.stringify(replyAddInfo),
+    })
+    if(response.ok){
+        console.log(response);
+        window.location.reload();
+    }
+}
+
+async function add_bad(index, reply_id){
+    if(reply_info_arr[index].good_status==1){
+        alert('평가가 완료된 댓글입니다.');
+        return;
+    }else if(reply_info_arr[index].bad_status==1){
+        alert('싫어요 취소');
+        return;
+    }
+    const replyAddInfo = {
+        adt_id : adt_id,
+        reply_id : reply_id,
+        login_id : login_id,
+        bad_status : 1,
+    };
+
+    const response = await fetch('adoptReplyBoard/addBad', {
+        headers:{
+            'Content-Type' : 'application/json',
+        },
+        body : JSON.stringify(replyAddInfo),
+        method: 'POST',
+    })
+    if(response.ok){
+        console.log(response);
+        window.location.reload();
+    }
+}
+
+async function min_good(){
+
 }
 
 
@@ -167,63 +233,6 @@ async function del_reply(reply_id){
         console.error(error);
     }
 
-}
-async function send_good(reply_id, good_status, bad_status){
-    alert(`reply_id : ${reply_id} / good_status : ${good_status} / bad_status: ${bad_status}`);
-    if(bad_status==true){
-        alert('이미 평가가 완료된 댓글입니다.');
-        return;
-    }
-
-    try{
-    const adoptReplyBoardVO = {
-        reply_id : reply_id,
-        good : good_status,
-    }
-    const response = await fetch('/adoptReplyBoard/good', {
-        headers: {
-            'Content-Type' : 'application/json',
-        },
-        method : 'POST',
-        body : JSON.stringify(adoptReplyBoardVO),
-    })
-        if(response.ok){
-            location.reload();
-        }
-    }catch(error){
-        console.error(error);
-    }
-
-}
-
-async function send_bad(reply_id, bad_status, good_status){
-    alert(`reply_id : ${reply_id} / bad_status : ${bad_status} / good_status: ${good_status}`);
-
-    if(good_status==true){
-        alert('이미 평가가 완료된 댓글입니다.');
-        return;
-    }
-
-    const adoptReplyBoardVO = {
-        reply_id : reply_id,
-        bad : bad_status,
-    }
-    try {
-
-
-        const response = await fetch('/adoptReplyBoard/bad', {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify(adoptReplyBoardVO),
-        })
-        if (response.ok) {
-            location.reload();
-        }
-    }catch(error){
-        console.error(error);
-    }
 }
 async function markUp(){
 
@@ -280,19 +289,19 @@ async function send_reply(){
         return;
     }
 
-    const replyForm = {
+    const replyParam = {
+        login_id : login_id,
         adt_id : adt_id,
         upper_id : upper_id,
         content :content,
     }
-
     try{
         const response = await fetch('/adoptReplyBoard/insertReply', {
             headers : {
                 'Content-Type' : 'application/json',
             },
             method : 'POST',
-            body : JSON.stringify(replyForm),
+            body : JSON.stringify(replyParam),
         });
         if(response.ok){
             location.reload();

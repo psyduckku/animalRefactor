@@ -1,5 +1,6 @@
 package com.refactor.animals.repository.mybatis;
 
+import com.refactor.animals.beans.dto.ReplyParam;
 import com.refactor.animals.beans.entity.AnimalReplyBoardVO;
 import com.refactor.animals.repository.AnimalReplyBoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +15,12 @@ public class MybatisAnimalReplyBoardRepository implements AnimalReplyBoardReposi
 
     private final AnimalReplyBoardMapper mapper;
     @Override
-    public List<AnimalReplyBoardVO> boardList(AnimalReplyBoardVO vo) {
-        return mapper.boardList(vo);
+    public List<AnimalReplyBoardVO> getReplyList(AnimalReplyBoardVO vo) {
+        return mapper.getReplyList(vo);
     }
 
     @Override
-    public int insertReply(AnimalReplyBoardVO vo) {
+    public int insertReply(ReplyParam vo) {
         return mapper.insertReply(vo);
     }
 

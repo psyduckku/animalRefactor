@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/template/common/layout/defaultLayout.html}"
+      layout:fragment="content">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/animalBoard.css}">
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<div id="container">
+    <div class="img">
+        <img th:src="${info.IMAGE_COURS }">
+    </div>
+
+    <table class="table table-hover" id="contentTable">
+        <tr>
+            <th>공고고유번호</th>
+            <td colspan="3" th:text="${info.PBLANC_IDNTFY_NO}">공고번호</td>
+        </tr>
+        <tr class="table-default">
+            <th>공고시작일자</th>
+            <td th:text="${info.PBLANC_BEGIN_DE }"></td>
+            <th>공고종료일자</th>
+            <td th:text="${info.PBLANC_END_DE }"></td>
+        </tr>
+        <tr class="table-default">
+            <th>품종</th>
+            <td th:text="${info.SPECIES_NM }"></td>
+            <th>나이/체중</th>
+            <td th:text="|${info.AGE_INFO }/${info.BDWGH_INFO }|"></td>
+        </tr>
+
+        <tr class="table-default">
+            <th>특징</th>
+            <td colspan="3" th:text="${info.SFETR_INFO }"></td>
+        </tr>
+        <tr class="table-default">
+            <th>발견장소</th>
+            <td colspan="3" th:text="${info.DISCVRY_PLC_INFO }"></td>
+        </tr>
+        <tr class="table-default">
+            <th>보호소명</th>
+            <td th:text="${info.SHTER_NM }"></td>
+            <th>보호소 전화번호</th>
+            <td th:text="${info.SHTER_TELNO }"></td>
+        </tr>
+        <tr class="table-default">
+            <th>보호소 주소</th>
+            <td colspan="3" th:text="${info.REFINE_ROADNM_ADDR }"></td>
+        </tr>
+    </table>
+
+    <table class="table table-hover" id="replyList">
+        <tr id="headline"><td>내용</td> <td>아이디 일시</td> <td>좋아요</td></tr>
+    </table>
+
+    <form id="replyForm">
+        <table class="table table-hover"  id="replyInput">
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <label for="reply" class="form-label mt-4">댓글남기기</label>
+                        <input type="hidden" id="aseq" th:value="${info.ASEQ }">
+                        <input type="text" id="reply" class="form-control" name="reply" aria-describedby="emailHelp" placeholder="Enter Reply">
+                        <small id="notice" class="form-text text-muted">댓글입력고고</small>
+                        <button type="button" class="btn btn-primary" id="reply_btn">Submit</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+
+<script type="text/javascript" th:inline="javascript">
+    window.addEventListener('DOMContentLoaded', () =>{
+        getReplyList();
+    });
+    const aseq =[[${info.ASEQ}]];
+async function getReplyList(){
+const aseq = '[[${info.ASEQ}]]';
+    const response = await fetch(`/animalReplyBoard/getReplyList`, {
+        headers : {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body : JSON.stringify(aseq),
+
+    })
+    if(response.ok){
+        const data = await response.json();
+
+        const table = document.getElementById("replyList");
+        data.forEach((reply, index)=>{
+            const tr = document.createElement("tr");
+            const td_content = document.createElement("td");
+            const td_id = document.createElement("td");
+            const td_likes = document.createElement("td");
+            td_content.innerHTML = reply.content;
+            td_id.innerHTML = reply.login_id;
+            td_likes.innerHTML =
+                `<a src="#" onclick="add_good(${index}, ${reply.reply_id})"><img id="good_before" class="heart" src="/img/icon/heart_before.png"></a> <p class="evalu_count" th:text="${reply.good_count}"></a>${reply.good_count}
+                <a src="#" onclick="add_bad(${index}, ${reply.reply_id})"><img id="bad_before" class="broken_heart" src="/img/icon/brokenheart_before.png"></a> <p class="evalu_count" th:text="${reply.bad_count}"></a>${reply.bad_count}`;
+            tr.appendChild(td_content);
+            tr.appendChild(td_id);
+            tr.appendChild(td_likes);
+            table.appendChild(tr);
+
+        });
+
+    }
+}
+async function send_reply(){
+    const param = {
+        aseq : aseq,
+        content : document.getElementById('reply').value,
+    }
+
+    const response = await fetch('/animalReplyBoard/insertReply', {
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(param),
+    })
+        if(response.ok){
+            console.log(await response.text());
+        }
+
+
+
+}
+
+document.getElementById('reply_btn').addEventListener('click', send_reply);
+
+</script>
+
+</html>

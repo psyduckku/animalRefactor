@@ -32,7 +32,9 @@ public class WebConfig implements WebMvcConfigurer {
                         "/animal/api/logout", "/animalBoard/getAsideBoard",
                         "/adoptBoard/bookmarkList",
                         "/email/auth/sendEmail",
-                        "/adoptReplyBoard/good"
+                        "/adoptReplyBoard/good", "/animalReplyBoard/getReplyList",
+                        "/animalReplyBoard/insertReply"
+
 
 
                 );

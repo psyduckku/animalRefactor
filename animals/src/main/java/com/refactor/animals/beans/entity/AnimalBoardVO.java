@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class AnimalBoardVO {
 
 //    @Column(name="aseq")
-    private String ASEQ;
+    private int ASEQ;
 //    @Column(name="sigunCd")
     private String SIGUN_CD; //시군코드
 //    @Column(name="sigunNm")

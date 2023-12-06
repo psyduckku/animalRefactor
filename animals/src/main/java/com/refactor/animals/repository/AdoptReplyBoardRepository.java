@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AdoptReplyBoardRepository {
 
-    int insertReply(AdoptReplyBoardVO vo);
+    int insertReply(ReplyParam vo);
     List<AdoptReplyBoardVO> getReplyList(ReplyParam param);
     int deleteReply(ReplyParam param);
     int addGoodCount(int reply_id); //+1

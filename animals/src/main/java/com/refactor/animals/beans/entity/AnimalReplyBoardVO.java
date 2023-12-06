@@ -5,13 +5,18 @@ import lombok.Data;
 @Data
 public class AnimalReplyBoardVO {
 
-    private int ani_reply_key;
-    private String aseq;
-    private String super_key;
-    private int depth;
+    private int reply_id;
+    private int aseq;
+    private String upper_id;
     private String login_id;
     private String content;
+    private int good_count;
+    private int bad_count;
+    private boolean best_reply;
     private String regdate;
+    private boolean report_status;
+
+    ReplyAddInfo replyAddInfo;
 
 
 

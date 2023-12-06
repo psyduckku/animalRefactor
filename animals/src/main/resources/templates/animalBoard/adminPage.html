@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>openAPI1</title>
+    <link rel="shortcut icon" href="#">
+</head>
+<body>
+<a href="index.jsp">홈으로가기</a>
+<button id="getAnimalDataBtn">데이터 가져오기</button>
+</body>
+<script type="text/javascript">
+
+    var xhr = new XMLHttpRequest();
+    var url = 'http://apis.data.go.kr/1543061/abandonmentPublicSrvc/sido'; /*URL*/
+    var queryParams = '?' + encodeURIComponent('serviceKey') + '='+'서비스키'; /*Service Key*/
+    queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('3'); /**/
+    queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
+    queryParams += '&' + encodeURIComponent('_type') + '=' + encodeURIComponent(' '); /**/
+    xhr.open('GET', url + queryParams);
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            alert('Status: '+this.status+'nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'nBody: '+this.responseText);
+        }
+    };
+
+    xhr.send('');
+
+
+    document.getElementById('getAnimalDataBtn').addEventListener('click', getAnimalsData);
+</script>
+</html>

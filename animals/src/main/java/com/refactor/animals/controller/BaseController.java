@@ -117,5 +117,11 @@ public class BaseController {
         return "findInfo";
     }
 
+    @GetMapping("/updatePage")
+    public String updatePage(){
+
+        return "animalApi";
+    }
+
 
 }

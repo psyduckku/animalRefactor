@@ -11,5 +11,6 @@ public class ReplyAddInfoParam {
 
     private int reply_id;
     private List<Integer> reply_id_arr;
+    private String table_name;
 
 }

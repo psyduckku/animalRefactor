@@ -1,13 +1,11 @@
 package com.refactor.animals.controller;
 
 import com.refactor.animals.beans.dto.ReplyAddInfoParam;
-import com.refactor.animals.beans.dto.ReplyForm;
 import com.refactor.animals.beans.dto.ReplyParam;
 import com.refactor.animals.beans.entity.AdoptReplyBoardVO;
 import com.refactor.animals.beans.entity.ReplyAddInfo;
 import com.refactor.animals.service.AdoptReplyBoardService;
 import com.refactor.animals.service.ReplyAddInfoService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,26 +28,16 @@ public class AdoptReplyBoardController {
 
     @ResponseBody
     @PostMapping("/insertReply")
-    public ResponseEntity insertReply(@RequestBody ReplyForm form, HttpServletRequest request, ReplyAddInfo addInfoVO){
-        log.info("adt_id:form.getAdt_id()={}",form.getAdt_id());
-        HttpSession session = request.getSession(false);
-        String login_id = (String) session.getAttribute("login_id");
-        AdoptReplyBoardVO vo = new AdoptReplyBoardVO(form.getAdt_id(),form.getUpper_id(), login_id, form.getContent());
-        log.info("vo={}", vo);
-        int reply_id = adoptReplyBoardService.insertReply(vo);
-        addInfoVO.setReply_id(reply_id);
-        addInfoVO.setTable_name("adopt_board");
-        int row = replyAddInfoService.insertReplyAddInfo(addInfoVO);
-        if(row<1){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
-        }
-        log.info("reply_id={}", reply_id);
+    public ResponseEntity insertReply(@RequestBody ReplyParam param){
+        log.info("param={}",param);
+        int row = adoptReplyBoardService.insertReply(param);
+
         return ResponseEntity.ok(row);
     }
 
     @ResponseBody
     @GetMapping("/{adt_id}")
-    public ResponseEntity getReplyList2(@PathVariable int adt_id, ReplyParam param){
+    public ResponseEntity getReplyList(@PathVariable int adt_id, ReplyParam param){
 
         param.setAdt_id(adt_id);
         List<AdoptReplyBoardVO> list = adoptReplyBoardService.getReplyList(param);
@@ -78,20 +66,32 @@ public class AdoptReplyBoardController {
     }
 
     @ResponseBody
-    @PostMapping("/good")
-    public ResponseEntity good(@RequestBody ReplyParam param){
+    @PostMapping("/addGood")
+    public ResponseEntity addGood(@RequestBody ReplyAddInfo replyAddInfo){
+        log.info("reply_id={}",replyAddInfo.getReply_id());
+        log.info(replyAddInfo.getLogin_id());
+        log.info("replyAddInfo.getAdt_id()={}",replyAddInfo.getAdt_id());
+        log.info("replyAddInfo.getGood_status()={}",replyAddInfo.getGood_status());
+        int row = replyAddInfoService.addGood(replyAddInfo);
+        int row2 = adoptReplyBoardService.addGoodCount(replyAddInfo.getReply_id());
 
-
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok(row);
     }
 
     @ResponseBody
-    @PostMapping("/bad")
-    public ResponseEntity bad(@RequestBody ReplyParam param){
+    @PostMapping("/addBad")
+    public ResponseEntity bad(@RequestBody ReplyAddInfo replyAddInfo){
 
 
 
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok("row");
+    }
+
+    @ResponseBody
+    @GetMapping("minGood")
+    public ResponseEntity minGood(){
+
+        return ResponseEntity.ok("row");
     }
 
     @ResponseBody
@@ -100,9 +100,9 @@ public class AdoptReplyBoardController {
 
         int row = adoptReplyBoardService.deleteReply(param);
         if(row<1){
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok("ok");
     }
 
 

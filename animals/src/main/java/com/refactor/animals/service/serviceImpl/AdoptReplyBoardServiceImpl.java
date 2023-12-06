@@ -19,7 +19,8 @@ public class AdoptReplyBoardServiceImpl implements AdoptReplyBoardService {
     private final AdoptReplyBoardRepository repository;
 
     @Override
-    public int insertReply(AdoptReplyBoardVO vo) {
+    public int insertReply(ReplyParam vo) {
+        log.info("insertReplyImpl");
         return repository.insertReply(vo);
     }
     @Override

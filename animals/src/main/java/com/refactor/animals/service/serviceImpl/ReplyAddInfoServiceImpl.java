@@ -14,14 +14,26 @@ import org.springframework.stereotype.Service;
 public class ReplyAddInfoServiceImpl implements ReplyAddInfoService {
 
     private final ReplyAddInfoRepository repository;
+    @Override
+    public int addGood(ReplyAddInfo replyAddInfo) {
+        return repository.addGood(replyAddInfo);
+    }
 
     @Override
-    public int insertReplyAddInfo(ReplyAddInfo replyAddInfo) {
-//        if(replyAddInfo.getTable_name()==null){
-//            replyAddInfo.setTable_name("adopt_board");
-//        }
-        return repository.insertReplyAddInfo(replyAddInfo);
+    public int addBad(ReplyAddInfo replyAddInfo) {
+        return repository.addBad(replyAddInfo);
     }
+
+    @Override
+    public int minGood(ReplyAddInfo replyAddInfo) {
+        return repository.minGood(replyAddInfo);
+    }
+
+    @Override
+    public int minBad(ReplyAddInfo replyAddInfo) {
+        return repository.minBad(replyAddInfo);
+    }
+
     @Override
     public ReplyAddInfo getReplyAddInfo(ReplyAddInfoParam param) {
         return repository.getReplyAddInfo(param);

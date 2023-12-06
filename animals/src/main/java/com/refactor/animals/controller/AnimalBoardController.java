@@ -70,14 +70,14 @@ public class AnimalBoardController {
         log.info("pagingResponse={}",pagingResponse);
         model.addAttribute("response", pagingResponse);
 
-        return "animalBoardList";
+        return "/animalBoard/animalBoardList";
     }
 
     @GetMapping("/animalBoard")
     public String animalBoard(AnimalBoardVO vo, Model model){
         AnimalBoardVO info = animalBoardService.getAnimal(vo);
         model.addAttribute("info", info);
-        return "animalBoard";
+        return "/animalBoard/animalBoard";
     }
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

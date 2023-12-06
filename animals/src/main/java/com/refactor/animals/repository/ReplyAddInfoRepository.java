@@ -6,6 +6,9 @@ import com.refactor.animals.beans.entity.ReplyAddInfo;
 import java.util.List;
 
 public interface ReplyAddInfoRepository {
-    int insertReplyAddInfo(ReplyAddInfo ReplyAddInfo);
+    int addGood(ReplyAddInfo replyAddInfo);
+    int addBad(ReplyAddInfo replyAddInfo);
+    int minGood(ReplyAddInfo replyAddInfo);
+    int minBad(ReplyAddInfo replyAddInfo);
     ReplyAddInfo getReplyAddInfo(ReplyAddInfoParam param);
 }

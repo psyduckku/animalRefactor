@@ -13,8 +13,23 @@ import java.util.List;
 public class MybatisReplyAddInfoRepository implements ReplyAddInfoRepository {
     private final ReplyAddInfoMapper mapper;
     @Override
-    public int insertReplyAddInfo(ReplyAddInfo replyAddInfo) {
-        return mapper.insertReplyAddInfo(replyAddInfo);
+    public int addGood(ReplyAddInfo replyAddInfo) {
+        return mapper.addGood(replyAddInfo);
+    }
+
+    @Override
+    public int addBad(ReplyAddInfo replyAddInfo) {
+        return mapper.addBad(replyAddInfo);
+    }
+
+    @Override
+    public int minGood(ReplyAddInfo replyAddInfo) {
+        return mapper.minGood(replyAddInfo);
+    }
+
+    @Override
+    public int minBad(ReplyAddInfo replyAddInfo) {
+        return mapper.minBad(replyAddInfo);
     }
 
     @Override

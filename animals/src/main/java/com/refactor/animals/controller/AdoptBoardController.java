@@ -10,7 +10,6 @@ import com.refactor.animals.service.AdoptReplyBoardService;
 import com.refactor.animals.service.UploadFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.MethodParameter;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriUtils;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -54,7 +52,7 @@ public class AdoptBoardController {
         PagingResponse<AdoptBoardVO> pagingResponse = adoptBoardservice.boardList(searchDto);
 
         model.addAttribute("response", pagingResponse);
-        return "adoptBoardList";
+        return "/adoptBoard/adoptBoardList";
     }
 
     @GetMapping("/{adt_id}")
@@ -67,13 +65,13 @@ public class AdoptBoardController {
         model.addAttribute("replyList", replyList);
         model.addAttribute("files", files);
         log.info("aa");
-        return "adoptBoard";
+        return "/adoptBoard/adoptBoard";
     }
 
     @GetMapping("/add") //게시물 쓰기폼
     public String add(@ModelAttribute AdoptBoardForm form, Model model) {
         model.addAttribute("adoptBoardForm", form);
-        return "adoptBoardForm";
+        return "/adoptBoard/adoptBoardForm";
     }
 
     @ResponseBody
@@ -161,7 +159,7 @@ public class AdoptBoardController {
         model.addAttribute("board", board);
 
 
-        return "adoptBoardUpdateForm";
+        return "/adoptBoard/adoptBoardUpdateForm";
     }
 
     @ResponseBody

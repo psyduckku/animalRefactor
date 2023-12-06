@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ReplyAddInfo {
+
+    private int adt_id;
+    private int aseq;
     private int info_id;
     private int reply_id;//
     private String table_name;//

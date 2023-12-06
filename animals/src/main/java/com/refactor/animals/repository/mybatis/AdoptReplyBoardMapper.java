@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface AdoptReplyBoardMapper {
 
-    int insertReply(AdoptReplyBoardVO vo);
+    int insertReply(ReplyParam vo);
     List<AdoptReplyBoardVO> getReplyList(ReplyParam param);
     AdoptReplyBoardVO checkEvaluation(ReplyParam param);
     int deleteReply(ReplyParam param);
