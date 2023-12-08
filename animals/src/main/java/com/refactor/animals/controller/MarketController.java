@@ -7,17 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/marketBoard")
+public class MarketController {
 
     @GetMapping("/index")
     public String index(){
 
-        return "/bootstrap_admin/index";
-    }
-
-    @GetMapping("/sideMenu")
-    public String sideMenu(){
-        return "sideMenu";
+        return "/marketBoard/index";
     }
 }

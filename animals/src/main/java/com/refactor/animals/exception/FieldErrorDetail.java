@@ -17,16 +17,10 @@ public class FieldErrorDetail {
     private String message;
 
     @Builder
-    public static FieldErrorDetail create(FieldError fieldError, MessageSource messageSource,
-                            Locale locale){
+    public static FieldErrorDetail create(FieldError fieldError, MessageSource messageSource, Locale locale){
         return new FieldErrorDetail(
-                fieldError.getObjectName(),
-                fieldError.getField(),
-                fieldError.getCode(),
-                messageSource.getMessage(fieldError,locale)
-        );
-
-
+                fieldError.getObjectName(), fieldError.getField(),
+                fieldError.getCode(), messageSource.getMessage(fieldError,locale));
     }
 
 

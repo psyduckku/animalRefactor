@@ -13,8 +13,7 @@ import org.springframework.validation.Validator;
 public class JoinDTOValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
-//        log.info("clazz={}", clazz);
-        return JoinForm.class.isAssignableFrom(clazz); //parameter로 넘어오는 클래스가 지원이 되냐.(자식클래스도 지원)
+        return JoinForm.class.isAssignableFrom(clazz);
     }
 
     @Override

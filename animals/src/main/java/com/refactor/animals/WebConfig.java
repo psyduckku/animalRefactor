@@ -35,8 +35,6 @@ public class WebConfig implements WebMvcConfigurer {
                         "/adoptReplyBoard/good", "/animalReplyBoard/getReplyList",
                         "/animalReplyBoard/insertReply"
 
-
-
                 );
     }
 

@@ -26,7 +26,6 @@ public class ExceptionAdvice {
     @Qualifier("errorMessageSource")
     private final MessageSource messageSource;
 
-
     @ExceptionHandler(BindException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ValidationResult handleBindExcpetion(BindException bindException, Locale locale){

@@ -20,7 +20,7 @@ public class ErrorResult {
         this.fieldErrorDetails = errors.getFieldErrors()
                 .stream()
                 .map(error ->
-                        FieldErrorDetail.builder()
+                        FieldErrorDetail.builder() // d
                                 .fieldError(error)
                                 .messageSource(messageSource)
                                 .locale(locale)
