@@ -129,12 +129,12 @@
             let main_con_content = document.getElementById(`main_con_content${i}`)
             let title_p = document.createElement('p');
             let content_p = document.createElement('p');
-            let adt_id = bookmark.thumbnailList[i]?.adt_id ?? 'x'; //애초에 thumnailList[0]이 null이기 때문에 그부분에 ?.를 넣어줬어야했음
+            let adt_id = bookmark.thumbnailList[i]?.adt_id ?? 'x';
             if(adt_id!=='x'){
               document.getElementById(`a_main${i}`).href=`/adoptBoard/${bookmark.thumbnailList[i].adt_id}`;
               main_pic_div.src= `/adoptBoard/images/${bookmark.thumbnailList[i].store_file_name}`;
               title_p.innerText = bookmark.boardList[i].title;
-              content_p.innerText = bookmark.boardList[i].content;
+              content_p.innerHTML = bookmark.boardList[i].content.replace(/\n/g, '<<br/>');
               main_con_title.appendChild(title_p);
               main_con_content.appendChild(content_p);
             }else{

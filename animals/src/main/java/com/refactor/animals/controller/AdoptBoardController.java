@@ -64,7 +64,6 @@ public class AdoptBoardController {
         model.addAttribute("board", board);
         model.addAttribute("replyList", replyList);
         model.addAttribute("files", files);
-        log.info("aa");
         return "/adoptBoard/adoptBoard";
     }
 

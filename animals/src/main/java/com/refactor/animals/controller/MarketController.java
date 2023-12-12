@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
-@RequestMapping("/marketBoard")
+@RequestMapping("/market")
 public class MarketController {
 
-    @GetMapping("/index")
+    @GetMapping("/")
     public String index(){
 
         return "/marketBoard/index";

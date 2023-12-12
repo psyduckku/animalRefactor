@@ -14,7 +14,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     <div id="option_container">
         <div id="option_wrap">
             <div class="option_bar" id="deleteBtn"><span>삭제하기</span></div>
-<!--            <div class="option_bar" id="updateBtn"> <a th:href="@{|/adoptBoard/updateBoardForm/${board.adt_id}|}"> <span>수정하기</span></a></div>-->
             <div calss="option_bar" id="updateBtn"><span>수정하기</span></div>
         </div>
     </div>
@@ -65,9 +64,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
                 <td class="reply_head" id="head_writer">작성자</td>
                 <td> </td>
             </tr>
-
     </table>
-
 
     <form id="replyForm">
         <table class="table table-hover">
@@ -311,8 +308,6 @@ async function send_reply(){
         console.error(error);
     }
 }
-
-
 
 document.getElementById('option_icon_wrap').addEventListener('click', ()=> {
     option_container.style.display="block";

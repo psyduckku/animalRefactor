@@ -9,7 +9,7 @@ body{
     justify-content: center;  /* 가로방향으로 가운데로 정렬 */
     align-items: center; /* 세로축(방향)에서 가운데로정렬 */
     text-align: center;
-    background-color:#C7EFF6;
+    /*background-color:#C7EFF6;*/
     overflow: hidden;
 }
 li{ list-style: none; }
@@ -23,8 +23,8 @@ li{ list-style: none; }
 				". animal1 rList0 ."
                 ". animal2 rList1 ."
                 ". animal3 rList2 .";
-    grid-template-rows: 1fr 1fr 1fr 1fr; /*수직 행*/
-    grid-template-columns: 200px 600px 400px 200px; /*수평 열*/
+    grid-template-rows: 1fr 1fr 1fr 1fr; /*수직*/
+    grid-template-columns: 200px 600px 400px 200px; /*수평*/
     gap: 10px;
 }
 .info{
@@ -32,15 +32,19 @@ li{ list-style: none; }
 }
 .animal0{
     grid-area: animal0;
+    width: 590px;
 }
 .animal1{
     grid-area: animal1;
+    width: 590px;
 }
 .animal2{
     grid-area: animal2;
+    width: 590px;
 }
 .animal3{
     grid-area: animal3;
+    width: 590px;
 }
 .rList0{
     grid-area: rList0;
@@ -58,12 +62,14 @@ li{ list-style: none; }
 .animal_pic{
     width: 30%;
 }
-.animal_pic img{
-    width: 90%;
-}
 .animal_con{
     width: 70%;
 }
+.animal_pic img{
+    width: 90%;
+    border-radius: 30px;
+}
+
 .animal_con .title_div, .content_div{
     width: 90%;
 }
@@ -76,37 +82,39 @@ li{ list-style: none; }
 .animal_con{
     display: flex;
     flex-direction: column;
+
 }
-.box animal0{
+.box animal0, .box animal1, .box animal2, .box animal3{
     display: flex;
     flex-direction: row;
 }
-.box animal1{
-    display: flex;
-    flex-direction: row;
-}
-.box animal2{
-    display: flex;
-    flex-direction: row;
-}
-.box animal3{
-    display: flex;
-    flex-direction: row;
-}
+
 .title_div{
     height: 20%;
 }
-#main_con0{
+#main_con0, #main_con1, #main_con2, #main_con3{
     display: flex;
     flex-direction: column;
-    padding: 2px;
+    padding: 25px;
+    height: 100%;
+}
+#main_con_title0, #main_con_title1, #main_con_title2, #main_con_title3{
+    height: 20%;
+}
+#main_con_content0, #main_con_content1, #main_con_content2, #main_con_content3{
+    height: 80%;
+    overflow:hidden;
 }
 
 .title_div, .content_div{
     padding: 2px;
 }
+.title_div{
+    height: 20%;
+}
+
 .content_div{
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 .side_wrap{
     display: flex;

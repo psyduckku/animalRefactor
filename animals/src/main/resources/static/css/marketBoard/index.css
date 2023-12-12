@@ -2,59 +2,79 @@
 
 *{ margin: 0 auto; padding: 0; box-sizing: border-box;
 }
+body{
+    height: 100vh;
+}
 a{
-    text-decoration: none;
+    text-decoration: none; /*밑줄*/
+}
+li{
     list-style: none;
-}
-.subNav{
-    height: 60px;
-    color: #444;
-    margin-left: 600px;
-}
-.subNav li{
-    margin-top: 30px;
-}
-.cate_Icon{
-    width: 1000px;
-    height: 173px;
-    margin-left: 200px;
-}
-.sortCate{
     display: inline;
-    padding-top: 5px;
-    margin-left: 700px;
+    margin-left: 15px;
 }
-.cateList{
-    height: 173px;
+#menu_ul{
+    text-align: center;
 }
-.fundList{
-    width: 1019px;
+.top{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; /*수직한줄배치*/
 }
-.group_fundList{
-    width:1019px;
-    overflow: hidden;
+#banner_box{
+    height: 150px;
+    background-color: yellow;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
-.listCard{
-    width: 236px;
-    height: 271px;
-    list-style: none;
-    float: left;
-    background-color: gray;
-    margin-top: 40px;
-    margin-left: 18px;
+#menu_box{
+    height: 30px;
+    margin-right: 80px;
 }
-.thumb_box{
-    width: 236px;
-    height: 134px;
-    float: left;
-    display: block;
+#menu_ul{
+    text-align: right;
 }
-.box_together{
-    width: 236px;
-    height: 139px;
-    float: left;
-    overflow: hidden;
+span{
+
 }
-strong{
-    display: block;
+.parent{
+    height: 100%;
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(25%, auto));
+    grid-template-rows: 1fr 1fr 1fr; /* 수직 */
+    gap: 10px;
 }
+.box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: yellow;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border: 1px solid green;
+}
+.matter_img{
+    height: 60%;
+}
+.matter_content{
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+}
+.title_wrap{
+    width: 100%;
+    text-align: center;
+    height: 30px;
+}
+.matter_info{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+

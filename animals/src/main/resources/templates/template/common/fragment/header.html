@@ -24,17 +24,14 @@
       </div>
       <div th:if="${session.login_id!=null}">
         <ul class="login_bar">
-          <li class="login"><a href="#;" id="logoutBtn"><i class="fa-solid fa-right-to-bracket"></i>로그아웃</a></li>
+          <li class="login"><a href="#;" id="logoutBtn">로그아웃</a></li>
         </ul>
       </div>
       <div th:unless="${session.login_id!=null}">
         <ul class="login_bar">
-          <li class="login"><a href="/base/login"><i class="fa-solid fa-right-to-bracket"></i>로그인</a></li>
+          <li class="login"><a href="/base/login">로그인</a></li>
         </ul>
       </div>
-      <a href="#" class="navbar_toggleBtn">
-        <i class="fa-solid fa-bars"></i>
-      </a>
   </nav>
 </header>
 </div>
