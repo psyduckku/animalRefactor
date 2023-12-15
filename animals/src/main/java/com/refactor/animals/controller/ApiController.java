@@ -58,7 +58,7 @@ public class ApiController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity join(@RequestBody @Validated JoinForm joinForm,
+    public ResponseEntity join(@RequestBody JoinForm joinForm,
                                               BindingResult bindingResult) {
         log.info("joinForm={}", joinForm.toString());
 
