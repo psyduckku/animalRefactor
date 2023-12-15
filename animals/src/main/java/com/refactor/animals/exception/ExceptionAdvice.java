@@ -22,8 +22,6 @@ import java.util.Locale;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class ExceptionAdvice {
-
-    @Qualifier("errorMessageSource")
     private final MessageSource messageSource;
 
     @ExceptionHandler(BindException.class)

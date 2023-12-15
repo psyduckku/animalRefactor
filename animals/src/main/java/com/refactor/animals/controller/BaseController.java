@@ -44,7 +44,6 @@ public class BaseController {
 
         String referer = request.getHeader("Referer");
         log.info("referer={}",referer);
-        log.info("loginForm");
         return "loginForm";
     }
 

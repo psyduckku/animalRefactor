@@ -47,24 +47,4 @@ public class WebConfig implements WebMvcConfigurer {
         return filterRegistrationBean;
     }
 
-//    @Bean //기본 message사용
-//    public MessageSource messageSource(){
-//        ResourceBundleMessageSource  messageSource = new ResourceBundleMessageSource();
-//        messageSource.setBasename("messages");
-////        messageSource.setDefaultLocale(Locale.KOREAN);
-////        messageSource.setBasename("errors");
-//        messageSource.setDefaultEncoding("UTF-8");
-//        return messageSource;
-//    }
-//
-//    @Bean //errors message 사용을 위한 빈등록
-//    public MessageSource errorMessageSource(){
-//        ReloadableResourceBundleMessageSource  messageSource = new ReloadableResourceBundleMessageSource();
-//        messageSource.setBasename("classpath:/errors");
-//        messageSource.setDefaultEncoding("UTF-8");
-//        return messageSource;
-//    }
-
-
-
 }
