@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/template/common/layout/defaultLayout.html}"
+      layout:fragment="content">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/marketBoard/index.css">
@@ -30,7 +33,7 @@
         <div class="matter_content">
             <div class="title_wrap">제품명</div>
             <div class="matter_info">
-                제품정보
+                dasdfasdfsafdsfadfasfdasfasfasfasdfasdf
             </div>
         </div>
     </div>
@@ -39,7 +42,7 @@
         <div class="matter_content">
             <div class="title_wrap">제품명</div>
             <div class="matter_info">
-                제품정보
+                dasdfasdfsafdsfadfasfdasfasfasfasdfasdf
             </div>
         </div>
     </div>
@@ -52,162 +55,17 @@
             </div>
         </div>
     </div>
-    <div class="box display4">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display5">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display3">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display4">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display5">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display3">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display4">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display5">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display3">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display4">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display5">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display3">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display4">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display5">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display3">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display4">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-    <div class="box display5">
-        <div class="matter_img">이미지</div>
-        <div class="matter_content">
-            <div class="title_wrap">제품명</div>
-            <div class="matter_info">
-                제품정보
-            </div>
-        </div>
-    </div>
-
 <!--    <div class="box main">main</div>-->
+    <div class="add_btn_wrap">
+        <img src="/img/icon/add_btn.png" id="add_btn">
+    </div>
 </div>
-
+<script th:inline="javascript">
+document.getElementById('add_btn').addEventListener('click', ()=>{
+    const width='1000';
+    const height='800';
+    window.open('/market/regProduct', '_blank', `width=${width}, height=${height}, 'right='100'`);
+})
+</script>
 </body>
 </html>

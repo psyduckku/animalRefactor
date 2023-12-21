@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/adminBoard/layout/defaultLayout.css">
+    <link rel="stylesheet" href="/css/adminBoard/layout/sideMenu.css">
+    <title>Title</title>
+</head>
+<body>
+<div class="admin_container">
+    <div th:replace="~{/template/common/fragment/admin/sideMenu :: admin_side_menu}"></div>
+    <div id="content" layout:fragment="content"></div>
+</div>
+</body>
+</html>

@@ -31,13 +31,13 @@
   let loginResult=null;
 
   login = () => {
-    const loginData = { // loginId, password 의 속성을 가지고 있는 loginData.자바스크립트 객체
+    const loginData = {
       login_id : document.getElementById('login_id').value,
       password : document.getElementById('password').value
     };
     const config = {
       method: 'POST',
-      body: JSON.stringify(loginData), //js객체를 json 문자열로 직렬화함
+      body: JSON.stringify(loginData),
       headers: {
         'Content-Type' : 'application/json'
       }

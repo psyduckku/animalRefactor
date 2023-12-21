@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/marketBoard/regProduct.css">
+</head>
+<body>
+<div class="container">
+    <div class="title">상품등록</div>
+    <div class="reg_container">
+        <div class="left">
+            <div class="left_wrap">
+                <div class="img_box">
+                    <img src="/img/icon/img_upload_icon.png" id="upload_icon">
+                    <input type="file" id="img_upload" accept="image/*" required multiple style="display: none;">
+                </div>
+            </div>
+            <div class="left_wrap">
+                <div class="img_views">
+
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="right_wrap">
+                <div class="sub_title">소분류</div>
+                <div class="value_box">
+                    <select>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                </div>
+            </div>
+            <div class="right_wrap">
+                <div class="sub_title">소분류</div>
+                <div class="value_box">
+                    <select>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                </div>
+            </div>
+            <div class="right_wrap">
+                <div class="sub_title">상품명</div>
+                <div class="value_box"> <input type="text"></div>
+            </div>
+            <div class="right_wrap">
+                <div class="sub_title">정가</div>
+                <div class="value_box"> <input type="text"></div>
+            </div>
+            <div class="right_wrap">
+                <div class="sub_title">재고</div>
+                <div class="value_box"> <input type="number" value="0" min="1"></div>
+            </div>
+            <div class="right_wrap">
+                <div class="sub_title">노출여부</div>
+                <div class="value_box">
+                    <select id="exposure">
+                        <option value="y">Y</option>
+                        <option value="n">N</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button>등록하기</button>
+</div>
+<script th:inline="javascript">
+    const img_upload = document.getElementById('img_upload');
+    const view_files = [];
+    const img_views_div = document.querySelector('.img_views');
+    function createViews(e, file){
+        const div = document.createElement('div');
+        const img = document.createElement('img');
+        img.setAttribute('src', e.target.result);
+        img.setAttribute('data-file', file.name);
+        div.appendChild(img);
+        return div;
+    }
+    function get_img_files(e){
+        const files = e.currentTarget.files;
+        // console.log(typeof files, files);
+        if(files.length > 6){
+            alert('이미지는 최대 6개까지 등록 가능합니다.');
+            return;
+        }
+
+        // 파일 타입 검사
+        [...files].forEach(f => {
+            if(!f.type.match('image/.*')){
+                alert('이미지 파일만 업로드 가능합니다');
+                return;
+            }
+            if([...files].length < 7){
+                view_files.push(f);
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const preview = createViews(e, f);
+                    img_views_div.appendChild(preview);
+                };
+                reader.readAsDataURL(f);
+            }
+
+        })
+
+
+
+    }
+
+    document.getElementById('upload_icon').addEventListener('click',()=> img_upload.click());
+    img_upload.addEventListener('change', get_img_files);
+</script>
+</body>
+</html>

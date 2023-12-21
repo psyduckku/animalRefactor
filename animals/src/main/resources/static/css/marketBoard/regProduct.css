@@ -1,0 +1,85 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+li{
+    list-style: none;
+
+}
+.container{
+    width: 1000px;
+    text-align: center;
+}
+.reg_container{
+    width: 1000px;
+    position:relative;
+    display:flex;
+    flex-direction: row;
+}
+.left{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: center;
+}
+.right{
+    width: 50%;
+    display:flex;
+    flex-direction: column;
+}
+.title{
+    text-align: center;
+    height: 60px;
+}
+.img_box{
+    height: 250px;
+    width: 100%;
+    display: flex;
+    justify-content:center;
+}
+div{
+    border: 1px solid black;
+    border-spacing: 8px;
+}
+.right_wrap{
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 58px;
+    align-items: center;
+    /*align-content: center;*/
+}
+.left_wrap{
+    width: 100%;
+}
+.sub_title{
+    display:flex;
+    justify-content:center;
+    width: 50%;
+    align-items: center;
+    /*text-align: center;*/
+    height: 100%;
+}
+.value_box{
+    display:flex;
+    justify-content: center;
+    width: 50%;
+    align-items: center;
+    /*text-align:center;*/
+    height: 100%;
+}
+#upload_icon{
+    width:185px;
+}
+.img_views{
+    display: flex;
+    overflow:hidden;
+    flex-wrap: wrap;
+}
+.img_views img{
+    width: 100px;
+    height: 95px;
+}

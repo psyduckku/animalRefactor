@@ -5,7 +5,12 @@ a{
     text-decoration: none;
     list-style: none;
 }
-
+.side_wrap{
+    width: 20vw;
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+}
 #logo_box{
     display: flex;
     flex-direction: row;

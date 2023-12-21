@@ -15,4 +15,10 @@ public class MarketController {
 
         return "/marketBoard/index";
     }
+
+    @GetMapping("/regProduct")
+    public String regProduct(){
+
+        return "/marketBoard/regProduct";
+    }
 }

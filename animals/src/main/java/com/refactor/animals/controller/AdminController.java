@@ -10,10 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @GetMapping("/index")
+//    @GetMapping("/index")
     public String index(){
 
         return "/bootstrap_admin/index";
+    }
+
+    @GetMapping("/index")
+    public String index2(){
+
+        return "/adminBoard/index";
     }
 
     @GetMapping("/sideMenu")
