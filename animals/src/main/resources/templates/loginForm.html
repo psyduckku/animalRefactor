@@ -29,11 +29,12 @@
 </div>
 <script th:inline="javascript">
   let loginResult=null;
+  const password = document.getElementById('password');
 
   login = () => {
     const loginData = {
       login_id : document.getElementById('login_id').value,
-      password : document.getElementById('password').value
+      password : password.value
     };
     const config = {
       method: 'POST',
@@ -63,6 +64,11 @@
   }
 
   document.getElementById('login_btn').addEventListener('click', login);
+  password.addEventListener('keypress', (e)=>{
+      if(e.key==='Enter'){
+          login();
+      }
+  });
 
   const welcome = /*[[${param.welcome}]]*/ '';
   if(welcome){

@@ -22,59 +22,151 @@
 
                 </div>
             </div>
+            <div class="left_wrap">
+                <div class="t_con_box"> <!-- 썸넬 이미지는 첫번째 이미지로등록, 판매등록시 썸넬이미지 변경가능-->
+                    <div class="t_con_title">썸네일 내용</div>
+                    <div class="t_text_area">
+                        <textarea id="thumbnail_content" placeholder="판매 썸네일 기본 설명 문구로 사용됩니다."></textarea>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="right">
             <div class="right_wrap">
-                <div class="sub_title">소분류</div>
+                <div class="sub_title">대분류</div> <!-- 카테고리 검색을 통해 선택하도록 함-->
                 <div class="value_box">
-                    <select>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
+                    <select id="major_cate">
                     </select>
                 </div>
             </div>
             <div class="right_wrap">
                 <div class="sub_title">소분류</div>
                 <div class="value_box">
-                    <select>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
+                    <select id="sub_cate">
                     </select>
                 </div>
             </div>
             <div class="right_wrap">
                 <div class="sub_title">상품명</div>
-                <div class="value_box"> <input type="text"></div>
+                <div class="value_box"> <input type="text" id="title"></div>
+            </div>
+            <div class="right_wrap textarea">
+                <div class="sub_title" id="sub_title_column">내용</div>
+                <div class="value_box" id="value_box_column"> <textarea wrap="hard" placeholder="상품 기본설명입력" id="content"></textarea></div>
             </div>
             <div class="right_wrap">
-                <div class="sub_title">정가</div>
-                <div class="value_box"> <input type="text"></div>
+                <div class="sub_title">가격</div>
+                <div class="value_box"> <input type="text" id="price" pattern="^[0-9]+$" title="숫자만 입력하세요" required></div>
             </div>
             <div class="right_wrap">
                 <div class="sub_title">재고</div>
-                <div class="value_box"> <input type="number" value="0" min="1"></div>
+                <div class="value_box"> <input type="number" value="0" min="1" id="stock"></div>
             </div>
             <div class="right_wrap">
-                <div class="sub_title">노출여부</div>
+                <div class="sub_title">상태</div>
                 <div class="value_box">
-                    <select id="exposure">
-                        <option value="y">Y</option>
-                        <option value="n">N</option>
+                    <select id="status">
+                        <option value="1">판매</option>
+                        <option value="0">중지</option>
                     </select>
                 </div>
             </div>
         </div>
     </div>
-    <button>등록하기</button>
+    <button id="reg_btn">등록하기</button>
 </div>
 <script th:inline="javascript">
     const img_upload = document.getElementById('img_upload');
     const view_files = [];
     const img_views_div = document.querySelector('.img_views');
+    let cate = null;
+    const major_cate = document.getElementById('major_cate');
+    const sub_cate = document.getElementById('sub_cate');
+
+    window.addEventListener('DOMContentLoaded', () => {
+        get_category();
+    })
+
+    async function reg_product(){
+
+        const product = {
+            title : document.getElementById('title').value,
+            content : document.getElementById('content').value,
+            price : document.getElementById('price').value,
+            stock : document.getElementById('stock').value,
+            status : document.getElementById('status').value,
+            thumbnail_content : document.getElementById('thumbnail_content').value,
+            major_cate : major_cate.dataset.id,
+            sub_cate: sub_cate.dataset.id,
+        }
+        console.log(JSON.stringify(product, 2, null));
+        // const title = document.getElementById('title').value;
+        // const content = document.getElementById('content').value;
+        // const price = document.getElementById('price').value;
+        // const stock = document.getElementById('stock').value;
+        // const status = document.getElementById('status').value;
+        // const thumbnail_content = document.getElementById('thumbnail_content').value;
+        // const category_id = document.getElementById('category_id');
+
+
+
+        //이미지 추가 필요
+    }
+
+
+    document.getElementById('reg_btn').addEventListener('click', reg_product);
+
+    async function get_category(){
+        const resp = await fetch('/market/getCateList',{
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+        });
+        if(resp.ok){
+            cate = await resp.json();
+            for(i=0; i<4;i++){
+                const option = document.createElement('option');
+                option.text= cate[i].code_name;
+                option.value = cate[i].code;
+                option.setAttribute('data-id', cate[i].category_id);
+                major_cate.appendChild(option);
+                if(i==0){
+                    cate[0].children.forEach((m)=>{
+                        const option = document.createElement('option');
+                        option.text = m.code_name;
+                        option.value = m.code;
+                        sub_cate.appendChild(option);
+                    })
+                }
+            }
+        }
+    }
+    async function get_sub_cate(e){
+        const category = e.target.value;
+        const resp = await fetch(`/market/getSubCategory/${category}`, {
+            method : 'GET',
+        })
+        if(resp.ok){
+            sub_cate.innerHTML = '';
+            const data = await resp.json();
+            if(data.length==0){
+                const option = document.createElement('option');
+                option.text='하위카테고리없음';
+                option.value='x';
+                sub_cate.appendChild(option);
+            }else{
+                data.forEach((c)=>{
+                    const option = document.createElement('option');
+                    option.text = c.code_name;
+                    option.value = c.code;
+                    option.setAttribute('data-id', c.category_id);
+                    sub_cate.appendChild(option);
+                })
+            }
+        }
+
+    }
+
     function createViews(e, file){
         const div = document.createElement('div');
         const img = document.createElement('img');
@@ -86,8 +178,8 @@
     function get_img_files(e){
         const files = e.currentTarget.files;
         // console.log(typeof files, files);
-        if(files.length > 6){
-            alert('이미지는 최대 6개까지 등록 가능합니다.');
+        if(files.length > 5){
+            alert('이미지는 최대 5개까지 등록 가능합니다.');
             return;
         }
 
@@ -97,7 +189,7 @@
                 alert('이미지 파일만 업로드 가능합니다');
                 return;
             }
-            if([...files].length < 7){
+            if([...files].length < 6){
                 view_files.push(f);
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -106,13 +198,10 @@
                 };
                 reader.readAsDataURL(f);
             }
-
         })
-
-
-
     }
 
+    major_cate.addEventListener('change', get_sub_cate);
     document.getElementById('upload_icon').addEventListener('click',()=> img_upload.click());
     img_upload.addEventListener('change', get_img_files);
 </script>

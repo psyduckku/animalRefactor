@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.refactor.animals.repository.mybatis.MarketMapper">
+
+    <resultMap id="categoryHierarchyMap" type="Category">
+        <id column="l_category_id" property="category_id" javaType="int"/>
+        <result column="l_code" property="code" javaType="string"/>
+        <result column="l_code_name" property="code_name" javaType="string"/>
+        <result column="l_up_code" property="up_code" javaType="string"/>
+        <collection property="children" ofType="Category">
+            <id column="m_category_id" property="category_id" javaType="int"/>
+            <result column="m_code" property="code" javaType="string"/>
+            <result column="m_code_name" property="code_name" javaType="string"/>
+            <result column="m_up_code" property="up_code" javaType="string"/>
+            <collection property="children" ofType="Category">
+                <id column="s_category_id" property="category_id" javaType="int"/>
+                <result column="s_code" property="code" javaType="string"/>
+                <result column="s_code_name" property="code_name" javaType="string"/>
+                <result column="s_up_code" property="up_code" javaType="string"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="selectCategoryHierarchy" resultMap="categoryHierarchyMap">
+        select
+        l.category_id l_category_id, l.code l_code, l.code_name l_code_name, l.up_code l_up_code,
+        m.category_id m_category_id, m.code m_code, m.code_name m_code_name, m.up_code m_up_code
+<!--        s.category_id s_category_id, s.code s_code, s.code_name s_code_name, s.up_code s_up_code-->
+        from
+        category l
+        left outer join category m on (l.code = m.up_code)
+<!--        left outer join category s on (m.code = s.up_code)-->
+    </select>
+
+    <select id="getSubCategory" parameterType="String" resultType="Category">
+        SELECT category_id, code, code_name FROM category WHERE up_code = #{up_code};
+    </select>
+
+    <insert id="reg_product" parameterType="ProductVO">
+        INSERT INTO product
+        (title, content,price, stock, STATUS,
+        img1, img2, img3, img4, img5, thumbnail_img, thumbnail_content, category_id)
+        VALUES(
+            #{title}, #{content}, #{price}, #{stock}, #{STATUS},
+            #{img1}, #{img2}, #{img3}, #{img4}, #{img5}, #{thumbnail_img},
+            #{thumbnail_content}, #{category_id}
+        )
+    </insert>
+    <update id="mod_product" parameterType="ProductVO">
+        UPDATE product set #{title}, #{content}, #{price}, #{stock}, #{STATUS},
+        #{img1}, #{img2}, #{img3}, #{img4}, #{img5}, #{thumbnail_img},
+        #{thumbnail_content}, #{category_id}
+        where product_id = #{product_id}
+    </update>
+
+    <delete id="del_product" parameterType="int">
+        delete from product where product_id = #{product_id}
+    </delete>
+
+    <select id="find_product" parameterType="int" resultType="ProductVO">
+        select * from product where product_id = #{product_id}
+    </select>
+
+</mapper>

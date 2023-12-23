@@ -19,7 +19,7 @@
               <li><a th:href="@{/animalBoard/animalBoardList}" th:text="#{nav.animalList}">유기동물명단</a></li>
               <li><a th:href="@{/adoptBoard/adoptBoardList}" th:text="#{nav.freeBoard}">자유게시판</a></li>
               <li><a th:href="@{/market/}">물물거래</a></li>
-              <li th:if="${session.grade=='2'}"><a th:href="@{/admin/index}" th:text="#{nav.adminPage}">관리자페이지</a></li>
+              <li th:if="${session.grade=='2'}"><a th:href="@{/adminBoard/index}" th:text="#{nav.adminPage}">관리자페이지</a></li>
             </ul>
       </div>
       <div th:if="${session.login_id!=null}">

@@ -6,7 +6,7 @@ a{
     list-style: none;
 }
 .side_wrap{
-    width: 20vw;
+    width: 15vw;
     display:flex;
     justify-content: center;
     flex-direction: column;
@@ -14,7 +14,7 @@ a{
 #logo_box{
     display: flex;
     flex-direction: row;
-    width: 20vw;
+    width: 15vw;
     min-width: 150px;
     height: 150px;
 }
@@ -25,7 +25,7 @@ a{
     width: 30%;
 }
 #side_box{
-    width: 20vw;
+    width: 15vw;
     min-width: 150px;
     display:flex;
     flex-direction: row;
@@ -33,7 +33,7 @@ a{
     /*min-width: 15px;*/
 }
 .side_bar{
-    width: 20vw;
+    width: 15vw;
     min-width: 150px;
     cursor:pointer;
     transition: background-color 0.3s;

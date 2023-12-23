@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/template/common/layout/admin/defaultLayout.html}"
+      layout:fragment="content">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/adminBoard/product.css"/>
+    <title>상품관리페이지</title>
+</head>
+<body>
+<div class="container">
+  <div class="left">
+      <div class="top"></div>
+      <div class="mid">
+          <div class="product_list">
+              <table>
+                  <tr>
+                      <td>번호</td>
+                      <td>상품명</td>
+                      <td>가격</td>
+                      <td>재고</td>
+                      <td>상태</td>
+                      <td>판매량</td>
+                  </tr>
+                  <tr>
+                      <td>1</td>
+                      <td>애완견 스카프</td>
+                      <td>12,000</td>
+                      <td>120</td>
+                      <td>판매중</td>
+                      <td>35</td>
+                  </tr>
+              </table>
+          </div>
+      </div>
+      <div class="bottom">
+          <button id="add_product">상품등록</button>
+      </div>
+  </div>
+  <div class="right">
+    <div class="prod_box">
+
+    </div>
+  </div>
+</div>
+<script th:inline="javascript">
+    document.getElementById('add_product').addEventListener('click', ()=>{
+        const width = '1000';
+        const height = '800';
+        const left = '200';
+        window.open('/market/regProduct', '_blank', `width=${width}, height=${height}, left=${left}`);
+    })
+</script>
+</body>
+</html>

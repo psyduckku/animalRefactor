@@ -12,7 +12,7 @@
 <div class="container">
     <div class="top_container">
         <div class="graph_box">
-            그래프 박스
+            <button id="cate_btn">카테고리테스트</button>
         </div>
     </div>
     <div class="bottom_container">
@@ -26,5 +26,21 @@
         </div>
     </div>
 </div>
+<script th:inline="javascript">
+document.querySelector('#cate_btn').addEventListener('click', async () => {
+
+    const resp = await fetch('/market/getCateList', {
+        headers:{
+            'Content-Type' : 'application/json'
+        }
+    });
+        data = await resp.json();
+        if(resp.ok){
+            console.log(data);
+        }
+
+
+});
+</script>
 </body>
 </html>
