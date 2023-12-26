@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+
+>
+<head>
+    <meta charset="UTF-8">
+    <title>상품</title>
+</head>
+<body>
+<div class="container">
+  <div class="title">상품등록</div>
+
+  <form enctype="multipart/form-data" id="form">
+    <div class="reg_container">
+      <div class="left">
+        <div class="left_wrap">
+          <div class="img_box">
+
+            <img src="/img/icon/img_upload_icon.png" id="upload_icon">
+            <input type="file" id="upload_file" multiple="multiple" style="display: none;">
+          </div>
+        </div>
+        <div class="left_wrap">
+          <div class="img_views">
+
+          </div>
+        </div>
+        <div class="left_wrap">
+          <div class="t_con_box"> <!-- 썸넬 이미지는 첫번째 이미지로등록, 판매등록시 썸넬이미지 변경가능-->
+            <div class="t_con_title">썸네일 내용</div>
+            <div class="t_text_area">
+              <textarea id="thumbnail_content" placeholder="판매 썸네일 기본 설명 문구로 사용됩니다."></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="right_wrap">
+          <div class="sub_title">대분류</div> <!-- 카테고리 검색을 통해 선택하도록 함-->
+          <div class="value_box">
+            <select id="major_cate">
+            </select>
+          </div>
+        </div>
+        <div class="right_wrap">
+          <div class="sub_title">소분류</div>
+          <div class="value_box">
+            <select id="sub_cate">
+            </select>
+          </div>
+        </div>
+        <div class="right_wrap">
+          <div class="sub_title">상품명</div>
+          <div class="value_box"> <input type="text" id="title"></div>
+        </div>
+        <div class="right_wrap textarea">
+          <div class="sub_title" id="sub_title_column">내용</div>
+          <div class="value_box" id="value_box_column"> <textarea wrap="hard" placeholder="상품 기본설명입력" id="content"></textarea></div>
+        </div>
+        <div class="right_wrap">
+          <div class="sub_title">가격</div>
+          <div class="value_box"> <input type="number" id="price" value="-1" title="숫자만 입력하세요"></div>
+        </div>
+        <div class="right_wrap">
+          <div class="sub_title">재고</div>
+          <div class="value_box"> <input type="number" value="0" min="1" id="stock"></div>
+        </div>
+        <div class="right_wrap">
+          <div class="sub_title">상태</div>
+          <div class="value_box">
+            <select id="status">
+              <option value="0">중지</option>
+              <option value="1">판매</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <button id="reg_btn">수정</button>
+</div>
+</body>
+</html>

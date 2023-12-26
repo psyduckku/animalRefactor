@@ -5,37 +5,44 @@
       layout:fragment="content">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/adminBoard/product.css"/>
+    <link rel="stylesheet" href="/css/adminBoard/products.css"/>
     <title>상품관리페이지</title>
 </head>
 <body>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 <div class="container">
   <div class="left">
-      <div class="top"></div>
+      <div class="top">
+          <button id="add_product">상품등록</button>
+          <button id="del_product">삭제</button>
+      </div>
       <div class="mid">
           <div class="product_list">
-              <table>
+              <table id="product_table">
                   <tr>
+                      <td class="hiding"></td>
                       <td>번호</td>
                       <td>상품명</td>
                       <td>가격</td>
                       <td>재고</td>
                       <td>상태</td>
-                      <td>판매량</td>
+                      <td>카테고리</td>
+                      <td>썸네일</td>
                   </tr>
-                  <tr>
-                      <td>1</td>
-                      <td>애완견 스카프</td>
-                      <td>12,000</td>
-                      <td>120</td>
-                      <td>판매중</td>
-                      <td>35</td>
-                  </tr>
+
+
+
+
               </table>
           </div>
       </div>
       <div class="bottom">
-          <button id="add_product">상품등록</button>
+          <select>
+              <option>상태</option>
+              <option value="1">판매중</option>
+              <option value="2">중지</option>
+          </select>
+          <input type="search" id="keyword"> <button>검색</button>
       </div>
   </div>
   <div class="right">
@@ -45,12 +52,86 @@
   </div>
 </div>
 <script th:inline="javascript">
+
+    window.addEventListener('DOMContentLoaded', async ()=> {
+
+        const resp = await fetch('/adminBoard/getProductList', {
+            headers : {
+                'Content-Type' : 'application/json',
+            },
+            method: 'GET',
+        })
+        if(resp.ok){
+            const data = await resp.json();
+            const product_table = document.getElementById('product_table');
+            data.forEach((li)=>{
+                const tr = document.createElement('tr');
+                const product_id = document.createElement('td');
+                const title = document.createElement('td');
+                const price = document.createElement('td');
+                const stock = document.createElement('td');
+                const status = document.createElement('td'); //-- product
+                const code_name = document.createElement('td'); //category
+                const img_td = document.createElement('td'); // file_store
+                const img = document.createElement('img');
+                product_id.innerHTML =li.product_id;
+                title.innerHTML = li.title;
+                price.innerHTML = li.price;
+                stock.innerHTML = li.stock;
+                if(li.status===0){
+                    status.innerText ='중지';
+                }else{
+                    status.innerText ='판매중';
+                }
+                code_name.innerHTML = li.code_name;
+                img.src=`/adoptBoard/images/${li.store_file_name}`;
+                img_td.appendChild(img);
+                img_td.id = 'img_td';
+                tr.appendChild(product_id);
+                tr.appendChild(title);
+                tr.appendChild(price);
+                tr.appendChild(stock);
+                tr.appendChild(status);
+                tr.appendChild(code_name);
+                tr.appendChild(img_td);
+
+
+                product_table.appendChild(tr);
+            })
+        }
+    });
+
+    async function del_product(){
+
+        const result = confirm("삭제 이후 복원이 불가능합니다. 삭제하시겠습니까?");
+
+        if(result){
+            const product_ids = $('.checkbox:checked').map(function(){
+                return $(this).val();
+            }).get();
+
+            const resp= await fetch('/adminBoard/delProduct', {
+                headers:{
+                    'Content-Type' : 'application/json',
+                },
+                method: 'POST',
+                body : JSON.stringify(product_ids),
+            })
+            if(resp.ok){
+                location.reload();
+            }
+        }
+    }
+
+
+    document.getElementById('del_product').addEventListener('click', del_product);
     document.getElementById('add_product').addEventListener('click', ()=>{
         const width = '1000';
         const height = '800';
         const left = '200';
         window.open('/market/regProduct', '_blank', `width=${width}, height=${height}, left=${left}`);
     })
+
 </script>
 </body>
 </html>

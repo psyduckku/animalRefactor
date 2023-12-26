@@ -15,15 +15,16 @@ import java.util.List;
 public class MybatisUploadFileRepository implements UploadFileRepository {
 
     private final UploadFileMapper mapper;
+
+
     @Override
     public int insertFiles(List<UploadFileVO> vo) {
-      log.info("insertFileRepo vo={}", vo.toString());
         return mapper.insertFiles(vo);
     }
 
     @Override
-    public List<UploadFileVO> getFiles(int adt_id) {
-        return mapper.getFiles(adt_id);
+    public List<UploadFileVO> getFiles(UploadFileVO vo) {
+        return mapper.getFiles(vo);
     }
 
     @Override
@@ -32,13 +33,12 @@ public class MybatisUploadFileRepository implements UploadFileRepository {
     }
 
     @Override
-    public ThumbnailVO getThumbnail(int adt_id) {
-        return mapper.getThumbnail(adt_id);
+    public ThumbnailVO getThumbnail(UploadFileVO vo) {
+        return mapper.getThumbnail(vo);
     }
 
     @Override
-    public int deleteFile(int adt_id) {
-        return mapper.deleteFile(adt_id);
+    public int deleteFile(UploadFileVO vo) {
+        return mapper.deleteFile(vo);
     }
-
 }

@@ -42,40 +42,45 @@ span{
 .parent{
     /*height: 100%;*/
     display:grid;
-    grid-template-columns: repeat(3, minmax(25%, auto));
+    grid-template-columns: repeat(4, minmax(25%, auto));
     grid-template-rows: repeat(auto-fill, minmax(25%, auto)); /* 수직 */
     grid-auto-flow: row;
-    gap: 30px;
+    /*gap: 15px;*/
 }
 .box{
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: yellow;
+    /*background-color: yellow;*/
     flex-direction: column;
     width: 90%;
-    height: 250px;
-    border: 1px solid green;
+    margin-top: 20px;
+    height: 430px;
+    /*border: 1px solid green;*/
     overflow: hidden;
 }
-.matter_img{
-    height: 60%;
+.thumb_img{
+    height: 70%;
 }
-.matter_content{
-    height: 40%;
+.prod_info{
+    height: 30%;
     display: flex;
     flex-direction: column;
 }
 .title_wrap{
     width: 100%;
     text-align: center;
-    height: 30px;
+    height: 55px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
-.matter_info{
+.content_wrap{
     width: 100%;
     display: flex;
     flex-direction: column;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 .add_btn_wrap{
     position: fixed;
@@ -85,5 +90,10 @@ span{
 #add_btn{
     width: 78px;
     cursor: pointer;
+}
+.thumb_img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 

@@ -1,5 +1,6 @@
 package com.refactor.animals.service.serviceImpl;
 
+import com.refactor.animals.beans.entity.market.AdminProdVoList;
 import com.refactor.animals.beans.entity.market.Category;
 import com.refactor.animals.beans.entity.market.ProductVO;
 import com.refactor.animals.repository.MarketRepository;
@@ -25,23 +26,39 @@ public class MarketServiceImpl implements MarketService {
     }
 
     @Override
-    public int reg_product(ProductVO vo) {
-        return repository.reg_product(vo);
+    public int regProduct(ProductVO vo) {
+        repository.regProduct(vo);
+        return vo.getProduct_id();
     }
 
     @Override
-    public int mod_product(ProductVO vo) {
-        return repository.mod_product(vo);
+    public int modProduct(ProductVO vo) {
+        return repository.modProduct(vo);
     }
 
     @Override
-    public int del_product(int product_id) {
-        return repository.del_product(product_id);
+    public int delProduct(int product_id) {
+        return repository.delProduct(product_id);
     }
 
     @Override
-    public ProductVO find_product(int product_id) {
-        return repository.find_product(product_id);
+    public ProductVO findProduct(int product_id) {
+        return repository.findProduct(product_id);
+    }
+
+    @Override
+    public List<ProductVO> getProductList() {
+        return repository.getProductList();
+    }
+
+    @Override
+    public List<AdminProdVoList> getAdminProdList(AdminProdVoList vo) {
+        return repository.getAdminProdList(vo);
+    }
+
+    @Override
+    public List<AdminProdVoList> getMainProductList(AdminProdVoList vo) {
+        return repository.getMainProductList(vo);
     }
 
 

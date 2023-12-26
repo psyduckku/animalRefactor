@@ -1,5 +1,6 @@
 package com.refactor.animals.repository.mybatis;
 
+import com.refactor.animals.beans.entity.market.AdminProdVoList;
 import com.refactor.animals.beans.entity.market.Category;
 import com.refactor.animals.beans.entity.market.ProductVO;
 import com.refactor.animals.repository.MarketRepository;
@@ -25,22 +26,39 @@ public class MybatisMarketRepository implements MarketRepository {
     }
 
     @Override
-    public int reg_product(ProductVO vo) {
-        return marketMapper.reg_product(vo);
+    public int regProduct(ProductVO vo) {
+        return marketMapper.regProduct(vo);
     }
 
     @Override
-    public int mod_product(ProductVO vo) {
-        return marketMapper.mod_product(vo);
+    public int modProduct(ProductVO vo) {
+        return marketMapper.modProduct(vo);
     }
 
     @Override
-    public int del_product(int product_id) {
-        return marketMapper.del_product(product_id);
+    public int delProduct(int product_id) {
+        return marketMapper.delProduct(product_id);
     }
 
     @Override
-    public ProductVO find_product(int product_id) {
-        return marketMapper.find_product(product_id);
+    public ProductVO findProduct(int product_id) {
+        return marketMapper.findProduct(product_id);
     }
+
+    @Override
+    public List<ProductVO> getProductList() {
+        return marketMapper.getProductList();
+    }
+
+    @Override
+    public List<AdminProdVoList> getAdminProdList(AdminProdVoList vo) {
+        return marketMapper.getAdminProdList(vo);
+    }
+
+    @Override
+    public List<AdminProdVoList> getMainProductList(AdminProdVoList vo) {
+        return marketMapper.getMainProductList(vo);
+    }
+
+
 }

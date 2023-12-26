@@ -3,120 +3,163 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>상품등록</title>
     <link rel="stylesheet" href="/css/marketBoard/regProduct.css">
 </head>
 <body>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 <div class="container">
     <div class="title">상품등록</div>
-    <div class="reg_container">
-        <div class="left">
-            <div class="left_wrap">
-                <div class="img_box">
-                    <img src="/img/icon/img_upload_icon.png" id="upload_icon">
-                    <input type="file" id="img_upload" accept="image/*" required multiple style="display: none;">
-                </div>
-            </div>
-            <div class="left_wrap">
-                <div class="img_views">
 
+    <form enctype="multipart/form-data" id="form">
+    <div class="reg_container">
+            <div class="left">
+                <div class="left_wrap">
+                    <div class="img_box">
+
+                        <img src="/img/icon/img_upload_icon.png" id="upload_icon">
+                            <input type="file" id="upload_file" multiple="multiple" style="display: none;">
+                    </div>
                 </div>
-            </div>
-            <div class="left_wrap">
-                <div class="t_con_box"> <!-- 썸넬 이미지는 첫번째 이미지로등록, 판매등록시 썸넬이미지 변경가능-->
-                    <div class="t_con_title">썸네일 내용</div>
-                    <div class="t_text_area">
-                        <textarea id="thumbnail_content" placeholder="판매 썸네일 기본 설명 문구로 사용됩니다."></textarea>
+                <div class="left_wrap">
+                    <div class="img_views">
+
+                    </div>
+                </div>
+                <div class="left_wrap">
+                    <div class="t_con_box"> <!-- 썸넬 이미지는 첫번째 이미지로등록, 판매등록시 썸넬이미지 변경가능-->
+                        <div class="t_con_title">썸네일 내용</div>
+                        <div class="t_text_area">
+                            <textarea id="thumbnail_content" placeholder="판매 썸네일 기본 설명 문구로 사용됩니다."></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="right">
-            <div class="right_wrap">
-                <div class="sub_title">대분류</div> <!-- 카테고리 검색을 통해 선택하도록 함-->
-                <div class="value_box">
-                    <select id="major_cate">
-                    </select>
+            <div class="right">
+                <div class="right_wrap">
+                    <div class="sub_title">대분류</div> <!-- 카테고리 검색을 통해 선택하도록 함-->
+                    <div class="value_box">
+                        <select id="major_cate">
+                        </select>
+                    </div>
+                </div>
+                <div class="right_wrap">
+                    <div class="sub_title">소분류</div>
+                    <div class="value_box">
+                        <select id="sub_cate">
+                        </select>
+                    </div>
+                </div>
+                <div class="right_wrap">
+                    <div class="sub_title">상품명</div>
+                    <div class="value_box"> <input type="text" id="title"></div>
+                </div>
+                <div class="right_wrap textarea">
+                    <div class="sub_title" id="sub_title_column">내용</div>
+                    <div class="value_box" id="value_box_column"> <textarea wrap="hard" placeholder="상품 기본설명입력" id="content"></textarea></div>
+                </div>
+                <div class="right_wrap">
+                    <div class="sub_title">가격</div>
+                    <div class="value_box"> <input type="number" id="price" value="-1" title="숫자만 입력하세요"></div>
+                </div>
+                <div class="right_wrap">
+                    <div class="sub_title">재고</div>
+                    <div class="value_box"> <input type="number" value="0" min="1" id="stock"></div>
+                </div>
+                <div class="right_wrap">
+                    <div class="sub_title">상태</div>
+                    <div class="value_box">
+                        <select id="status">
+                            <option value="0">중지</option>
+                            <option value="1">판매</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="right_wrap">
-                <div class="sub_title">소분류</div>
-                <div class="value_box">
-                    <select id="sub_cate">
-                    </select>
-                </div>
-            </div>
-            <div class="right_wrap">
-                <div class="sub_title">상품명</div>
-                <div class="value_box"> <input type="text" id="title"></div>
-            </div>
-            <div class="right_wrap textarea">
-                <div class="sub_title" id="sub_title_column">내용</div>
-                <div class="value_box" id="value_box_column"> <textarea wrap="hard" placeholder="상품 기본설명입력" id="content"></textarea></div>
-            </div>
-            <div class="right_wrap">
-                <div class="sub_title">가격</div>
-                <div class="value_box"> <input type="text" id="price" pattern="^[0-9]+$" title="숫자만 입력하세요" required></div>
-            </div>
-            <div class="right_wrap">
-                <div class="sub_title">재고</div>
-                <div class="value_box"> <input type="number" value="0" min="1" id="stock"></div>
-            </div>
-            <div class="right_wrap">
-                <div class="sub_title">상태</div>
-                <div class="value_box">
-                    <select id="status">
-                        <option value="1">판매</option>
-                        <option value="0">중지</option>
-                    </select>
-                </div>
-            </div>
-        </div>
     </div>
-    <button id="reg_btn">등록하기</button>
+</form>
+    <button id="reg_btn">등록</button>
 </div>
 <script th:inline="javascript">
-    const img_upload = document.getElementById('img_upload');
+    const upload_file = document.getElementById('upload_file');
     const view_files = [];
     const img_views_div = document.querySelector('.img_views');
     let cate = null;
     const major_cate = document.getElementById('major_cate');
     const sub_cate = document.getElementById('sub_cate');
+    let category_id ='';
 
     window.addEventListener('DOMContentLoaded', () => {
         get_category();
     })
 
-    async function reg_product(){
-
-        const product = {
-            title : document.getElementById('title').value,
-            content : document.getElementById('content').value,
-            price : document.getElementById('price').value,
-            stock : document.getElementById('stock').value,
-            status : document.getElementById('status').value,
-            thumbnail_content : document.getElementById('thumbnail_content').value,
-            major_cate : major_cate.dataset.id,
-            sub_cate: sub_cate.dataset.id,
+    async function regProduct(){
+        //category_id 값을 가져옴. 하위값이 있다면 하위값 id를 가져오고, 하위값이 없다면 상위값 id를 가져옴
+        if(sub_cate.value==='x'){
+            category_id = major_cate.selectedOptions[0].dataset.id;
+        }else{
+            category_id = sub_cate.selectedOptions[0].dataset.id;
         }
-        console.log(JSON.stringify(product, 2, null));
-        // const title = document.getElementById('title').value;
-        // const content = document.getElementById('content').value;
-        // const price = document.getElementById('price').value;
-        // const stock = document.getElementById('stock').value;
-        // const status = document.getElementById('status').value;
-        // const thumbnail_content = document.getElementById('thumbnail_content').value;
-        // const category_id = document.getElementById('category_id');
 
+        const title = document.getElementById('title').value;
+        const content = document.getElementById('content').value;
+        const price = document.getElementById('price').value;
+        const stock = document.getElementById('stock').value;
+        const status = document.getElementById('status').value;
+        const thumbnail_content = document.getElementById('thumbnail_content').value;
 
+        if(title.length===0){
+            alert('제목을 입력하세요');
+            return;
+        }else if(content.length===0){
+            alert('내용을 입력하세요');
+            return;
+        }
 
-        //이미지 추가 필요
+        try{
+            const product = {
+                title : title,
+                content : content,
+                price : price,
+                stock : stock,
+                status : status,
+                thumbnail_content : thumbnail_content,
+                category_id : category_id
+            }
+            const file = upload_file.files;
+            const formData = new FormData(document.getElementById('form'));
+            formData.append('productVO', new Blob([JSON.stringify(product)], {type: "application/json"}));
+
+            if(file.length>0) {
+                for(const f of file){
+                    formData.append('file', f);
+                }
+            }
+
+            const resp = await fetch('/adminBoard/regProduct', {
+                method : 'POST',
+                body : formData,
+            })
+              if(resp.ok){
+                const result = await resp.json();
+                if(result===1){
+                    alert('상품이 등록완료 되었습니다.');
+                    window.close();
+                }
+              }
+
+        }catch(e){
+            console.error(e);
+        }
+
     }
 
 
-    document.getElementById('reg_btn').addEventListener('click', reg_product);
+    document.getElementById('reg_btn').addEventListener('click', regProduct);
 
     async function get_category(){
+        //카테고리 데이터를 가져옴.
+        //최초 값 가져올 때 하위 카테고리 값도 같이 가져옴
         const resp = await fetch('/market/getCateList',{
             headers: {
                 'Content-Type' : 'application/json'
@@ -129,12 +172,15 @@
                 option.text= cate[i].code_name;
                 option.value = cate[i].code;
                 option.setAttribute('data-id', cate[i].category_id);
+                console.log(option);
                 major_cate.appendChild(option);
                 if(i==0){
+                    //첫번째 상위 카테고리의 하위카테고리 값만 가져옴.
                     cate[0].children.forEach((m)=>{
                         const option = document.createElement('option');
                         option.text = m.code_name;
                         option.value = m.code;
+                        option.setAttribute('data-id', m.category_id);
                         sub_cate.appendChild(option);
                     })
                 }
@@ -142,6 +188,9 @@
         }
     }
     async function get_sub_cate(e){
+        //하위 카테고리 값을 가져옴
+        //상위 카테고리의 up_code를 조건으로 값을 가져옴
+
         const category = e.target.value;
         const resp = await fetch(`/market/getSubCategory/${category}`, {
             method : 'GET',
@@ -202,8 +251,8 @@
     }
 
     major_cate.addEventListener('change', get_sub_cate);
-    document.getElementById('upload_icon').addEventListener('click',()=> img_upload.click());
-    img_upload.addEventListener('change', get_img_files);
+    document.getElementById('upload_icon').addEventListener('click',()=> upload_file.click());
+    upload_file.addEventListener('change', get_img_files);
 </script>
 </body>
 </html>

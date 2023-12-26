@@ -1,5 +1,6 @@
 package com.refactor.animals.service;
 
+import com.refactor.animals.beans.entity.market.AdminProdVoList;
 import com.refactor.animals.beans.entity.market.Category;
 import com.refactor.animals.beans.entity.market.ProductVO;
 
@@ -9,9 +10,12 @@ public interface MarketService {
 
     List<Category> selectCategoryHierarchy(Category category);
     List<Category> getSubCategory(String up_code);
-    int reg_product(ProductVO vo);
-    int mod_product(ProductVO vo);
-    int del_product(int product_id);
-    ProductVO find_product(int product_id);
+    int regProduct(ProductVO vo);
+    int modProduct(ProductVO vo);
+    int delProduct(int product_id);
+    ProductVO findProduct(int product_id);
+    List<ProductVO> getProductList();
+    List<AdminProdVoList> getAdminProdList(AdminProdVoList vo);
+    List<AdminProdVoList> getMainProductList(AdminProdVoList vo);
 
 }

@@ -10,8 +10,8 @@ import java.util.List;
 public interface UploadFileMapper {
 
     int insertFiles(List<UploadFileVO> vo);
-    List<UploadFileVO> getFiles(int adt_id);
+    List<UploadFileVO> getFiles(UploadFileVO vo);
     UploadFileVO downloadImage(int store_id);
-    ThumbnailVO getThumbnail(int adt_id);
-    int deleteFile(int adt_id);
+    ThumbnailVO getThumbnail(UploadFileVO vo);
+    int deleteFile(UploadFileVO vo);
 }

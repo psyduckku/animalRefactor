@@ -42,7 +42,6 @@
 </body>
 <script th:inline="javascript">
   const login_id = [[${session.login_id}]];
-  alert(login_id);
 // let response='';
 // let result_data='';
 
@@ -58,12 +57,16 @@
           const file = document.getElementById('file').files;
 
           const formData = new FormData(document.getElementById('form'));
+
             formData.append('adoptBoardForm', new Blob([JSON.stringify(adoptBoardForm)], {type: "application/json"}));
             // formData는 파일 업로드할때 사용. 바이너리 데이터로 변환해줘야함
             if(file){
                 formData.append('file', file);
             }
 
+            for(data of formData.entries()){
+                console.log(data);
+            }
           const response = await fetch('/adoptBoard/add', { //헤더는 formData가 알아서해줌. 넣지말것
               method: 'POST',
               body: formData,

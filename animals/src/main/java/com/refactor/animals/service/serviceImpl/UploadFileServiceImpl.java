@@ -18,13 +18,13 @@ public class UploadFileServiceImpl implements UploadFileService {
 
     @Override
     public int insertFiles(List<UploadFileVO> vo) {
-      log.info("vo={}",vo.toString());
+        log.info(" 업로드파일 서비스 임플리스트 vo={}",vo);
         return repository.insertFiles(vo);
     }
 
     @Override
-    public List<UploadFileVO> getFiles(int adt_id) {
-        return repository.getFiles(adt_id);
+    public List<UploadFileVO> getFiles(UploadFileVO vo) {
+        return repository.getFiles(vo);
     }
 
     @Override
@@ -33,12 +33,12 @@ public class UploadFileServiceImpl implements UploadFileService {
     }
 
     @Override
-    public ThumbnailVO getThumbnail(int adt_id) {
-        return repository.getThumbnail(adt_id);
+    public ThumbnailVO getThumbnail(UploadFileVO vo) {
+        return repository.getThumbnail(vo);
     }
 
     @Override
-    public int deleteFile(int adt_id) {
-        return repository.deleteFile(adt_id);
+    public int deleteFile(UploadFileVO vo) {
+        return repository.deleteFile(vo);
     }
 }

@@ -58,7 +58,12 @@ public class AdoptBoardController {
     @GetMapping("/{adt_id}")
     public String adoptBoard(AdoptBoardVO vo, Model model, ReplyParam param) { //vo 필드에 adt_id가 일치할 경우 자동으로 바인딩됨
         AdoptBoardVO board = adoptBoardservice.getBoard(vo);
-        List<UploadFileVO> files = uploadFileService.getFiles(vo.getAdt_id());
+
+        UploadFileVO uploadFileVO = new UploadFileVO("adoptboard", board.getAdt_id());
+        log.info("aaaaaaauploadFileVO={}",uploadFileVO);
+        List<UploadFileVO> files = uploadFileService.getFiles(uploadFileVO);
+        log.info("확인 files={}",files);
+
         param.setAdt_id(param.getAdt_id());
         List<AdoptReplyBoardVO> replyList = adoptReplyBoardService.getReplyList(param);
         model.addAttribute("board", board);
@@ -77,13 +82,15 @@ public class AdoptBoardController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(value ="/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public int saveBoard2(@RequestPart(value="adoptBoardForm") AdoptBoardForm adoptBoardForm, @RequestPart(value="file") List<MultipartFile> file) throws IOException {
-
+        log.info("aa");
         file.stream().map(MultipartFile::getOriginalFilename).forEach(fileName -> {
         });
 
         AdoptBoardVO vo = new AdoptBoardVO(adoptBoardForm.getLogin_id(), adoptBoardForm.getTitle(), adoptBoardForm.getContent());
         int adt_id = adoptBoardservice.insertBoard(vo);
-        List<UploadFileVO> storeFileList = fileStore.storeFiles(file, adt_id);
+
+        List<UploadFileVO> storeFileList = fileStore.storeFiles(file, "adoptBoard" , adt_id);
+        log.info("VO 저장하기 storeFileList={}",storeFileList);
         if(!storeFileList.isEmpty()){
             int row = uploadFileService.insertFiles(storeFileList);
         }
@@ -129,12 +136,15 @@ public class AdoptBoardController {
     }
     @ResponseBody
     @PostMapping("/bookmarkList")
-    public Map<String, List<?>> bookmarkList(){
+    public Map<String, List<?>> bookmarkList(UploadFileVO vo){
         Map<String, List<?>> map = new HashMap<>();
         List<AdoptBoardBookMarkVO> list = adoptBoardservice.bookmarkList();
         List<ThumbnailVO> thumbnailList = new ArrayList<>();
+
         for (AdoptBoardBookMarkVO li : list) {
-            ThumbnailVO fileName = uploadFileService.getThumbnail(li.getAdt_id());
+            vo.setBoard("adoptBoard");
+            vo.setId(li.getAdt_id());
+            ThumbnailVO fileName = uploadFileService.getThumbnail(vo);
             thumbnailList.add(fileName);
         }
         map.put("boardList",list);
@@ -144,8 +154,10 @@ public class AdoptBoardController {
     }
 
     @RequestMapping("/deleteBoard/{adt_id}")
-    public String deleteBoard(@PathVariable int adt_id){
-        int deleteFile = uploadFileService.deleteFile(adt_id);
+    public String deleteBoard(@PathVariable int adt_id, UploadFileVO vo){
+        vo.setBoard("adoptBoard");
+        vo.setId(adt_id);
+        int deleteFile = uploadFileService.deleteFile(vo);
         int result = adoptBoardservice.deleteBoard(adt_id);
 
         return "redirect:/adoptBoard/adoptBoardList";

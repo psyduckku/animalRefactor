@@ -1,5 +1,6 @@
 package com.refactor.animals.controller;
 
+import com.refactor.animals.beans.entity.market.AdminProdVoList;
 import com.refactor.animals.beans.entity.market.Category;
 import com.refactor.animals.service.MarketService;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,15 @@ public class MarketController {
     @GetMapping("/getSubCategory/{category}")
     public List<Category> getSubCategory(@PathVariable String category){
         List<Category> list = marketService.getSubCategory(category);
+        log.info("list={}",list);
+        return list;
+    }
+
+    @ResponseBody
+    @GetMapping("/getMainProdList")
+    public List<AdminProdVoList> getMainProdList(AdminProdVoList vo){
+        List<AdminProdVoList> list = marketService.getAdminProdList(vo);
+
         return list;
     }
 }

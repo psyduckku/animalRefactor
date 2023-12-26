@@ -21,6 +21,19 @@
         </collection>
     </resultMap>
 
+    <resultMap id="productVO" type="ProductVO">
+        <id column="product_id" property="product_id" javaType="int"/>
+        <result column="title" property="title" javaType="String"/>
+        <result column="content" property="content" javaType="String"/>
+        <result column="price" property="price" javaType="int"/>
+        <result column="stock" property="stock" javaType="int"/>
+        <result column="status" property="status" javaType="int"/>
+        <result column="thumbnail_content" property="thumbnail_content" javaType="String"/>
+        <result column="major_cate" property="major_cate" javaType="int"/>
+        <result column="sub_cate" property="sub_cate" javaType="int"/>
+        <result column="category_id" property="category_id" javaType="int"/>
+    </resultMap>
+
     <select id="selectCategoryHierarchy" resultMap="categoryHierarchyMap">
         select
         l.category_id l_category_id, l.code l_code, l.code_name l_code_name, l.up_code l_up_code,
@@ -36,29 +49,73 @@
         SELECT category_id, code, code_name FROM category WHERE up_code = #{up_code};
     </select>
 
-    <insert id="reg_product" parameterType="ProductVO">
+    <insert id="regProduct" parameterType="ProductVO" useGeneratedKeys="true" keyProperty="product_id">
         INSERT INTO product
-        (title, content,price, stock, STATUS,
-        img1, img2, img3, img4, img5, thumbnail_img, thumbnail_content, category_id)
+        (title, content,price, stock, status, thumbnail_content, category_id)
         VALUES(
-            #{title}, #{content}, #{price}, #{stock}, #{STATUS},
-            #{img1}, #{img2}, #{img3}, #{img4}, #{img5}, #{thumbnail_img},
+            #{title}, #{content}, #{price}, #{stock}, #{status},
             #{thumbnail_content}, #{category_id}
         )
     </insert>
-    <update id="mod_product" parameterType="ProductVO">
+    <update id="modProduct" parameterType="ProductVO">
         UPDATE product set #{title}, #{content}, #{price}, #{stock}, #{STATUS},
-        #{img1}, #{img2}, #{img3}, #{img4}, #{img5}, #{thumbnail_img},
         #{thumbnail_content}, #{category_id}
         where product_id = #{product_id}
     </update>
 
-    <delete id="del_product" parameterType="int">
+    <delete id="delProduct" parameterType="int">
         delete from product where product_id = #{product_id}
     </delete>
 
-    <select id="find_product" parameterType="int" resultType="ProductVO">
+    <select id="findProduct" parameterType="int" resultType="ProductVO">
         select * from product where product_id = #{product_id}
+    </select>
+
+    <select id="getProductList" resultType="ProductVO">
+        select * from product
+    </select>
+
+    <resultMap id="adminProdVoList" type="AdminProdVoList">
+        <result column="product_id" property="product_id" javaType="int"/>
+        <result column="title" property="title" javaType="String"/>
+        <result column="content" property="content" javaType="String"/>
+        <result column="price" property="price" javaType="int"/>
+        <result column="stock" property="stock" javaType="int"/>
+        <result column="status" property="status" javaType="int"/>
+        <result column="category_id" property="category_id" javaType="int"/>
+        <result column="code_name" property="code_name" javaType="String"/>
+        <result column="store_file_name" property="store_file_name" javaType="String"/>
+        <result column="id" property="id" javaType="int"/>
+    </resultMap>
+
+    <select id="getAdminProdList" resultType="AdminProdVoList" parameterType="AdminProdVoList">
+        SELECT
+        p.product_id,p.title, p.thumbnail_content, p.price, p.stock, p.status,
+        c.category_id, c.code_name,
+        f.store_id, f.store_file_name
+        FROM product p
+        LEFT JOIN category c
+        ON p.category_id = c.category_id
+        LEFT JOIN file_store f
+        ON p.product_id = f.id
+        and f.board = 'product' and f.id = (
+            select min(f.id) from file_store where f.id = p.product_id
+        )
+        <where>
+            <if test="title">
+                AND p.title LIKE concat('%' #{keyword} '%')
+            </if>
+            <if test="status">
+                and p.status = #{status}
+            </if>
+            <if test="category_id">
+                and c.category_id = #{category_id}
+            </if>
+        </where>
+        GROUP BY product_id
+    </select>
+    <select id="getMainProductList" parameterType="AdminProdVoList">
+        select * from product where status = 1;
     </select>
 
 </mapper>
