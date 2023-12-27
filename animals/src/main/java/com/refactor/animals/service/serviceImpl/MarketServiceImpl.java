@@ -61,5 +61,10 @@ public class MarketServiceImpl implements MarketService {
         return repository.getMainProductList(vo);
     }
 
+    @Override
+    public List<ProductVO> getDetailPage(int product_id) {
+        return repository.getDetailPage(product_id);
+    }
+
 
 }

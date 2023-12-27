@@ -60,5 +60,10 @@ public class MybatisMarketRepository implements MarketRepository {
         return marketMapper.getMainProductList(vo);
     }
 
+    @Override
+    public List<ProductVO> getDetailPage(int product_id) {
+        return marketMapper.getDetailPage(product_id);
+    }
+
 
 }

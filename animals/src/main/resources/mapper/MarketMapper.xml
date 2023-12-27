@@ -32,6 +32,8 @@
         <result column="major_cate" property="major_cate" javaType="int"/>
         <result column="sub_cate" property="sub_cate" javaType="int"/>
         <result column="category_id" property="category_id" javaType="int"/>
+        <result column="store_file_name" property="store_file_name" javaType="String"/>
+        <result column="store_id" property="store_id" javaType="int"/>
     </resultMap>
 
     <select id="selectCategoryHierarchy" resultMap="categoryHierarchyMap">
@@ -88,19 +90,17 @@
         <result column="id" property="id" javaType="int"/>
     </resultMap>
 
+
     <select id="getAdminProdList" resultType="AdminProdVoList" parameterType="AdminProdVoList">
         SELECT
         p.product_id,p.title, p.thumbnail_content, p.price, p.stock, p.status,
         c.category_id, c.code_name,
-        f.store_id, f.store_file_name
+        min(f.store_id), f.store_file_name, f.upload_file_name
         FROM product p
-        LEFT JOIN category c
+        JOIN category c
         ON p.category_id = c.category_id
-        LEFT JOIN file_store f
-        ON p.product_id = f.id
-        and f.board = 'product' and f.id = (
-            select min(f.id) from file_store where f.id = p.product_id
-        )
+        JOIN file_store f
+        ON p.product_id = f.id and f.board = 'product'
         <where>
             <if test="title">
                 AND p.title LIKE concat('%' #{keyword} '%')
@@ -115,7 +115,23 @@
         GROUP BY product_id
     </select>
     <select id="getMainProductList" parameterType="AdminProdVoList">
-        select * from product where status = 1;
+        SELECT
+        product_id, title, thumbnail_content, price, stock,
+        store_file_name, id, board, store_id, upload_file_name
+        FROM product p
+        JOIN file_store f
+        ON p.product_id=f.id
+        WHERE f.board='product' AND p.status = 1
+        GROUP BY product_id
+    </select>
+    <select id="getDetailPage" resultType="ProductVO" parameterType="int">
+        SELECT
+        product_id, title, content, price,
+        store_file_name, store_id
+        FROM product p
+        JOIN file_store f
+        ON p.product_id = f.id
+        WHERE p.product_id = #{product_id}
     </select>
 
 </mapper>

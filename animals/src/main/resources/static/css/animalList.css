@@ -4,6 +4,7 @@
 #list_img img{
     width: 250px;
     height: 250px;
+    border-radius: 15px;
 }
 #sigun, #state, #spacies{
     width: 90px;

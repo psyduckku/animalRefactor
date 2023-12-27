@@ -8,74 +8,20 @@
   <title>Document</title>
 </head>
 <body>
-      <div class="parent">
+<div class="container">
+  <div class="left">
+  </div>
+  <div class="right">
         <div class="box info">info
           <a href="/base/updatePage">동물업데이트</a>
           <div id="info_box">
-
-          </div>
-        </div>
-        <div class="box animal0" id="main_box0">
-          <div class="box animal_pic">
-            <a id="a_main0"><img id="main_pic0" class="main_con_img"></a>
-          </div>
-          <div class="box animal_con" id="main_con0">
-            <div class="title_div" id="main_con_title0"></div>
-            <div class="content_div" id="main_con_content0"></div>
-          </div>
-        </div>
-        <div class="box animal1">
-          <div class="box animal_pic">
-            <a id="a_main1"><img id="main_pic1" class="main_con_img"></a>
-          </div>
-          <div class="box animal_con" id="main_con1">
-            <div class="title_div" id="main_con_title1"></div>
-            <div class="content_div" id="main_con_content1"></div>
-          </div>
-        </div>
-        <div class="box animal2">
-          <div class="box animal_pic">
-            <a id="a_main2"><img id="main_pic2" class="main_con_img"></a>
-          </div>
-          <div class="box animal_con" id="main_con2">
-            <div class="title_div" id="main_con_title2"></div>
-            <div class="content_div" id="main_con_content2"></div>
-          </div>
-        </div>
-        <div class="box animal3">
-          <div class="box animal_pic">
-            <a id="a_main3"><img id="main_pic3" class="main_con_img"></a>
-          </div>
-          <div class="box animal_con" id="main_con3">
-            <div class="title_div" id="main_con_title3"></div>
-            <div class="content_div" id="main_con_content3"></div>
           </div>
         </div>
         <!-- 사이드 -->
-        <div class="box rList0 side_wrap">
-          <div class="side_img_wrap"> <a id="a_img0"><img id="img0"></a> </div>
-          <div class="side_con_wrap">
-            <div>
-              <ul class="side" id="side0"></ul>
-            </div>
-          </div>
+        <div class="side_wrap">
         </div>
-        <div class="box rList1 side_wrap">
-          <div class="side_img_wrap"><a id="a_img1"><img id="img1"></a></div>
-          <div class="side_con_wrap">
-            <div>
-              <ul class="side" id="side1"></ul>
-            </div>
-          </div>
-        </div>
-        <div class="box rList2 side_wrap">
-          <div class="side_img_wrap"><a id="a_img2"><img id="img2"></a></div>
-          <div class="side_con_wrap">
-            <div>
-              <ul class="side" id="side2"></ul>
-            </div>
-          </div>
-        </div>
+
+  </div>
 </div>
 </body>
 <script th:inline="javascript">
@@ -89,23 +35,29 @@
         },
       })
        data = await response.json();
-      for(i=0; i<= data.length; i++){
-         let side = document.getElementById(`side${i}`);
-         let li0 = document.createElement('li');
-         let li1 = document.createElement('li');
-         let li2 = document.createElement('li');
-         let img= document.getElementById(`img${i}`)
-         let a = document.getElementById(`a_img${i}`);
-         li0.innerHTML = `<li> 지역 : ${data[i].sigun_NM} </li>`;
-         li1.innerHTML = `<li> 공고종료일 : ${data[i].pblanc_END_DE} </li>`;
-         li2.innerHTML = `<li> 종별 : ${data[i].species_NM}</li>`;
-         img.setAttribute('src', data[i].image_COURS);
-         img.setAttribute('width', '180px');
-         side.appendChild(li0);
-         side.appendChild(li1);
-         side.appendChild(li2);
-         a.setAttribute('href', '/animalBoard/animalBoard?ASEQ='+data[i].aseq);
-      }
+      const side_wrap = document.querySelector('.side_wrap');
+      data.forEach((list)=>{
+        const imminent_wrap = document.createElement('div');
+        const imm_head = document.createElement('div');
+        const imm_con = document.createElement('div');
+        const imm_img = document.createElement('img');
+        const a_img = document.createElement('a');
+        imminent_wrap.classList.add('imminent_wrap');
+        a_img.href = `/animalBoard/animalBoard?ASEQ=${list.aseq}`;
+        a_img.appendChild(imm_img);
+        imm_head.classList.add('imm_head');
+        imm_con.classList.add('imm_con');
+        imm_img.classList.add('imm_img');
+        imm_img.setAttribute('src', list.image_COURS);
+        imm_head.appendChild(a_img);
+        imm_con.innerHTML = `<br>지역 : ${list.sigun_NM}`;
+        imm_con.innerHTML += `<br>공고종료일 : ${list.pblanc_END_DE}`;
+        imm_con.innerHTML += `<br>종별 : ${list.species_NM}`;
+        //따로따로 해줘야함.
+        side_wrap.appendChild(imminent_wrap);
+        imminent_wrap.appendChild(imm_head);
+        imminent_wrap.appendChild(imm_con);
+      })
     }catch(error){
       console.error(error);
     }

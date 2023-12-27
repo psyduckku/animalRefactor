@@ -18,4 +18,5 @@ public interface MarketRepository {
 
     List<AdminProdVoList> getAdminProdList(AdminProdVoList vo);
     List<AdminProdVoList> getMainProductList(AdminProdVoList vo);
+    List<ProductVO> getDetailPage(int product_id);
 }

@@ -17,5 +17,6 @@ public interface MarketService {
     List<ProductVO> getProductList();
     List<AdminProdVoList> getAdminProdList(AdminProdVoList vo);
     List<AdminProdVoList> getMainProductList(AdminProdVoList vo);
+    List<ProductVO> getDetailPage(int product_id);
 
 }

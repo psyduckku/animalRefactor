@@ -75,7 +75,7 @@
                 const img_td = document.createElement('td'); // file_store
                 const img = document.createElement('img');
                 product_id.innerHTML =li.product_id;
-                title.innerHTML = li.title;
+                title.innerHTML = `<a href='/market/detailPage'>${li.title}</a>`;
                 price.innerHTML = li.price;
                 stock.innerHTML = li.stock;
                 if(li.status===0){

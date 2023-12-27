@@ -19,14 +19,11 @@ public class ProductVO {
     int price;
     int stock;
     int status;
-    String img1;
-    String img2;
-    String img3;
-    String img4;
-    String img5;
     String thumbnail_img;
     String thumbnail_content;
     int major_cate;
     int sub_cate;
     int category_id;
+    String store_file_name;
+    int store_id;
 }

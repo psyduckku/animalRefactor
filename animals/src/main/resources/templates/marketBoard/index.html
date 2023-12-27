@@ -28,34 +28,6 @@
 <!--            </div>-->
 <!--        </div>-->
 <!--    </div>-->
-<!--    <div class="box display1">-->
-<!--        <div class="thumb_img">이미지</div>-->
-<!--        <div class="prod_content">-->
-<!--            <div class="title_wrap">제품명</div>-->
-<!--            <div class="prod_info">-->
-<!--                dasdfasdfsafdsfadfasfdasfasfasfasdfasdf-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="box display2">-->
-<!--        <div class="thumb_img">이미지</div>-->
-<!--        <div class="prod_content">-->
-<!--            <div class="title_wrap">제품명</div>-->
-<!--            <div class="prod_info">-->
-<!--                dasdfasdfsafdsfadfasfdasfasfasfasdfasdf-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="box display3">-->
-<!--        <div class="thumb_img">이미지</div>-->
-<!--        <div class="prod_content">-->
-<!--            <div class="title_wrap">제품명</div>-->
-<!--            <div class="prod_info">-->
-<!--                제품정보-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="box main">main</div>-->
     <div class="add_btn_wrap">
         <img src="/img/icon/add_btn.png" id="add_btn">
     </div>
@@ -82,24 +54,34 @@
                 const prod_info_div = document.createElement('div');
                 const title_wrap = document.createElement('div');
                 const content_wrap = document.createElement('div');
+                const thumb_img = document.createElement('img');
+                const link_img = document.createElement('a');
+                const link_title = document.createElement('a');
                 box_display.classList.add('box', `display${num}`);
                 console.log(box_display);
                 thumb_img_div.classList.add('thumb_img');
                 prod_info_div.classList.add('prod_info');
                 title_wrap.classList.add('title_wrap');
-                content_wrap.classList.add('content_wrap');
-                const thumb_img = document.createElement('img');
+                // content_wrap.classList.add('content_wrap');
                 thumb_img.src=`/adoptBoard/images/${p.store_file_name}`;
                 prod_info_div.appendChild(title_wrap);
-                prod_info_div.appendChild(content_wrap);
+                // prod_info_div.appendChild(content_wrap);
                 title_wrap.innerText=p.title;
-                content_wrap.innerText= p.thumbnail_content;
+
+
+                link_title.href=`/market/detailPage/${p.product_id}`;
+                link_title.appendChild(title_wrap);
+
+
+
+                // content_wrap.innerText= p.thumbnail_content;
                 box_display.appendChild(thumb_img_div);
                 box_display.appendChild(prod_info_div);
-
-                thumb_img_div.appendChild(thumb_img);
-                prod_info_div.appendChild(title_wrap);
-                prod_info_div.appendChild(content_wrap);
+                link_img.href=`/market/detailPage/${p.product_id}`;
+                link_img.appendChild(thumb_img)
+                thumb_img_div.appendChild(link_img);
+                prod_info_div.appendChild(link_title);
+                // prod_info_div.appendChild(content_wrap);
                 parent.appendChild(box_display);
 
             })

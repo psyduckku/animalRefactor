@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/marketBoard/detailPage.css">
+    <title>Title</title>
+</head>
+<body>
+<div class="top_margin"></div>
+<div class="detail_container">
+    <div class="margin"></div>
+    <div class="left">
+        <div class="main_imgs_wrap">
+            <div class="thumb_img_wrap">
+                <!-- 썸네일 리스트반복 -->
+                <th:block th:each="p : ${product}">
+                <div class="thumb_img"><img th:src="|/adoptBoard/images/${p.getStore_file_name()}|" onmouseover="pick_img(this)"></div>
+                </th:block>
+            </div>
+            <div class="bic_img_wrap"><img id="bic_img" th:src="|/adoptBoard/images/${product[0].getStore_file_name()}|"></div>
+        </div>
+        <div class="main_content_wrap">
+            <div class="detail_content" th:text="${product[0].content}"></div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="title_wrap right_div" th:text="${product[0].title}">타이틀</div>
+        <div class="price_wrap right_div" th:text="|${product[0].price}원|">제품 금액</div>
+        <div class="del_price_wrap right_div">
+            <div class="r_head">배송비</div><div class="r_con"></div>
+        </div>
+        <div class="option_wrap right_div">
+            <div class="r_head">옵션</div>
+            <div class="r_con">
+                <select id="op_select">
+                    <option>-[필수]옵션을 선택해주세요-</option>
+                    <option disabled>------------------------</option>
+                    <option value="large">large</option>
+                    <option value="medium">medium</option>
+                    <option value="small">small</option>
+                </select>
+            </div>
+        </div>
+        <div class="t_stat_wrap right_div">
+        </div>
+        <div class="t_price_wrap right_div">
+            총금액
+        </div>
+        <div class="button_wrap">
+            <button id="buy_btn">구매하기</button>
+            <button id="cart_btn"><img src="/img/icon/bin_cart.png" class="cart_img"></button>
+            <button id="like_btn"><img src="/img/icon/heart_before.png" class="like_img"></button>
+        </div>
+    </div>
+    <div class="margin"></div>
+</div>
+<script th:inline="javascript">
+    let img_src='';
+    const title = [[${product[0].title}]];
+    let price = [[${product[0].price}]];
+    const bic_img = document.getElementById('bic_img');
+    const op_select = document.getElementById('op_select').addEventListener('change', add_prod);
+    let size_arr=[];
+    function add_prod(op){
+        alert(title+op.target.value);
+
+        //리스트를 만들어서 추가
+        //서버에 보낼때 querystring으로 제품번호 보내기
+        //상품은 body에
+        const quantity_input = document.createElement('input');
+        quantity_input.type = 'number';
+        quantity_input.min = 1;
+        quantity_input.value = 1;
+        quantity_input.classList.add('quantity_input')
+
+        const t_stat_wrap = document.querySelector('.t_stat_wrap');
+
+        const s_div = document.createElement('div');
+        s_div.classList.add('s_div');
+        s_div.innerHTML=`${title} - ${op.target.value}`;
+        s_div.appendChild(quantity_input);
+        t_stat_wrap.appendChild(s_div);
+
+    }
+    function pick_img(target){
+        img_src = target.getAttribute('src');
+        bic_img.setAttribute('src', img_src);
+    }
+
+</script>
+</body>
+</html>
