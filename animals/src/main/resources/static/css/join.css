@@ -39,6 +39,10 @@ input{
     height: 35px;
     /*outline: 0.2px solid gray;*/
     padding-left: 5px;
+    vertical-align: middle;
+}
+button{
+    vertical-align: middle;
 }
 input:focus{
     animation-name:border-focus;
@@ -51,22 +55,30 @@ input:focus{
 }
 #email_auth_btn{
     width: 60px;
-    height: 30px;
+    height: 35px;
     margin-left: 5px;
-    margin-top: 2px;
+    /*margin-top: 2px;*/
 }
 select{
     height: 35px;
+    vertical-align: middle;
 }
 #email_option{
-    margin-left: 109px; margin-top: 8px;
+    margin-top: 7px;
+    margin-left: 104px;
+    width: 172px;
 }
 #auth_number{
+    margin-left: 109px;
     width: 140px;
+    margin-top: 8px;
+
 }
 #input_random_number{
     width:90px;
-    margin-left:27px;
+    margin-left:18px;
+    margin-top: 8px;
+    /*vertical-align: center;*/
 }
 #login_id{
     width: 200px;
@@ -82,17 +94,18 @@ select{
 }
 #postcode{
     width: 172px;
-    height: 40px;
+    height: 35px;
 }
 #search_addr{
     width: 100px;
     height: 35px;
-    margin-left: 19px;
+    margin-left: 5px;
     padding-left: 0px;
 }
 #duplicationCheck{
     width: 90px;
     height: 35px;
+    margin-left: 5px;
 }
 #address{
     width: 450px;

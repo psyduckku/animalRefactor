@@ -23,8 +23,8 @@ li{
     flex-direction: column; /*수직한줄배치*/
 }
 #banner_box{
-    height: 150px;
-    background-color: yellow;
+    height: 5px;
+    /*background-color: yellow;*/
     width: 100%;
     margin-top: 5px;
     margin-bottom: 5px;

@@ -33,7 +33,9 @@ public class WebConfig implements WebMvcConfigurer {
                         "/adoptBoard/bookmarkList",
                         "/email/auth/sendEmail",
                         "/adoptReplyBoard/good", "/animalReplyBoard/getReplyList",
-                        "/animalReplyBoard/insertReply"
+                        "/animalReplyBoard/insertReply",
+                        "/market/", "/market/getMainProdList"
+
 
                 );
     }

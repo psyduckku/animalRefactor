@@ -153,3 +153,70 @@ button{
     margin-left: 5px;
     text-align: center;
 }
+.basket_modal{
+    display:flex;
+    flex-direction:column;
+    position: fixed;
+    z-index: 99999;
+    /*모달 중앙 위치*/
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    /*모달 중앙 위치*/
+    width: 687px;
+    height: 576px;
+    border-radius: 20px;
+    border: 1px solid black;
+}
+.modal_head{
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding:17px 35px 17px 19px;
+    color: #fff;
+    background-color:#222;
+    font-size: 16px;
+    height: 11%;
+}
+.modal_btns{
+    display:flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items:center;
+}
+.modal_btns button{
+    width: 127px;
+    height: 46px;
+    /*padding: 13px 16px;*/
+    border: 1px solid #ddd;
+    background-color: white;
+    color:#222;
+    border-radius:2px;
+    font-size: 16px;
+    margin: 5px 3px 1px 1px;
+}
+#direct_buy{
+    background-color:#222;
+    border: 1px solid black;
+    color: #fff;
+}
+.modal_wrap{
+    /*display:none;*/
+}
+.modal_con{
+    height: 78%;
+    background-color:white;
+}
+.modal_con_head{
+    height: 15%;
+    padding: 20px;
+}
+.modal_con_body{
+    height: 70%;
+    padding: 20px;
+}
+.modal_con_foot{
+    height: 15%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}

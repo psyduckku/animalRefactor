@@ -68,4 +68,10 @@ public class MarketController {
 
         return "/marketBoard/detailPage";
     }
+
+    @GetMapping("/orderForm")
+    public String payment(){
+
+        return "/marketBoard/orderForm";
+    }
 }

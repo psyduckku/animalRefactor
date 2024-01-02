@@ -21,6 +21,27 @@
             <div class="bic_img_wrap"><img id="bic_img" th:src="|/adoptBoard/images/${product[0].getStore_file_name()}|"></div>
         </div>
         <div class="main_content_wrap">
+            <div class="modal_wrap">
+                <div class="basket_modal">
+                    <div class="modal_head">
+                        장바구니 담기
+                    </div>
+                    <div class="modal_con">
+                        <div class="modal_con_head">
+                            총 2개
+                        </div>
+                        <div class="modal_con_body">
+
+                        </div>
+                        <div class="modal_con_foot">
+                            1번
+                        </div>
+                    </div>
+                    <div class="modal_btns">
+                        <button id="direct_buy">바로구매</button><button id="move_basket">장바구니 이동</button><button id="keep_shopping">쇼핑계속 하기</button>
+                    </div>
+                </div>
+            </div>
             <div class="detail_content" th:text="${product[0].content}"></div>
         </div>
     </div>
@@ -45,7 +66,7 @@
         <div class="t_stat_wrap right_div">
         </div>
         <div class="t_price_wrap right_div">
-            총금액
+            <!--총금액-->
         </div>
         <div class="button_wrap">
             <button id="buy_btn">구매하기</button>
@@ -61,6 +82,8 @@
     let price = [[${product[0].price}]];
     const bic_img = document.getElementById('bic_img');
     const op_select = document.getElementById('op_select').addEventListener('change', add_prod);
+    const modal = document.querySelector('.modal_wrap');
+    const close_btn = document.querySelector('#keep_shopping');
     let size_arr=[];
     function add_prod(op){
         alert(title+op.target.value);
@@ -88,6 +111,24 @@
         bic_img.setAttribute('src', img_src);
     }
 
+    function add_basket(){
+        modal.style.display= 'block';
+        const body = document.querySelector('.modal_con_body');
+        const item_box = document.createElement('div');
+        const box = document.createElement('div');
+
+
+    }
+    function pay_status(){
+        window.location.href="/market/orderForm";
+    }
+
+    document.getElementById('cart_btn').addEventListener('click', add_basket);
+    close_btn.addEventListener('click', () => {
+        modal.style.display='none';
+    })
+
+    document.getElementById('buy_btn').addEventListener('click', pay_status);
 </script>
 </body>
 </html>
