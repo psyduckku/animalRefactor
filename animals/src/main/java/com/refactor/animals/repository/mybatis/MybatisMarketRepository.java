@@ -1,8 +1,7 @@
 package com.refactor.animals.repository.mybatis;
 
-import com.refactor.animals.beans.entity.market.AdminProdVoList;
-import com.refactor.animals.beans.entity.market.Category;
-import com.refactor.animals.beans.entity.market.ProductVO;
+import com.refactor.animals.beans.dto.market.AdminProdListParam;
+import com.refactor.animals.beans.entity.market.*;
 import com.refactor.animals.repository.MarketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -36,11 +35,6 @@ public class MybatisMarketRepository implements MarketRepository {
     }
 
     @Override
-    public int delProduct(int product_id) {
-        return marketMapper.delProduct(product_id);
-    }
-
-    @Override
     public ProductVO findProduct(int product_id) {
         return marketMapper.findProduct(product_id);
     }
@@ -51,18 +45,48 @@ public class MybatisMarketRepository implements MarketRepository {
     }
 
     @Override
-    public List<AdminProdVoList> getAdminProdList(AdminProdVoList vo) {
+    public List<Product> getAdminProdList(AdminProdListParam vo) {
         return marketMapper.getAdminProdList(vo);
     }
 
     @Override
-    public List<AdminProdVoList> getMainProductList(AdminProdVoList vo) {
+    public List<ProductVO> getMainProductList(ProductParam vo) {
         return marketMapper.getMainProductList(vo);
     }
 
     @Override
-    public List<ProductVO> getDetailPage(int product_id) {
+    public ProductVO getDetailPage(int product_id) {
         return marketMapper.getDetailPage(product_id);
+    }
+
+    @Override
+    public int regStock(Stock stock) {
+        return marketMapper.regStock(stock);
+    }
+
+    @Override
+    public ProductVO getAdminProd(ProductParam vo) {
+        return marketMapper.getAdminProd(vo);
+    }
+
+    @Override
+    public int deleteProd(ProdStockVO vo) {
+        return marketMapper.deleteProd(vo);
+    }
+
+    @Override
+    public int updateProd(ProductVO vo) {
+        return marketMapper.updateProd(vo);
+    }
+
+    @Override
+    public List<Category> getUpperCate(String up_code) {
+        return marketMapper.getUpperCate(up_code);
+    }
+
+    @Override
+    public int updateStock(Stock stock) {
+        return marketMapper.updateStock(stock);
     }
 
 

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <title>판매등록</title>
+  <link rel="stylesheet" href="/css/adminBoard/enrollOnSaleList.css">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+<div class="container">
+  <div class="title">판매등록</div>
+  <form enctype="multipart/form-data" id="form">
+  </form>
+  <div class="reg_container">
+    <div class="left">
+      <div class="left_wrap">
+        <div class="img_box">
+
+          <img src="/img/icon/img_upload_icon.png" id="upload_icon">
+          <input type="file" id="upload_file" multiple="multiple" style="display: none;">
+        </div>
+      </div>
+      <div class="left_wrap">
+        <div class="img_views">
+
+        </div>
+      </div>
+      <div class="left_wrap">
+        <div class="t_con_box"> <!-- 썸넬 이미지는 첫번째 이미지로등록, 판매등록시 썸넬이미지 변경가능-->
+          <div class="t_con_title">썸네일 내용</div>
+          <div class="t_text_area">
+            <textarea id="thumbnail_content" placeholder="판매 썸네일 내용"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="right_wrap">
+        <div class="sub_title">대분류</div> <!-- 카테고리 검색을 통해 선택하도록 함-->
+        <div class="value_box">
+          <select id="major_cate">
+          </select>
+        </div>
+      </div>
+      <div class="right_wrap">
+        <div class="sub_title">소분류</div>
+        <div class="value_box">
+          <select id="sub_cate">
+          </select>
+        </div>
+      </div>
+      <div class="right_wrap">
+        <div class="sub_title">상품명</div>
+        <div class="value_box"> <input type="text" id="title"></div>
+      </div>
+      <div class="right_wrap textarea">
+        <div class="sub_title sub_title_column">내용</div>
+        <div class="value_box value_box_column"> <textarea wrap="hard" placeholder="상품 기본설명입력" id="content"></textarea></div>
+      </div>
+      <div class="right_wrap textarea memo">
+        <div class="sub_title sub_title_column memo_title">메모</div>
+        <div class="value_box value_box_column"> <textarea wrap="hard" placeholder="상품 기본설명입력" id="memo"></textarea></div>
+
+      </div>
+      <div class="right_wrap">
+        <div class="sub_title">가격</div>
+        <div class="value_box"> <input type="number" id="price" value="-1" title="숫자만 입력하세요"></div>
+      </div>
+      <div class="right_wrap" id="stock_wrap">
+        <div class="sub_title" id="stock_subtitle">재고</div>
+        <div class="value_box" id="stock_stat_wrap">
+          <div class="stat_box">
+            <ol class="ol" id="ol">
+              <li>
+                <input type="text" class="size_name" placeholder="사이즈"><input type="number" class="size_qty" placeholder="수량"><button class="del_btn">삭제</button>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div class="stock_btn_bar">
+          <button class="qty_add">사이즈 추가</button>
+        </div>
+      </div>
+      <div class="right_wrap">
+        <div class="sub_title">상태</div>
+        <div class="value_box">
+          <select id="status">
+            <option value="0">중지</option>
+            <option value="1">판매</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button id="reg_btn">등록</button>
+</div>
+<script th:inline="javascript">
+  const upload_file = document.getElementById('upload_file');
+  const view_files = [];
+  const img_views_div = document.querySelector('.img_views');
+  let cate = null;
+  const major_cate = document.getElementById('major_cate');
+  const sub_cate = document.getElementById('sub_cate');
+  let category_id ='';
+  const qty_add = document.querySelector('.qty_add');
+
+
+  window.addEventListener('DOMContentLoaded', () => {
+    get_category();
+  })
+
+  function add_size(btn){
+    const ol = document.querySelector('ol'); //li의 부모
+    const li = document.createElement('li');
+    const del_btn = document.createElement('button');
+    const size_name = document.createElement('input');
+    const size_qty = document.createElement('input');
+    del_btn.innerText='삭제';
+    del_btn.classList.add('del_btn');
+    size_name.classList.add('size_name');
+    size_qty.classList.add('size_qty');
+    size_name.type='text';
+    size_qty.type='number';
+    size_name.setAttribute('placeholder', '사이즈');
+    size_qty.setAttribute('placeholder', '수량');
+    li.appendChild(size_name);
+    li.appendChild(size_qty);
+    li.appendChild(del_btn);
+    ol.appendChild(li);
+
+    del_btn.addEventListener('click', function(){
+      del_size(this);
+    })
+  }
+
+  function del_size(btn){
+    const li = btn.parentElement;
+    const ol = li.parentElement;
+    ol.removeChild(li);
+  }
+
+  qty_add.addEventListener('click', add_size);
+
+
+
+  async function regProduct(){
+    //category_id 값을 가져옴. 하위값이 있다면 하위값 id를 가져오고, 하위값이 없다면 상위값 id를 가져옴
+    if(sub_cate.value==='x'){
+      category_id = major_cate.selectedOptions[0].dataset.id;
+    }else{
+      category_id = sub_cate.selectedOptions[0].dataset.id;
+    }
+
+    const title = document.getElementById('title').value;
+    const content = document.getElementById('content').value;
+    const price = document.getElementById('price').value;
+    const status = document.getElementById('status').value;
+    const thumbnail_content = document.getElementById('thumbnail_content').value;
+    //재고
+    let name = document.querySelectorAll('.size_name');
+    let qty = document.querySelectorAll('.size_qty');
+    let stockArr = [];
+
+    if(title.length===0){
+      alert('제목을 입력하세요');
+      return;
+    }else if(content.length===0){
+      alert('내용을 입력하세요');
+      return;
+    }
+
+    name.forEach((s, idx)=>{
+      let stock = {
+        size : s.value,
+        qty : qty[idx].value
+      }
+      stockArr.push(stock);
+    });
+
+
+    try{
+      const product = {
+        title : title,
+        content : content,
+        price : price,
+        stockArr : stockArr, //빈 등록해야함
+        status : status,
+        thumbnail_content : thumbnail_content,
+        category_id : category_id,
+
+      }
+      const file = upload_file.files;
+      const formData = new FormData(document.getElementById('form'));
+      formData.append('productVO', new Blob([JSON.stringify(product)], {type: "application/json"}));
+
+      if(file.length>0) {
+        for(const f of file){
+          formData.append('file', f);
+        }
+      }
+
+      const resp = await fetch('/adminBoard/regProduct', {
+        method : 'POST',
+        body : formData,
+      })
+      if(resp.ok){
+        const result = await resp.json();
+        console.log(result);
+        if(result===1){
+          alert('상품이 등록완료 되었습니다.');
+          window.close();
+        }
+      }
+
+    }catch(e){
+      console.error(e);
+    }
+
+  }
+
+
+  document.getElementById('reg_btn').addEventListener('click', regProduct);
+
+  async function get_category(){
+    //카테고리 데이터를 가져옴.
+    //최초 값 가져올 때 하위 카테고리 값도 같이 가져옴
+    const resp = await fetch('/market/getCateList',{
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+    });
+    if(resp.ok){
+      cate = await resp.json();
+      for(i=0; i<4;i++){
+        const option = document.createElement('option');
+        option.text= cate[i].code_name;
+        option.value = cate[i].code;
+        option.setAttribute('data-id', cate[i].category_id);
+        console.log(option);
+        major_cate.appendChild(option);
+        if(i==0){
+          //첫번째 상위 카테고리의 하위카테고리 값만 가져옴.
+          cate[0].children.forEach((m)=>{
+            const option = document.createElement('option');
+            option.text = m.code_name;
+            option.value = m.code;
+            option.setAttribute('data-id', m.category_id);
+            sub_cate.appendChild(option);
+          })
+        }
+      }
+    }
+  }
+  async function get_sub_cate(e){
+    //하위 카테고리 값을 가져옴
+    //상위 카테고리의 up_code를 조건으로 값을 가져옴
+
+    const category = e.target.value;
+    const resp = await fetch(`/market/getSubCategory/${category}`, {
+      method : 'GET',
+    })
+    if(resp.ok){
+      sub_cate.innerHTML = '';
+      const data = await resp.json();
+      if(data.length==0){
+        const option = document.createElement('option');
+        option.text='하위카테고리없음';
+        option.value='x';
+        sub_cate.appendChild(option);
+      }else{
+        data.forEach((c)=>{
+          const option = document.createElement('option');
+          option.text = c.code_name;
+          option.value = c.code;
+          option.setAttribute('data-id', c.category_id);
+          sub_cate.appendChild(option);
+        })
+      }
+    }
+
+  }
+
+  function createViews(e, file){
+    const div = document.createElement('div');
+    const img = document.createElement('img');
+    img.setAttribute('src', e.target.result);
+    img.setAttribute('data-file', file.name);
+    div.appendChild(img);
+    return div;
+  }
+  function get_img_files(e){
+    const files = e.currentTarget.files;
+    // console.log(typeof files, files);
+    if(files.length > 5){
+      alert('이미지는 최대 5개까지 등록 가능합니다.');
+      return;
+    }
+
+    // 파일 타입 검사
+    [...files].forEach(f => {
+      if(!f.type.match('image/.*')){
+        alert('이미지 파일만 업로드 가능합니다');
+        return;
+      }
+      if([...files].length < 6){
+        view_files.push(f);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const preview = createViews(e, f);
+          img_views_div.appendChild(preview);
+        };
+        reader.readAsDataURL(f);
+      }
+    })
+  }
+
+  major_cate.addEventListener('change', get_sub_cate);
+  document.getElementById('upload_icon').addEventListener('click',()=> upload_file.click());
+  upload_file.addEventListener('change', get_img_files);
+</script>
+</body>
+</html>

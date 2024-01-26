@@ -29,18 +29,18 @@ public class ExceptionAdvice {
     public ValidationResult handleBindExcpetion(BindException bindException, Locale locale){
         return ValidationResult.create(bindException, messageSource,locale);
     }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler
-    public ResponseEntity<Object> joinFormException(MethodArgumentNotValidException argsNotValidException,
-                                                    JoinForm joinForm, JoinDTOValidator joinDTOValidator, BindingResult bindingResult) {
-
-        joinDTOValidator.validate(joinForm, bindingResult);
-        log.info("bindingResult.getAllErrors={}",bindingResult.getAllErrors());
-
-
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+//
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler
+//    public ResponseEntity<Object> joinFormException(MethodArgumentNotValidException argsNotValidException,
+//                                                    JoinForm joinForm, JoinDTOValidator joinDTOValidator, BindingResult bindingResult) {
+//
+//        joinDTOValidator.validate(joinForm, bindingResult);
+//        log.info("bindingResult.getAllErrors={}",bindingResult.getAllErrors());
+//
+//
+//        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//    }
 
     @ResponseBody
     @ExceptionHandler(UserException.class)

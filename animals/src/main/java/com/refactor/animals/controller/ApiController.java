@@ -24,6 +24,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -51,10 +52,23 @@ public class ApiController {
          */
         MemberVO loginMember = userService.login(loginForm);        //Service 로직에서 예외처리를 했기 때문에 Valid 불필요
         HttpSession session = request.getSession();
+
+        Date createdSession = new Date(session.getCreationTime()); //session 생성시간
+//        SimpleDateFormat date = new SimpleDateFormat("yyyy년.MMM.dd일 a hh:mm");
+        loginMember.setAccess_time(createdSession);
+        log.info("loginMember={}", loginMember);
+        userService.updateAccessTime(loginMember);
+
+        //세션 저장 값을 꺼내와서 session에 저장하기
+        //세션 저장 값을 꺼내와서 session에 저장하기
+        //세션 저장 값을 꺼내와서 session에 저장하기
+
         session.setAttribute("login_id", loginMember.getLogin_id());
         session.setAttribute("grade", loginMember.getGrade());
-        new Date(session.getCreationTime()); //session 생성시간
+        session.setAttribute("accessTime", createdSession);
+
         return new LoginRespObject("login.success","true",HttpStatus.OK);
+
     }
 
     @PostMapping("/join")
@@ -86,18 +100,19 @@ public class ApiController {
         return new ResponseEntity<>("로그아웃성공",HttpStatus.OK);
     }
 
-
     @PostMapping("/isLoginIdDuplicate")
     public boolean isLoginIdDuplicate(@RequestBody String checkId){
 
         log.info("requestBody={}",checkId);
         boolean result = userService.isLoginIdDuplicate(checkId);
 
-        log.info("result={}", result);
         //여기서 분기 필요. result가 오류(404)가 나도 true를 보냄.
 
+        log.info("result={}", result);
         return result;
     }
+
+
 
     @PostMapping("/updateAnimals")
     public String updateAnimals(@RequestParam Map<String, Object> param, AnimalBoardVO vo) throws JSONException {

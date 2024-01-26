@@ -1,7 +1,14 @@
-*{margin:0;padding:0; box-sizing:border-box;}
-
-div{outline: 1px solid black;
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
 }
+*{margin:0;padding:0; box-sizing:border-box;
+    font-family: 'Pretendard-Regular';
+}
+
+/*div{outline: 1px solid black;}*/
 li{
     list-style: none;
 }
@@ -125,9 +132,10 @@ body{
     font-size: 19px;
 }
 .same_addr_wrap{
-    padding: 0 16px 15px;
     display:flex;
     align-items:center;
+    height:40px;
+    padding-left: 20px;
 }
 .same_addr_wrap input{
     width: 21px;
@@ -139,6 +147,11 @@ body{
 .same_addr_wrap label{
     font-size:16px;
     padding-right: 19px;
+}
+.addr_form_wrap{
+    height: 387px;
+    display: flex;
+    align-items: center;
 }
 .addr_form_wrap td{
     padding: 1px 16px 7px 4px;
@@ -167,4 +180,35 @@ body{
 }
 .addr_box{
     margin-top: 10px;
+}
+.order_prod{
+    padding: 11px;
+}
+.header{
+    height: 67px;
+}
+
+#total_price_wrap, .pay_method, .desc {
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 5px;
+}
+#total_price_wrap{
+    text-align: center;
+    font-weight: bold;
+    font-size:20px;
+}
+.desc_tr{
+    margin-bottom: 5px;
+}
+.tr_btm_margin{
+    margin-bottom: 10px;
+}
+.pay_con table{
+    height: 100px;
+}
+.pay_method li{
+    font-size: 15px;
+    margin-bottom: 5px;
+    text-align: center;
 }

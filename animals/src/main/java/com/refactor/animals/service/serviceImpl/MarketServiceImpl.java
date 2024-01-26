@@ -1,8 +1,7 @@
 package com.refactor.animals.service.serviceImpl;
 
-import com.refactor.animals.beans.entity.market.AdminProdVoList;
-import com.refactor.animals.beans.entity.market.Category;
-import com.refactor.animals.beans.entity.market.ProductVO;
+import com.refactor.animals.beans.dto.market.AdminProdListParam;
+import com.refactor.animals.beans.entity.market.*;
 import com.refactor.animals.repository.MarketRepository;
 import com.refactor.animals.service.MarketService;
 import lombok.RequiredArgsConstructor;
@@ -37,11 +36,6 @@ public class MarketServiceImpl implements MarketService {
     }
 
     @Override
-    public int delProduct(int product_id) {
-        return repository.delProduct(product_id);
-    }
-
-    @Override
     public ProductVO findProduct(int product_id) {
         return repository.findProduct(product_id);
     }
@@ -52,18 +46,48 @@ public class MarketServiceImpl implements MarketService {
     }
 
     @Override
-    public List<AdminProdVoList> getAdminProdList(AdminProdVoList vo) {
+    public List<Product> getAdminProdList(AdminProdListParam vo) {
         return repository.getAdminProdList(vo);
     }
 
     @Override
-    public List<AdminProdVoList> getMainProductList(AdminProdVoList vo) {
+    public List<ProductVO> getMainProductList(ProductParam vo) {
         return repository.getMainProductList(vo);
     }
 
     @Override
-    public List<ProductVO> getDetailPage(int product_id) {
+    public ProductVO getDetailPage(int product_id) {
         return repository.getDetailPage(product_id);
+    }
+
+    @Override
+    public int regStock(Stock stock) {
+        return repository.regStock(stock);
+    }
+
+    @Override
+    public ProductVO getAdminProd(ProductParam vo) {
+        return repository.getAdminProd(vo);
+    }
+
+    @Override
+    public int deleteProd(ProdStockVO vo) {
+        return repository.deleteProd(vo);
+    }
+
+    @Override
+    public int updateProd(ProductVO vo) {
+        return repository.updateProd(vo);
+    }
+
+    @Override
+    public List<Category> getUpperCate(String up_code) {
+        return repository.getUpperCate(up_code);
+    }
+
+    @Override
+    public int updateStock(Stock stock) {
+        return repository.updateStock(stock);
     }
 
 

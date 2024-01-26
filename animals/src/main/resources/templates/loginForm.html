@@ -13,9 +13,9 @@
         <div class="top"> <span id="title">SaveAnimals</span> </div>
         <div class="middle">
             <div class="head subject">아이디</div>
-            <div class="head" id="input_id"><input type="text" id="login_id"></div>
+            <div class="head" id="input_id"><input type="text" id="login_id" value="admin1"></div>
             <div class="head subject">비밀번호</div>
-            <div class="head" id="input_password"><input type="password" id="password"></div>
+            <div class="head" id="input_password"><input type="password" id="password" value="qwer1234"></div>
         </div>
         <div id="middle_bar">
               <button type="button" id="login_btn"><span id="login_bar_text">로그인</span></button>
@@ -26,11 +26,13 @@
         </div>
       </div>
   </div>
+
+
+
 </div>
 <script th:inline="javascript">
   let loginResult=null;
   const password = document.getElementById('password');
-
   login = () => {
     const loginData = {
       login_id : document.getElementById('login_id').value,

@@ -57,9 +57,13 @@
     </update>
 
     <select id="bookmarkList" parameterType="AdoptBoardVO" resultType="AdoptBoardBookMarkVO">
-        select adt_id, title, content, login_id
-        from adopt_board
-        where bookmark = true
+        SELECT a.adt_id, a.title, a.login_id, a.content, a.regdate,
+        f.store_file_name
+        FROM adopt_board a
+        left JOIN file_store f
+        ON a.adt_id = f.id AND f.board='adoptBoard'
+        WHERE bookmark =1
+        GROUP BY adt_id
     </select>
 
     <delete id="deleteBoard" parameterType="int">

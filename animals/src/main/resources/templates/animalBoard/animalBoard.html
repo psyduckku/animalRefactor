@@ -54,7 +54,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     </table>
 
     <table class="table table-hover" id="replyList">
-        <tr id="headline"><td>내용</td> <td>아이디 일시</td> <td>좋아요</td></tr>
+        <tr id="headline"><td>내용</td> <td>아이디</td> <td>일시</td> <td>좋아요</td></tr>
     </table>
 
     <form id="replyForm">
@@ -64,8 +64,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
                     <div class="form-group">
                         <label for="reply" class="form-label mt-4">댓글남기기</label>
                         <input type="hidden" id="aseq" th:value="${info.ASEQ }">
-                        <input type="text" id="reply" class="form-control" name="reply" aria-describedby="emailHelp" placeholder="Enter Reply">
-                        <small id="notice" class="form-text text-muted">댓글입력고고</small>
+                        <input type="text" id="reply" class="form-control" name="reply" aria-describedby="emailHelp" placeholder="네티켓을지켜주세요">
                         <button type="button" class="btn btn-primary" id="reply_btn">Submit</button>
                     </div>
                 </td>
@@ -108,9 +107,7 @@ const aseq = '[[${info.ASEQ}]]';
             tr.appendChild(td_id);
             tr.appendChild(td_likes);
             table.appendChild(tr);
-
         });
-
     }
 }
 async function send_reply(){
@@ -128,7 +125,7 @@ async function send_reply(){
     })
         if(response.ok){
             console.log(await response.text());
-            
+            await getReplyList();
         }
 
 

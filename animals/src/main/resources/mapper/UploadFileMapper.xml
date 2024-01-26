@@ -22,6 +22,7 @@
         select board, id, store_file_name from file_store where board = #{board} and id = #{id} limit 1
     </select>
     <delete id="deleteFile" parameterType="UploadFileVO">
-        delete from file_store where board=#{board} and id = #{id}
+        delete from file_store where board=#{board} and store_id = #{store_id}
     </delete>
+
 </mapper>

@@ -15,7 +15,7 @@ public class AdoptBoardVO {
     private String regdate;
     private String title;
     private String content;
-    private List<MultipartFile> image_files; //image_files에서
+    private List<MultipartFile> image_files;
     private int cnt;
     private boolean bookmark;
     private int count;

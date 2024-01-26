@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <title>상세보기</title>
+  <link rel="stylesheet" href="/css/adminBoard/updateForm.css">
+</head>
+<body>
+<!--<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>-->
+<div class="container">
+    <!--모달-->
+    <div id="cate_mod_modal" style="display: none">
+        <div id="modal_main">
+            <div class="list_wrap" id="upper">
+                <div class="li_title">상위카테고리</div>
+                <div class="mod_con_wrap">
+                    <ul id="mod_up_s">
+                    </ul>
+                </div>
+            </div>
+            <div class="list_wrap" id="lower">
+                <div class="li_title">하위카테고리</div>
+                <div class="mod_con_wrap">
+                    <ul id="mod_low_s">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="modal_bar">
+<!--            <button id="modal_cate_btn">확인aaaaa</button>-->
+        </div>
+    </div>
+    <!--모달-->
+  <div class="title">상품상세</div>
+  <form enctype="multipart/form-data" id="form">
+  </form>
+  <div class="reg_container">
+    <div class="left">
+      <div class="left_wrap">
+        <div class="img_box">
+            <th:block th:if="${not #lists.isEmpty(product.files)}">
+                <img id="rep_img" th:src="|/adoptBoard/images/${product.files[0].getStore_file_name()}|">
+          <!--                    <img src="/img/icon/img_upload_icon.png" id="upload_icon">-->
+            </th:block>
+                              <input type="file" id="upload_file" multiple="multiple" style="display: none;">
+
+        </div>
+      </div>
+      <div class="left_wrap">
+        <div class="img_views">
+              <th:block th:if="${not #lists.isEmpty(product.files)}" th:each="file : ${product.files}"> <!-- 로드할때 파일 갯수만큼 추가 이미지 -->
+                <div class="thumb_wrap">
+                  <img th:src="|/adoptBoard/images/${file.getStore_file_name()}|" class="thumb_img" th:data-store_id="${file.getStore_id()}">
+                  <img src="/img/icon/free-icon-bin.png" class="del_img">
+                </div>
+              </th:block>
+        </div>
+      </div>
+      <div class="left_wrap">
+        <div class="file_up_list">
+
+        </div>
+      </div>
+      <div class="left_wrap">
+        <div class="t_con_box"> <!-- 썸넬 이미지는 첫번째 이미지로등록, 판매등록시 썸넬이미지 변경가능-->
+          <div class="t_con_title">썸네일 내용</div>
+          <div class="t_text_area">
+            <textarea id="thumbnail_content" th:text="${product.thumbnail_content}" placeholder="판매 썸네일 기본 설명 문구로 사용됩니다."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="right">
+        <div class="right_wrap">
+          <div class="sub_title">대분류</div> <!-- 카테고리 검색을 통해 선택하도록 함-->
+          <div class="value_box">
+            <select id="major_cate" class="select">
+              <!--하지만 여기에서 출력시킬경우, 카테고리 목록이 나오지 않음.-->
+<!--              <option th:if="${product.category_id<5}" th:value="${product.code}" th:text="${product.code_name}">-->
+<!--              </option>-->
+            </select>
+          </div>
+        </div>
+        <div class="right_wrap">
+          <div class="sub_title">소분류</div>
+          <div class="value_box">
+            <select id="sub_cate" class="select">
+<!--              <option th:if="${product.category_id>4}" th:value="${product.code}" th:text="${product.code_name}"></option>-->
+            </select>
+          </div>
+        </div>
+        <div class="right_wrap">
+            <button id="cate_mod_btn" class="btn">카테고리변경</button>
+        </div>
+
+      <div class="right_wrap">
+        <div class="sub_title">상품명</div>
+        <div class="value_box"> <input type="text" id="title" th:value="${product.title}"></div>
+      </div>
+      <div class="right_wrap textarea">
+        <div class="sub_title sub_title_column">내용</div>
+        <div class="value_box value_box_column"> <textarea wrap="hard" placeholder="상품 기본설명입력" id="content" th:text="${product.content}"></textarea></div>
+      </div>
+      <div class="right_wrap textarea memo">
+        <div class="sub_title sub_title_column memo_title">메모</div>
+        <div class="value_box value_box_column"> <textarea wrap="hard" placeholder="상품 기본설명입력" id="memo" th:text="${product.etc}"></textarea></div>
+      </div>
+      <div class="right_wrap">
+        <div class="sub_title">가격</div>
+        <div class="value_box"> <input type="number" id="price" th:value="${product.price}" title="숫자만 입력하세요"></div>
+      </div>
+      <div class="right_wrap" id="stock_wrap">
+        <div class="sub_title" id="stock_subtitle">재고</div>
+        <div class="value_box" id="stock_stat_wrap">
+          <div class="stat_box">
+            <ol class="ol" id="ol">
+              <li>
+                <input type="text" class="size_name" placeholder="사이즈" th:value="${product.stockArr[0].size}"><input type="number" class="size_qty" placeholder="수량" th:value="${product.stockArr[0].qty}">
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div class="stock_btn_bar">
+          <!--                    <button class="qty_add">사이즈 추가</button>-->
+        </div>
+      </div>
+      <div class="right_wrap">
+        <div class="sub_title">상태</div>
+        <div class="value_box">
+          <select id="status" th:value="${product.status}">
+            <option value="0">중지</option>
+            <option value="1">판매</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="button_bar"><button id="add_thumb" class="btn">이미지추가</button> <button id="modify_btn" class="btn">수정</button> </div>
+</div>
+<script th:inline="javascript">
+  const upload_file = document.getElementById('upload_file');
+  const view_files = [];
+  const img_views_div = document.querySelector('.img_views');
+  let cate = null;
+  const major_cate = document.getElementById('major_cate');
+  const sub_cate = document.getElementById('sub_cate');
+  const qty_add = document.querySelector('.qty_add');
+  const rep_img = document.getElementById('rep_img');
+  const thumb_img = document.querySelectorAll('.thumb_img');
+  let thumb_wrap_cnt=0;
+  const prod_up_code = [[${product.up_code}]];
+  let category_id = [[${product.category_id}]];
+  let prod_cate_code = [[${product.code}]];
+  let prod_c_name = [[${product.code_name}]];
+  const product_id = [[${product.product_id}]];
+  const stock_id = [[${product.stockArr[0].stock_id}]];
+  const cate_map = new Map();
+  const cate_mod_modal = document.getElementById('cate_mod_modal');
+
+//up_code가 존재한다면 검색
+  window.addEventListener('DOMContentLoaded', () => {
+    get_category();
+    del_attribute();
+  })
+
+  async function get_category(){
+      //카테고리 데이터를 가져옴.
+      //최초 값 가져올 때 하위 카테고리 값도 같이 가져옴
+
+      const resp = await fetch('/market/getCateList',{
+          headers: {
+              'Content-Type' : 'application/json'
+          },
+      });
+      if(resp.ok){
+          const cate = await resp.json();
+          for(let i=0; i<cate.length;i++){
+              const option = document.createElement('option');
+              cate_map.set(cate[i].code, cate[i].code_name); //상위 모달 저장
+              get_modal_list(cate[i]);
+          }
+          mine_cate();
+      }
+  }
+  const mod_low_s = document.getElementById('mod_low_s');
+
+  function get_modal_list(cate){
+      const mod_up_s= document.getElementById('mod_up_s');
+      <!-- 모달 카테고리 리스트 출력 -->
+      let modal_li = document.createElement('li');
+      modal_li.textContent=cate.code_name;
+      modal_li.dataset.id=cate.category_id;
+      modal_li.dataset.code=cate.code;
+      modal_li.dataset.name=cate.code_name; //카테고리변경 모달리스트에 이름을 저장하고, 해당 이름을 제품 상세에 표시함
+
+      if(cate.category_id>2){ //하위요소가 없는 것은 포인터 효과를줌.
+          console.log(cate.category_id)
+          modal_li.style.cursor='pointer';
+          modal_li.addEventListener('click', function(){
+              up_select(modal_li); //input에 값을 전달하기
+          });
+      }
+      modal_li.addEventListener('mouseenter', function(){ //option은 change 이벤트가 작동하여 하위 카테고리를 가져옴
+          get_sub_cate(this); //하위요소를 가져오는 조건(code)
+      } );
+      mod_up_s.appendChild(modal_li);
+  }
+
+  //카테고리 변경 모달에서 선택한 카테고리를 제품상세에 적용
+function up_select(target){ //여기서는 category_id가 필요함
+    mod_low_s.innerHTML='';
+    const up_option = document.getElementById('up_option');
+    const lower_option = document.getElementById('lower_option');
+    up_option.textContent=target.dataset.name;
+    up_option.dataset.id=target.dataset.id;
+    lower_option.innerHTML='';
+    lower_option.value='x';
+
+}
+  function lower_select(target){
+      const up_option = document.getElementById('up_option');
+      let lower_option = document.getElementById('lower_option');
+      lower_option.textContent = target.dataset.name;
+      lower_option.dataset.id = target.dataset.category_id;
+      lower_option.dataset.value=target.dataset.code;
+      lower_option.value='';
+      //map에서 꺼내기
+      const up_cate = cate_map.get(target.dataset.code);//상위코드를 넣어야함.
+      up_option.textContent=up_cate;
+  }
+  async function get_sub_cate(target){
+
+      //하위 카테고리 값을 가져옴
+      //상위 카테고리의 up_code를 조건으로 값을 가져옴
+      // const category = e.target.value;
+      const category = target.dataset.code;
+      mod_low_s.innerHTML = '';
+      const resp = await fetch(`/market/getSubCategory/${category}`, {
+          method : 'GET',
+      })
+      if(resp.ok){
+          // sub_cate.innerHTML = '';
+          const data = await resp.json();
+          if(data.length==0){
+              const sub_li = document.createElement('li');
+              sub_li.textContent='하위카테고리없음';
+              sub_li.dataset.category_id ='x';
+              mod_low_s.appendChild(sub_li);
+          }else{
+              data.forEach((c)=>{
+                  const sub_li = document.createElement('li');
+
+                  sub_li.textContent = c.code_name;
+                  sub_li.dataset.name = c.code_name; //카테고리 변경을 위한 이름 저장
+                  sub_li.dataset.category_id = c.category_id;
+                  sub_li.dataset.code = c.up_code;
+                  sub_li.style.cursor='pointer';
+                  sub_li.addEventListener('click', function(){
+                      lower_select(this); //하위요소 선택
+                  });
+                  mod_low_s.appendChild(sub_li);
+              })
+          }
+      }
+  }
+
+  function mine_cate(){
+      if(category_id<5){ //상위카테고리일경우
+          const up_cate = document.createElement('option');
+          const none = document.createElement('option');
+          up_cate.text=prod_c_name;
+          up_cate.value=prod_cate_code;
+          up_cate.setAttribute('data-id', category_id)
+          up_cate.id='up_option';
+          none.text='하위카테고리없음';
+          none.id='lower_option';
+          none.value='x';
+          major_cate.appendChild(up_cate);
+          sub_cate.appendChild(none);
+      }else{ //하위카테고리일경우
+          const upper_cate = document.createElement('option');
+          const cate = document.createElement('option');
+          const cate_up= cate_map.get(prod_up_code); // 제품에 category_id만 저장되어있으므로, 하위 category_id일경우 상위 카테고리를 함께 표시하기 위함
+          upper_cate.text=cate_up;
+          upper_cate.id='up_option';
+          cate.text=prod_c_name;
+          cate.value=prod_up_code; //하위카테고리의 경우 상위 카테고리 찾기를 위해 up_code를 넣음
+          cate.setAttribute('data-id', category_id);
+          cate.id='lower_option';
+          major_cate.appendChild(upper_cate);
+          sub_cate.appendChild(cate);
+      }
+  }
+
+  //삭제이벤트
+  function del_attribute(){
+    const del_img = document.querySelectorAll('.del_img');
+    del_img.forEach((img)=>{
+      img.addEventListener('click', ()=>{
+          del_proc(img);
+      });
+    })
+  }
+
+  async function del_proc(img){
+      const agree = confirm('이미지를 삭제하시겠습니까?');
+      if(agree){
+      //쓰레기 이미지의 형제 요소를 가져옴
+      const target= img.previousElementSibling;
+      const store_id = target.dataset.store_id;
+      //부모요소 삭제 완료후 숨기기. fetch이후
+      const parent = img.parentElement;
+      const result = await fetch('/adminBoard/delProdImg', {
+        headers:{
+            'Content-Type' : 'text/plain'
+        },
+          method : 'Post',
+          body : store_id,
+      })
+      if(result.ok){
+          parent.style.display='none';
+      }
+      }
+  }
+
+  //대표이미지 변경이벤트
+  thumb_img.forEach((m) => {
+    m.addEventListener('mouseover', ()=>{
+      rep_img.src = m.src;
+    })
+  })
+
+  //썸네일 생성
+  function createViews(e, file){
+    //img생성>div생성+thumb_wrap class부여> thumb_wrap.appendChild > 반환
+    const img = document.createElement('img');
+    const thumb_wrap = document.createElement('div');
+    img.classList.add('thumb_img');
+
+    //파일 썸넬 이벤트
+    img.addEventListener('mouseover', ()=>{
+      rep_img.src = img.src;
+    })
+
+    //파일 src, 파일명 부여
+    img.setAttribute('src', e.target.result);
+    img.setAttribute('data-file', file.name);
+    thumb_wrap.classList.add('thumb_wrap');
+    thumb_wrap.appendChild(img);
+    thumb_wrap_cnt+=1;
+    // alert(thumb_wrap_cnt);
+    if(thumb_wrap_cnt>5){
+      alert('5개 이상 이미지를 등록하실 수 없습니다');
+      return;
+    }
+    // img_views_div.appendChild(img);
+    return thumb_wrap;
+  }
+  function get_img_files(e){
+    const files = e.currentTarget.files;
+    // console.log(typeof files, files);
+    if(files.length > 5){
+      alert('이미지는 최대 5개까지 등록 가능합니다.');
+      return;
+    }
+    // 파일 타입 검사
+    [...files].forEach(f => {
+      if(!f.type.match('image/.*')){
+        alert('이미지 파일만 업로드 가능합니다');
+        return;
+      }
+      if([...files].length < 6){
+        view_files.push(f);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const preview = createViews(e, f);
+          img_views_div.appendChild(preview);
+        };
+        return reader.readAsDataURL(f);
+      }
+    })
+  }
+
+
+//저장
+  async function update_prod(message){
+    //category_id 값을 가져옴. 하위값이 있다면 하위값 id를 가져오고, 하위값이 없다면 상위값 id를 가져옴
+    if(sub_cate.value==='x'){
+      category_id = major_cate.selectedOptions[0].dataset.id;
+    }else{
+      category_id = sub_cate.selectedOptions[0].dataset.id;
+    }
+    const title = document.getElementById('title').value;
+    const content = document.getElementById('content').value;
+    const price = document.getElementById('price').value;
+    const status = document.getElementById('status').value;
+    const thumbnail_content = document.getElementById('thumbnail_content').value;
+    //재고
+    let name = document.querySelector('.size_name');
+    let qty = document.querySelector('.size_qty');
+    let stockArr = [];
+
+    if(title.length===0){
+      alert('제목을 입력하세요');
+      return;
+    }else if(content.length===0){
+      alert('내용을 입력하세요');
+      return;
+    }
+    let stock = {
+      size : name.value,
+      qty : qty.value
+    };
+    stockArr.push(stock);
+
+
+    try{
+      const product = {
+        product_id : product_id,
+        title : title,
+        content : content,
+        price : price,
+        stockArr : stockArr,
+        status : status,
+        thumbnail_content : thumbnail_content,
+        category_id : category_id,
+        stock_id : stock_id,
+      }
+
+      const file = upload_file.files;
+      const formData = new FormData(document.getElementById('form'));
+      formData.append('productVO', new Blob([JSON.stringify(product)], {type: "application/json"}));
+
+      if(file.length>0) {
+        for(const f of file){
+          formData.append('file', f);
+        }
+      }
+
+      const resp = await fetch('/adminBoard/updateProd', {
+        method : 'POST',
+        body : formData,
+      })
+      if(resp.ok){
+        const result = await resp.json();
+        console.log(result);
+        if(result===1){
+          alert('상품이 등록완료 되었습니다.');
+          // window.close();
+        }
+      }
+
+    }catch(e){
+      console.error(e);
+    }
+
+  }
+window.addEventListener('click', function(event){
+    if(event.target!=cate_mod_modal)
+        cate_mod_modal.style.display="none";
+})
+
+
+
+  document.getElementById('cate_mod_btn').addEventListener('click', function(event){
+      event.stopPropagation();
+      cate_mod_modal.style.display="block";
+  });
+
+  document.getElementById('modify_btn').addEventListener('click', ()=>{
+    if(confirm('수정하시겠습니까')){
+        update_prod();
+    }
+  })
+  document.getElementById('add_thumb').addEventListener('click', ()=>{
+    upload_file.click();
+  });
+  major_cate.addEventListener('change', get_sub_cate);
+  upload_file.addEventListener('change', function(event){  //파일 첨부시 썸네일 생성 이벤트
+    get_img_files(event);
+  });
+</script>
+</body>
+</html>

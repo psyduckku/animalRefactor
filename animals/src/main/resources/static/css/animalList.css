@@ -6,14 +6,14 @@
     height: 250px;
     border-radius: 15px;
 }
-#sigun, #state, #spacies{
+#sigun, #state{
     width: 90px;
 }
 #dscvr{width: 120px;}
 #recept{width: 90px;}
 #crct{width: 300px;}
 .table_container{
-    width: 1000px;
+    width: 1300px;
 }
 .subnav{
     height: 60px;
@@ -22,10 +22,11 @@ select{
     height: 40px;
 }
 .search{
-    height: 40px;
+    height: 61px;
+    vertical-align: bottom;
 }
-td{
-    font-family: 'Noto Sans KR', sans-serif;
+.table{
+    width: 100%;
 }
 .table-active{
     background-color: #f2f4f7;
@@ -43,9 +44,6 @@ td{
 .first{
     margin-right: 30px;
 }
-.last{
-    margin-left: 30px;
-}
 .next{
     margin-left: 5px;
 }
@@ -54,4 +52,41 @@ td{
 }
 .info{
 
+}
+.paging li{
+    display:inline;
+    margin-right: 5px;
+}
+#species{
+    width: 105px;
+}
+td{
+    text-align:center;
+}
+.head{
+    height: 53px;
+    /*border-top: 1px solid black;*/
+    /*border-bottom: 1px solid black;*/
+}
+table{
+    border-collapse:collapse;
+    font-size:20px;
+
+}
+.sort, input{
+    font-size: 20px;
+    border: 1px solid #e7e7e7;
+    width: 150px;
+    height: 61px;
+    text-align: center;
+    padding: 3px;
+}
+option{
+    font-size: 20px;
+}
+#img_head{
+    width: 150px;
+}
+.table td{
+    border-bottom: 1px solid #f2f2f2;
 }

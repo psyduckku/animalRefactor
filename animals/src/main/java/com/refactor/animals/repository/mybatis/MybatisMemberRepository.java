@@ -35,4 +35,11 @@ public class MybatisMemberRepository implements MemberRepository {
     public Optional<MemberVO> isLoginIdDuplicate(String loginId) {
         return mapper.isLoginIdDuplicate(loginId);
     }
+
+    @Override
+    public void updateAccessTime(MemberVO vo) {
+        mapper.updateAccessTime(vo);
+    }
+
+
 }

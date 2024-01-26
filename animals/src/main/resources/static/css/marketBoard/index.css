@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 *{ margin: 0 auto; padding: 0; box-sizing: border-box;
+    font-family: 'Pretendard-Regular';
 }
 body{
     height: 100vh;
@@ -75,6 +76,7 @@ span{
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 10px;
+    font-size: 23px;
 }
 .content_wrap{
     width: 100%;
@@ -98,4 +100,6 @@ span{
     object-fit: cover;
     border-radius: 15px;
 }
-
+#reg_date, #end_date, #sale_cnt{
+    font-size: 20px;
+}

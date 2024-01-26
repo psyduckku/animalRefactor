@@ -2,13 +2,14 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
+    font-family: 'Pretendard-Regular';
 }
 li{
     list-style: none;
 
 }
 .container{
-    width: 1000px;
+    width: 100%;
     text-align: center;
     display:flex;
     justify-content: center;
@@ -22,9 +23,12 @@ li{
     justify-content:center;
     font-size: 25px;
     font-weight: bold;
+    background-color:#4B4453;
+    color: antiquewhite;
+
 }
 .reg_container{
-    width: 100%;
+    width: 80%;
     position:relative;
     display:flex;
     flex-direction: row;
@@ -51,11 +55,6 @@ li{
     display: flex;
     justify-content:center;
 }
-div{
-    /*border: 1px solid black;*/
-    /*border-spacing: 8px;*/
-    border-bottom: 1px solid gray;
-}
 .right_wrap{
     width: 100%;
     display:flex;
@@ -63,26 +62,19 @@ div{
     justify-content: center;
     height: 58px;
     align-items: center;
+    border-bottom: 1px solid #D5CABD;
     /*align-content: center;*/
 }
 .textarea{
     display:flex;
     flex-direction: column;
-    height: 400px;
+    height: 150px;
+    /*margin-top: 10px;*/
 }
-#sub_title_column{
-    width:100%;
-    height: 10%;
-}
-#value_box_column{
+.value_box_column{
     width: 100%;
     height: 90%;
 }
-#value_box_column textarea{
-    width: 100%;
-    height: 100%;
-}
-
 .left_wrap{
     width: 100%;
 }
@@ -93,6 +85,10 @@ div{
     align-items: center;
     /*text-align: center;*/
     height: 100%;
+}
+.sub_title_column{
+    width:50%;
+    height: 20%;
 }
 .value_box{
     display:flex;
@@ -124,7 +120,10 @@ div{
 }
 .t_con_title{
     width: 100%;
-    height: 30px;
+    height: 66px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 .t_text_area{
     width: 100%;
@@ -148,5 +147,105 @@ div{
     height: 32px;
     font-size:15px;
     border: none;
-    background-color:#fafafa;
+    background-color: RGB(239, 239, 239);
+    border-radius: 7px;
+}
+#stock_wrap{
+    display: flex;
+    flex-direction: column;
+}
+#stock_wrap .sub_title, .value_box{
+    width: 100%;
+}
+
+#stock_stat_wrap{
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    justify-content: normal;
+    height: 100%;
+
+}
+.stat_box{
+    display: flex;
+    flex-direction:row;
+    height: 100%;
+}
+#stock_wrap{
+    height: 250px;
+}
+#stock_subtitle{
+    height: 25%;
+    margin-bottom: 5px;
+}
+.stock_btn_bar{
+    display:flex;
+    height: 20%;
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+}
+input{
+    height: 32px;
+    font-size:15px;
+    text-align: center;
+}
+select{
+    width: 100px;
+}
+button{
+    height: 32px;
+    color: #4B4453;
+}
+.memo_title{
+    height: 20%;
+    color: #4B4453;
+}
+textarea{
+    padding:10px;
+    border-radius: 7px;
+    background-color: RGB(239, 239, 239);
+    height: 100%;
+    width: 100%;
+    border: none;
+    resize: none;
+}
+.del_btn{
+    vertical-align:bottom;
+    border: none;
+    width: 50px;
+    border-radius: 7px;
+}
+.qty_add{
+    width: 90px;
+    border: none;
+    border-radius: 7px;
+}
+input{
+    background-color: RGB(239, 239, 239);
+    border:none;
+    border-radius: 7px;
+    font-size:15px;
+}
+.size_name{
+    width: 104px;
+    margin-right: 10px;
+}
+.size_qty{
+    width: 104px;
+    margin-right: 10px;
+}
+
+#major_cate, #sub_cate{
+    width: 182px;
+    text-align: center;
+}
+button{
+    font-size:15px;
+}
+.value_box_column{
+    height: 80%;
+}
+.stat_box li{
+    margin-bottom: 3px;
 }

@@ -1,9 +1,15 @@
 @charset "UTF-8";
 *{ margin: 0 auto; padding: 0; box-sizing: border-box;
+    font-family: 'Pretendard-Regular';
+}
+#container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 .img{
     margin-top: 50px;
-    margin-left: 530px;
     margin-bottom: 50px;
 }
 .img img{
@@ -13,19 +19,21 @@
 
 }
 #contentTable{
-    width: 800px;
+    width: 936px;
+    font-size: 18px;
+}
+#contentTable td{
+    height: 40px;
 }
 
 #replyList{
     width: 800px;
     margin-top: 70px;
+    font-size: 20px;
 }
 
 #replyInput{
     width: 800px;
-}
-th, td{
-    font-family: 'Noto Sans KR', sans-serif;
 }
 #good_before{
     width: 27px;
@@ -45,4 +53,33 @@ th, td{
 }
 #headline{
     margin-bottom : 3px;
+    height: 40px;
+}
+.form-group{
+    font-size: 18px;
+    height: 200px;
+    margin-top: 15px;
+}
+.form-label{
+    font-size: 18px;
+    margin-right: 15px;
+}
+.form-group input{
+    height: 40px;
+}
+#reply{
+    width: 550px;
+    padding-left: 10px;
+    border: 1px solid #D3D5DF;
+    border-radius: 10px;
+}
+#replyForm{
+    margin-top: 66px;
+}
+#reply_btn{
+    width: 98px;
+    height: 40px;
+    font-size: 19px;
+    border: none;
+    border-radius: 10px;
 }

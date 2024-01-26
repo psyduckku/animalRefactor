@@ -35,7 +35,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/adoptBoard")
 public class AdoptBoardController {
-
+    private static final String ADOPTBOARD ="adoptBoard";
     private final AdoptBoardService adoptBoardservice;
     private final AdoptReplyBoardService adoptReplyBoardService;
     private final FileStore fileStore;
@@ -59,7 +59,7 @@ public class AdoptBoardController {
     public String adoptBoard(AdoptBoardVO vo, Model model, ReplyParam param) { //vo 필드에 adt_id가 일치할 경우 자동으로 바인딩됨
         AdoptBoardVO board = adoptBoardservice.getBoard(vo);
 
-        UploadFileVO uploadFileVO = new UploadFileVO("adoptboard", board.getAdt_id());
+        UploadFileVO uploadFileVO = new UploadFileVO(ADOPTBOARD, board.getAdt_id());
         log.info("aaaaaaauploadFileVO={}",uploadFileVO);
         List<UploadFileVO> files = uploadFileService.getFiles(uploadFileVO);
         log.info("확인 files={}",files);
@@ -89,7 +89,7 @@ public class AdoptBoardController {
         AdoptBoardVO vo = new AdoptBoardVO(adoptBoardForm.getLogin_id(), adoptBoardForm.getTitle(), adoptBoardForm.getContent());
         int adt_id = adoptBoardservice.insertBoard(vo);
 
-        List<UploadFileVO> storeFileList = fileStore.storeFiles(file, "adoptBoard" , adt_id);
+        List<UploadFileVO> storeFileList = fileStore.storeFiles(file, ADOPTBOARD , adt_id);
         log.info("VO 저장하기 storeFileList={}",storeFileList);
         if(!storeFileList.isEmpty()){
             int row = uploadFileService.insertFiles(storeFileList);
@@ -101,6 +101,9 @@ public class AdoptBoardController {
     @ResponseBody
     @GetMapping("/images/{filename}") //이미지 보이게
     public Resource drawImage(@PathVariable String filename) throws MalformedURLException {
+
+        log.info("filename={}",filename);
+
         return new UrlResource("file:"+fileStore.getFullPath(filename));
     }
     @GetMapping("/attach/{store_id}") //헤더 설정을 위해 반환타입을 ResponseEntity로
@@ -111,6 +114,7 @@ public class AdoptBoardController {
         UrlResource resource = new UrlResource("file:" + fileStore.getFullPath(store_file_name));
         String encodedUploadFileName = UriUtils.encode(upload_file_name, StandardCharsets.UTF_8);
         String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
+        log.info("contentDisposition={}",contentDisposition);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
@@ -129,28 +133,15 @@ public class AdoptBoardController {
             adoptBoardservice.bookmark(vo);
             return new ResponseEntity(true, HttpStatus.OK);
         }
-
             vo.setBookmark(false);
             adoptBoardservice.bookmark(vo);
         return new ResponseEntity(false, HttpStatus.OK);
     }
     @ResponseBody
     @PostMapping("/bookmarkList")
-    public Map<String, List<?>> bookmarkList(UploadFileVO vo){
-        Map<String, List<?>> map = new HashMap<>();
+    public List<AdoptBoardBookMarkVO> bookmarkList(UploadFileVO vo){
         List<AdoptBoardBookMarkVO> list = adoptBoardservice.bookmarkList();
-        List<ThumbnailVO> thumbnailList = new ArrayList<>();
-
-        for (AdoptBoardBookMarkVO li : list) {
-            vo.setBoard("adoptBoard");
-            vo.setId(li.getAdt_id());
-            ThumbnailVO fileName = uploadFileService.getThumbnail(vo);
-            thumbnailList.add(fileName);
-        }
-        map.put("boardList",list);
-        map.put("thumbnailList", thumbnailList);
-
-        return map;
+        return list;
     }
 
     @RequestMapping("/deleteBoard/{adt_id}")

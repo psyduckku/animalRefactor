@@ -11,5 +11,7 @@ public class AdoptBoardBookMarkVO {
     private String title;
     private String content;
     private String login_id;
+    private String store_file_name;
+    private String regdate;
 
 }

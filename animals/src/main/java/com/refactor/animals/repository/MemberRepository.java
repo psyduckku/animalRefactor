@@ -11,7 +11,7 @@ public interface MemberRepository {
     Optional<MemberVO> findMember(String loginId);
     List<MemberVO> findAll();
     Optional<MemberVO> isLoginIdDuplicate(String loginId);
-
+    void updateAccessTime(MemberVO vo);
 
 
 }

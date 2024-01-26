@@ -2,6 +2,8 @@ package com.refactor.animals.beans.entity;
 
 import lombok.*;
 
+import java.util.Date;
+
 //Data 핵심 도메인에서 사용X
 @NoArgsConstructor
 @Getter @Setter
@@ -22,7 +24,7 @@ public class MemberVO {
     private String detail_address;
     private String extra_address;
 
-    private String access_time;
+    private Date access_time;
     private String access_ip;
     private String browser;
     private String withdrawal_date;
@@ -61,15 +63,24 @@ public class MemberVO {
         this.password = password;
     }
 
-    /****
-     * 로그인 반환
+    /****로그인정보반환
+     *
+     * @param id
      * @param login_id
+     * @param update_info_password
      * @param nickname
-     * @param grade
+     * @param access_time
+     * @param access_ip
+     * @param browser
      */
-    public MemberVO(String login_id, String nickname, String grade) {
+    public MemberVO(Long id, String login_id, String update_info_password, String nickname, Date access_time, String access_ip, String browser, String grade) {
+        this.id = id;
         this.login_id = login_id;
+        this.update_info_password = update_info_password;
         this.nickname = nickname;
+        this.access_time = access_time;
+        this.access_ip = access_ip;
+        this.browser = browser;
         this.grade = grade;
     }
 }

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{template/common/layout/defaultLayout.html}"
+      layout:fragment="content">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/marketBoard/detailPage.css">
@@ -14,11 +16,13 @@
         <div class="main_imgs_wrap">
             <div class="thumb_img_wrap">
                 <!-- 썸네일 리스트반복 -->
-                <th:block th:each="p : ${product}">
-                <div class="thumb_img"><img th:src="|/adoptBoard/images/${p.getStore_file_name()}|" onmouseover="pick_img(this)"></div>
+                <th:block th:if="${not #lists.isEmpty(product.files)}" th:each="p : ${product.files}">
+                    <div class="thumb_img"><img th:src="|/adoptBoard/images/${p.getStore_file_name()}|" onmouseover="pick_img(this)"></div>
                 </th:block>
             </div>
-            <div class="bic_img_wrap"><img id="bic_img" th:src="|/adoptBoard/images/${product[0].getStore_file_name()}|"></div>
+            <th:block th:if="${not #lists.isEmpty(product.files)}">
+                <div class="bic_img_wrap"><img id="bic_img" th:src="|/adoptBoard/images/${product.files[0].getStore_file_name()}|"></div>
+            </th:block>
         </div>
         <div class="main_content_wrap">
             <div class="modal_wrap">
@@ -42,12 +46,12 @@
                     </div>
                 </div>
             </div>
-            <div class="detail_content" th:text="${product[0].content}"></div>
+            <div class="detail_content" th:text="${product.content}"></div>
         </div>
     </div>
     <div class="right">
-        <div class="title_wrap right_div" th:text="${product[0].title}">타이틀</div>
-        <div class="price_wrap right_div" th:text="|${product[0].price}원|">제품 금액</div>
+        <div class="title_wrap right_div" th:text="${product.title}">타이틀</div>
+        <div class="price_wrap right_div" th:text="|${product.price}원|">제품 금액</div>
         <div class="del_price_wrap right_div">
             <div class="r_head">배송비</div><div class="r_con"></div>
         </div>
@@ -78,8 +82,8 @@
 </div>
 <script th:inline="javascript">
     let img_src='';
-    const title = [[${product[0].title}]];
-    let price = [[${product[0].price}]];
+    const title = [[${product.title}]];
+    let price = [[${product.price}]];
     const bic_img = document.getElementById('bic_img');
     const op_select = document.getElementById('op_select').addEventListener('change', add_prod);
     const modal = document.querySelector('.modal_wrap');

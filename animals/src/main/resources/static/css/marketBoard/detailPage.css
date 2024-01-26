@@ -143,7 +143,7 @@ button{
     width: 76%;
     height: 32px;
     background-color: #fafafa;
-    font-size:15px;
+    font-size:18px;
     border: none;
 }
 .quantity_input{
@@ -152,6 +152,9 @@ button{
     font-size: 15px;
     margin-left: 5px;
     text-align: center;
+}
+.s_div{
+    font-size:18px;
 }
 .basket_modal{
     display:flex;
@@ -219,4 +222,8 @@ button{
     padding: 20px;
     display: flex;
     justify-content: center;
+}
+.detail_content{
+    font-size: 20px;
+    padding: 15px;
 }

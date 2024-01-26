@@ -41,13 +41,7 @@ th, td{
     background-color: white;
 
 }
-.option_bar{
-    border: 1px solid black;
-    width: 100%;
-    height: 30px;
-    text-align: center;
-    background-color: white;
-}
+
 a{
     cursor:pointer;
 }
@@ -87,4 +81,11 @@ a{
 }
 .evalu_count{
     display: inline;
+}
+.option_bar, updateBtn{
+    border: 1px solid black;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    background-color: white;
 }

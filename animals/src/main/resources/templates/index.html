@@ -5,29 +5,135 @@
       layout:fragment="content">
 <head>
   <link rel="stylesheet" th:href="@{/css/index.css}"/>
+    <link rel="stylesheet" href="/library/swiper-11.0.5/swiper-bundle.css"/>
+
+    <script src="/library/swiper-11.0.5/swiper-bundle.js"></script>
   <title>Document</title>
 </head>
 <body>
 <div class="container">
-  <div class="left">
+  <div class="left part">
+      <div class="free_board">
+          <!-- 이하 view -->
+      </div>
+<!--      <div class="view">-->
+<!--          <div class="img_wrap"></div>-->
+<!--          <div class="desc_wrap">-->
+<!--              <div class="title_wrap"></div>-->
+<!--              <div class="con_wrap"></div>-->
+<!--          </div>-->
+<!--      </div>-->
   </div>
-  <div class="right">
-        <div class="box info">info
-          <a href="/base/updatePage">동물업데이트</a>
+  <div class="right part">
+        <div class="info">
+<!--          <a href="/base/updatePage">동물업데이트</a>-->
           <div id="info_box">
+              <div id="welcome"></div>
+              <div id="time_history"></div>
           </div>
         </div>
+
+
         <!-- 사이드 -->
         <div class="side_wrap">
+            공고임박동물
         </div>
-
   </div>
 </div>
+<div class="container2">
+    <!-- 베스트 상품 리스트 -->
+    <div class="b_left">
+        <div class="best_product">
+            <div class="bp_title"><h3>인기상품 베스트</h3></div>
+            <div class="bp_wrap">
+                <div class="bp_list">리스트 1</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="b_right">
+        <!-- Slider main container -->
+        <div class="swiper_title">애니멀즈 굿즈</div>
+        <div class="swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+<!--                <div class="swiper-slide">Slide 1</div>-->
+<!--                <div class="swiper-slide">Slide 2</div>-->
+<!--                <div class="swiper-slide">Slide 3</div>-->
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+
+            <!-- If we need navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+
+            <!-- If we need scrollbar -->
+            <div class="swiper-scrollbar"></div>
+        </div>
+    </div>
+
+</div>
+
 </body>
 <script th:inline="javascript">
-  let data=null;
-  let bookmark=null;
-          async function getAsideList() {
+window.addEventListener('DOMContentLoaded', ()=>{
+    getAsideList();
+    getBookmarkList();
+    get_product();
+});
+
+let data=null;
+let bookmark=null;
+const access_time = [[${session.accessTime}]];
+let time = access_time.split('.');
+let parse_time = time[0].replace('T', ' ');
+const welcome = document.getElementById('welcome');
+const time_history = document.getElementById('time_history');
+welcome.innerText = [[${session.login_id}]]+'님 환영합니다.';
+time_history.innerText = '최근접속('+parse_time+')';
+
+async function get_product(){
+    const swiper_wrapper = document.querySelector('.swiper-wrapper');
+
+    const response = await fetch('/market/getMainProdList', {
+        headers : {
+            'Content-Type' : 'application/json'
+        } ,
+    })
+    if(response.ok){
+         const list = await response.json();
+         list.forEach((p)=>{
+             const slide = document.createElement('div');
+             const prod_img_wrap = document.createElement('div');
+             const prod_desc_wrap = document.createElement('div');
+             const prod_price_wrap = document.createElement('div');
+             const img = document.createElement('img');
+             const title = document.createElement('p');
+             // const price = document.createElement('p');
+             slide.classList.add('swiper-slide');
+             prod_img_wrap.classList.add('prod_img_wrap');
+             prod_desc_wrap.classList.add('prod_desc_wrap');
+             prod_price_wrap.classList.add('prod_price_wrap')
+             img.src=`/adoptBoard/images/${p.store_file_name}`;
+             title.innerHTML = `${p.title}`;
+             // price.innerHTML = `${p.price}원`;
+             prod_img_wrap.appendChild(img);
+             prod_desc_wrap.appendChild(title);
+             // prod_price_wrap.appendChild(price);
+             slide.appendChild(prod_img_wrap);
+             slide.appendChild(prod_desc_wrap);
+             slide.appendChild(prod_price_wrap);
+             swiper_wrapper.appendChild(slide);
+         })
+    }else{
+        console.error(response.status);
+    }
+}
+
+
+async function getAsideList() {
     try{
       const response = await fetch('/animalBoard/getAsideBoard', {
         headers: {
@@ -36,6 +142,7 @@
       })
        data = await response.json();
       const side_wrap = document.querySelector('.side_wrap');
+
       data.forEach((list)=>{
         const imminent_wrap = document.createElement('div');
         const imm_head = document.createElement('div');
@@ -62,8 +169,7 @@
       console.error(error);
     }
   }
-
-  async function getBookmarkList() {
+async function getBookmarkList() {
 
     try {
       const response = await fetch('/adoptBoard/bookmarkList', {
@@ -74,39 +180,69 @@
       })
         if(response.ok){
           bookmark = await response.json();
-
-          for(i=0; i<bookmark.thumbnailList.length;i++){
-            let main_pic_div =  document.getElementById(`main_pic${i}`);
-            let main_con_title = document.getElementById(`main_con_title${i}`);
-            let main_con_content = document.getElementById(`main_con_content${i}`)
-            let title_p = document.createElement('p');
-            let content_p = document.createElement('p');
-            let adt_id = bookmark.thumbnailList[i]?.adt_id ?? 'x';
-            if(adt_id!=='x'){
-              document.getElementById(`a_main${i}`).href=`/adoptBoard/${bookmark.thumbnailList[i].adt_id}`;
-              main_pic_div.src= `/adoptBoard/images/${bookmark.thumbnailList[i].store_file_name}`;
-              title_p.innerText = bookmark.boardList[i].title;
-              content_p.innerHTML = bookmark.boardList[i].content.replace(/\n/g, '<<br/>');
-              main_con_title.appendChild(title_p);
-              main_con_content.appendChild(content_p);
-            }else{
-              console.log(`북마크된 게시글 x`);
+          console.log(bookmark);
+          const free_board = document.querySelector('.free_board');
+                bookmark.forEach((m)=>{
+                    const view = document.createElement('div');
+                    const img_wrap = document.createElement('div');
+                    const desc_wrap = document.createElement('div');
+                    const title_wrap = document.createElement('div');
+                    const con_wrap = document.createElement('div');
+                    const login_id_wrap = document.createElement('div');
+                    const login_id =document.createElement('p');
+                    view.classList.add('view');
+                    img_wrap.classList.add('img_wrap');
+                    desc_wrap.classList.add('desc_wrap');
+                    title_wrap.classList.add('title_wrap');
+                    con_wrap.classList.add('con_wrap');
+                    login_id_wrap.classList.add('login_id_wrap');
+                    login_id.innerText=m.login_id;
+                    login_id_wrap.appendChild(login_id);
+                    const img = document.createElement('img');
+                    if(m.store_file_name)
+                        img.src=`/adoptBoard/images/${m.store_file_name}`;
+                    img_wrap.appendChild(img);
+                    img_wrap.appendChild(login_id_wrap);
+                    title_wrap.innerText=m.title;
+                    const text = m.regdate.split(' ');
+                    con_wrap.innerText=text[0];
+                    // con_wrap.innerHTML= m.content.replace(/<br\s*\/?>/gi, '\n').replace(/&nbsp;/g, ' ');
+                    desc_wrap.appendChild(title_wrap);
+                    desc_wrap.appendChild(con_wrap);
+                    view.appendChild(img_wrap);
+                    view.appendChild(desc_wrap);
+                    free_board.appendChild(view);
+                })
             }
-
-
-            console.log(main_con_title);
-
-          }
-        }
-
     }catch(error){
       console.error(error);
     }
-  }
+}
 
-  window.addEventListener('DOMContentLoaded', ()=>{
-    getAsideList();
-    getBookmarkList();
-  });
+/* 슬라이드 */
+const swiper = new Swiper('.swiper', {
+   // Optional parameters
+   direction: 'horizontal',
+   loop: true,
+   autoplay: {
+       delay: 3000,
+   },
+   slidesPerView: 3,
+   // If we need pagination
+   pagination: {
+       el: '.swiper-pagination',
+   },
+
+   // Navigation arrows
+   navigation: {
+       nextEl: '.swiper-button-next',
+       prevEl: '.swiper-button-prev',
+   },
+
+   // And if we need scrollbar
+   scrollbar: {
+       el: '.swiper-scrollbar',
+   },
+});
 </script>
 </html>

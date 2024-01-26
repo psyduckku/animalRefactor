@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    static final int MAX_N = 10;
+    static final int MAX_N = 5; //임의의 전체노드개수
     static int N, E;
     static int[][] Graph = new int[MAX_N][MAX_N];
     public static void main(String[] args) {
@@ -17,14 +17,14 @@ public class Main {
         for(int i = 0; i < E; ++i){
             int u = sc.nextInt();
             int v = sc.nextInt();
-            Graph[u][v] = Graph[u][v] = 1; //각 노드의 정점에 값을 1로 초기화
+            Graph[u][v] = Graph[v][u] = 1; //각 노드의 정점에 값을 1로 초기화
 
         }
         bfs(0); //최상위 노드부터 시작
         sc.close();
     }
     static void bfs(int node){
-        boolean[] visited = new boolean[MAX_N];
+        boolean[] visited = new boolean[MAX_N];  //false 초기화
 
         Queue<Integer> myqueue = new LinkedList<>();
         visited[node] = true;

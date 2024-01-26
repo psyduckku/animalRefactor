@@ -17,7 +17,6 @@ import java.util.Map;
 public class EmailController {
 
     private final EmailUtil emailUtil;
-
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @PostMapping("auth/sendEmail")
@@ -26,7 +25,6 @@ public class EmailController {
         String email = (String) params.get("email");
         String code = (String) params.get("random_number");
         emailUtil.sendEmail(email, (String) params.get("subject"), (String) params.get("body"));
-
         return code;
     }
 }

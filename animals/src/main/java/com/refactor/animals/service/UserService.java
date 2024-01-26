@@ -18,4 +18,6 @@ public interface UserService {
     List<MemberVO> memberList();
 
     boolean isLoginIdDuplicate(String id);
+
+    void updateAccessTime(MemberVO vo);
 }

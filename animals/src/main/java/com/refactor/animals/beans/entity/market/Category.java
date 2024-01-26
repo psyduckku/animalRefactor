@@ -17,4 +17,7 @@ public class Category {
     private String code_name;
     private String up_code;
     private List<Category> children;
+
+
+
 }

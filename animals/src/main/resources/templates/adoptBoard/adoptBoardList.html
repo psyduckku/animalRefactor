@@ -5,6 +5,7 @@
       layout:fragment="content">
 <head>
     <title>Document</title>
+    <link rel="stylesheet" href="/css/adoptBoard/adoptBoardList.css">
 </head>
 <body>
 <div id="container">
@@ -12,7 +13,7 @@
     <table class="table table-hover" id="contentTable">
 <!--        <th:block th:each="info : ">-->
         <tr class="table-default">
-            <td>번호</td><td>제목</td><td>작성자</td><td>작성일자</td><td>조회수</td>
+            <td class="num">번호</td><td class="title">제목</td><td class="writer">작성자</td><td class="written_day">작성일자</td><td class="cnt">조회수</td>
         </tr>
 
         <th:block th:each="info : ${response.list}">

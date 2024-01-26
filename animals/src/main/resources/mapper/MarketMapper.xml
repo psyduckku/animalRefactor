@@ -4,37 +4,79 @@
 
     <resultMap id="categoryHierarchyMap" type="Category">
         <id column="l_category_id" property="category_id" javaType="int"/>
-        <result column="l_code" property="code" javaType="string"/>
-        <result column="l_code_name" property="code_name" javaType="string"/>
-        <result column="l_up_code" property="up_code" javaType="string"/>
+        <result column="l_code" property="code" javaType="String"/>
+        <result column="l_code_name" property="code_name" javaType="String"/>
+        <result column="l_up_code" property="up_code" javaType="String"/>
         <collection property="children" ofType="Category">
             <id column="m_category_id" property="category_id" javaType="int"/>
-            <result column="m_code" property="code" javaType="string"/>
-            <result column="m_code_name" property="code_name" javaType="string"/>
-            <result column="m_up_code" property="up_code" javaType="string"/>
+            <result column="m_code" property="code" javaType="String"/>
+            <result column="m_code_name" property="code_name" javaType="String"/>
+            <result column="m_up_code" property="up_code" javaType="String"/>
             <collection property="children" ofType="Category">
                 <id column="s_category_id" property="category_id" javaType="int"/>
-                <result column="s_code" property="code" javaType="string"/>
-                <result column="s_code_name" property="code_name" javaType="string"/>
-                <result column="s_up_code" property="up_code" javaType="string"/>
+                <result column="s_code" property="code" javaType="String"/>
+                <result column="s_code_name" property="code_name" javaType="String"/>
+                <result column="s_up_code" property="up_code" javaType="String"/>
             </collection>
         </collection>
     </resultMap>
 
-    <resultMap id="productVO" type="ProductVO">
+    <resultMap id="productVO" type="ProductVO" autoMapping="true">
         <id column="product_id" property="product_id" javaType="int"/>
         <result column="title" property="title" javaType="String"/>
         <result column="content" property="content" javaType="String"/>
         <result column="price" property="price" javaType="int"/>
-        <result column="stock" property="stock" javaType="int"/>
         <result column="status" property="status" javaType="int"/>
         <result column="thumbnail_content" property="thumbnail_content" javaType="String"/>
-        <result column="major_cate" property="major_cate" javaType="int"/>
-        <result column="sub_cate" property="sub_cate" javaType="int"/>
         <result column="category_id" property="category_id" javaType="int"/>
-        <result column="store_file_name" property="store_file_name" javaType="String"/>
-        <result column="store_id" property="store_id" javaType="int"/>
+        <result column="code" property="code" javaType="String"/>
+        <result column="code_name" property="code_name" javaType="String"/>
+        <result column="up_code" property="up_code" javaType="String"/>
+        <result column="etc" property="etc" javaType="String"/>
+
+        <!-- 업로드된 이미지파일 -->
+        <collection property="files" ofType="com.refactor.animals.beans.entity.UploadFileVO" javaType="list" autoMapping="true">
+            <id column="store_id" property="store_id" javaType="int"/>
+            <result column="board" property="board" javaType="String"/>
+            <result column="id" property="id" javaType="int"/>
+            <result column="upload_file_name" property="upload_file_name" javaType="String"/>
+            <result column="store_file_name" property="store_file_name" javaType="String"/>
+            <result column="ext_name" property="ext_name" javaType="String"/>
+            <result column="file_size" property="file_size" javaType="double"/>
+        </collection>
+        <!-- 재고 -->
+        <collection property="stockArr" ofType="com.refactor.animals.beans.entity.market.Stock" javaType="list" autoMapping="true">
+            <id property="stock_id" column="stock_id" javaType="int"/>
+            <result column="size" property="size" javaType="String"/>
+            <result column="qty" property="qty" javaType="int"/>
+            <result column="product_id" property="product_id" javaType="int"/>
+        </collection>
     </resultMap>
+
+    <resultMap id="product" type="Product">
+        <result column="product_id" javaType="int" property="product_id"/>
+        <result column="title" property="title" javaType="String"/>
+        <result column="content" property="content" javaType="String"/>
+        <result column="price" property="price" javaType="int"/>
+        <result column="status" property="status" javaType="int"/>
+        <result column="thumbnail_content" property="thumbnail_content" javaType="String"/>
+        <result column="category_id" property="category_id" javaType="int"/>
+        <result column="code" property="code" javaType="String"/>
+        <result column="code_name" property="code_name" javaType="String"/>
+        <result column="up_code" property="up_code" javaType="String"/>
+        <result column="stock_id" property="stock_id" javaType="int"/>
+        <result column="size" property="size" javaType="String"/>
+        <result column="qty" property="qty" javaType="int"/>
+        <result column="store_id" property="store_id" javaType="int"/>
+        <result column="board" property="board" javaType="String"/>
+        <result column="id" property="id" javaType="int"/>
+        <result column="upload_file_name" property="upload_file_name" javaType="String"/>
+        <result column="store_file_name" property="store_file_name" javaType="String"/>
+        <result column="ext_name" property="ext_name" javaType="String"/>
+        <result column="file_size" property="file_size" javaType="int"/>
+    </resultMap>
+
+
 
     <select id="selectCategoryHierarchy" resultMap="categoryHierarchyMap">
         select
@@ -44,66 +86,86 @@
         from
         category l
         left outer join category m on (l.code = m.up_code)
+        limit 11
 <!--        left outer join category s on (m.code = s.up_code)-->
     </select>
 
     <select id="getSubCategory" parameterType="String" resultType="Category">
-        SELECT category_id, code, code_name FROM category WHERE up_code = #{up_code};
+        SELECT category_id, code, code_name, up_code FROM category WHERE up_code = #{up_code};
     </select>
 
-    <insert id="regProduct" parameterType="ProductVO" useGeneratedKeys="true" keyProperty="product_id">
+    <select id="getUpperCate" parameterType="String" resultType="Category">
+        SELECT
+        category_id, code, code_name
+        FROM category
+        WHERE up_code = #{up_code};
+    </select>
+
+    <insert id="regProduct" parameterType="productVO" useGeneratedKeys="true" keyProperty="product_id">
         INSERT INTO product
-        (title, content,price, stock, status, thumbnail_content, category_id)
+        (title, content, price, status, thumbnail_content, category_id)
         VALUES(
-            #{title}, #{content}, #{price}, #{stock}, #{status},
+            #{title}, #{content}, #{price}, #{status},
             #{thumbnail_content}, #{category_id}
         )
     </insert>
     <update id="modProduct" parameterType="ProductVO">
-        UPDATE product set #{title}, #{content}, #{price}, #{stock}, #{STATUS},
-        #{thumbnail_content}, #{category_id}
+        UPDATE product set
+        title = #{title}, content = #{content}, price = #{price}, stock_id = #{stock_id}, status = #{STATUS},
+        thumbnail_content = #{thumbnail_content}, category_id = #{category_id}
         where product_id = #{product_id}
     </update>
 
-    <delete id="delProduct" parameterType="int">
-        delete from product where product_id = #{product_id}
+    <delete id="deleteProd" parameterType="ProdStockVO">
+        delete from stock where product_id = #{product_id} and size = #{size}
     </delete>
 
-    <select id="findProduct" parameterType="int" resultType="ProductVO">
+    <select id="findProduct" parameterType="int" resultMap="productVO">
         select * from product where product_id = #{product_id}
     </select>
 
-    <select id="getProductList" resultType="ProductVO">
+    <select id="getProductList" resultMap="productVO">
         select * from product
     </select>
 
-    <resultMap id="adminProdVoList" type="AdminProdVoList">
-        <result column="product_id" property="product_id" javaType="int"/>
-        <result column="title" property="title" javaType="String"/>
-        <result column="content" property="content" javaType="String"/>
-        <result column="price" property="price" javaType="int"/>
-        <result column="stock" property="stock" javaType="int"/>
-        <result column="status" property="status" javaType="int"/>
-        <result column="category_id" property="category_id" javaType="int"/>
-        <result column="code_name" property="code_name" javaType="String"/>
-        <result column="store_file_name" property="store_file_name" javaType="String"/>
-        <result column="id" property="id" javaType="int"/>
-    </resultMap>
 
+<!--    <resultMap id="productParam" type="ProductParam">-->
+<!--        <result column="product_id" property="product_id" javaType="int"/>-->
+<!--        <result column="title" property="title" javaType="String"/>-->
+<!--        <result column="content" property="content" javaType="String"/>-->
+<!--        <result column="price" property="price" javaType="int"/>-->
+<!--        <result column="status" property="status" javaType="int"/>-->
+<!--        <result column="category_id" property="category_id" javaType="int"/>-->
+<!--        <result column="code" property="code" javaType="String"/>-->
+<!--        <result column="code_name" property="code_name" javaType="String"/>-->
+<!--        <result column="up_code" property="up_code" javaType="String"/>-->
+<!--        <result column="stock_id" property="stock_id" javaType="int"/>-->
+<!--        <result column="size" property="size" javaType="String"/>-->
+<!--        <result column="qty" property="qty" javaType="int"/>-->
+<!--        <result column="etc" property="etc" javaType="String"/>-->
+<!--        <result column="thumbnail_img" property="thumbnail_img" javaType="String"/>-->
+<!--        <result column="thumbnail_content" property="thumbnail_content" javaType="String"/>-->
+<!--        <result column="store_file_name" property="store_file_name" javaType="String"/>-->
+<!--        <result column="id" property="id" javaType="int"/>-->
+<!--    </resultMap>-->
 
-    <select id="getAdminProdList" resultType="AdminProdVoList" parameterType="AdminProdVoList">
+    <select id="getAdminProdList" resultMap="product" parameterType="AdminProdListParam">
         SELECT
-        p.product_id,p.title, p.thumbnail_content, p.price, p.stock, p.status,
-        c.category_id, c.code_name,
-        min(f.store_id), f.store_file_name, f.upload_file_name
+        p.product_id, title, price, STATUS
+        STATUS, size, qty,
+        store_file_name,
+        c.code_name
         FROM product p
-        JOIN category c
+        LEFT JOIN stock s
+        ON p.product_id = s.product_id
+        LEFT JOIN file_store f
+        ON p.product_id = f.id AND f.board = 'product'
+        LEFT JOIN category c
         ON p.category_id = c.category_id
-        JOIN file_store f
-        ON p.product_id = f.id and f.board = 'product'
+        GROUP BY product_id, size
         <where>
             <if test="title">
-                AND p.title LIKE concat('%' #{keyword} '%')
+                AND p.title LIKE concat('%' #{title} '%')
             </if>
             <if test="status">
                 and p.status = #{status}
@@ -112,19 +174,19 @@
                 and c.category_id = #{category_id}
             </if>
         </where>
-        GROUP BY product_id
     </select>
-    <select id="getMainProductList" parameterType="AdminProdVoList">
+
+    <select id="getMainProductList" resultMap="product">
         SELECT
-        product_id, title, thumbnail_content, price, stock,
-        store_file_name, id, board, store_id, upload_file_name
+        product_id, title, thumbnail_content, price, stock_id,
+        store_file_name, id, board, store_id, upload_file_name, status
         FROM product p
         JOIN file_store f
         ON p.product_id=f.id
         WHERE f.board='product' AND p.status = 1
         GROUP BY product_id
     </select>
-    <select id="getDetailPage" resultType="ProductVO" parameterType="int">
+    <select id="getDetailPage" resultMap="productVO" parameterType="int">
         SELECT
         product_id, title, content, price,
         store_file_name, store_id
@@ -133,5 +195,51 @@
         ON p.product_id = f.id
         WHERE p.product_id = #{product_id}
     </select>
+
+    <insert id="regStock" parameterType="Stock">
+        INSERT INTO stock(product_id, size, qty)
+        values(
+        #{product_id} #{size}, #{qty}
+        )
+
+
+    </insert>
+
+    <select id="getAdminProd" parameterType="productParam" resultMap="productVO">
+        SELECT
+        p.product_id, p.TITLE, p.content, p.thumbnail_content, p.price, p.status, p.category_id, p.etc,
+        S.stock_id, S.size, S.qty, f.upload_file_name, f.store_file_name, f.store_id, f.id,
+        c.category_id, c.code_name, c.up_code, c.code
+        FROM product P
+        LEFT JOIN stock S
+        ON P.PRODUCT_ID = S.PRODUCT_ID
+        LEFT JOIN file_store f
+        ON s.product_id = f.id AND board ='product'
+        LEFT JOIN category c
+        ON p.category_id = c.category_id
+        WHERE P.PRODUCT_ID = #{product_id} and s.size = #{size}
+    </select>
+
+    <update id="updateProd" parameterType="productVO">
+        UPDATE product
+        SET
+        TITLE = #{title}, content = #{content}, thumbnail_content = #{thumbnail_content},
+        price = #{price}, status = #{status}, category_id = #{category_id}, etc = #{etc}
+        WHERE product_id = #{product_id}
+    </update>
+
+
+
+    <delete id="deleteFile" parameterType="int">
+        DELETE FROM file_store WHERE store_id = #{store_id}
+    </delete>
+
+    <update id="updateStock" parameterType="Stock">
+        update stock
+        set
+        size = #{size}, qty = #{qty}
+        where product_id = #{product_id} and size = #{size}
+
+    </update>
 
 </mapper>

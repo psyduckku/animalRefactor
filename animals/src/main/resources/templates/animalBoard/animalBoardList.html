@@ -12,7 +12,7 @@
     <div class="subnav">
         <form action="/animalBoard/animalBoardList" method="get">
             <label>
-                <select th:name="sortRegion">
+                <select th:name="sortRegion" class="sort">
                     <option th:each=" region : ${sortRegion}"
                             th:value="${region.value}" th:text="${region.key}">
                         지역분류
@@ -20,7 +20,7 @@
                 </select>
             </label>
             <label>
-                <select th:name="sortSpecies">
+                <select th:name="sortSpecies" class="sort">
                     <option th:each="species : ${sortSpecies}"
                             th:value="${species.value}" th:text="${species.key}">
                         종분류
@@ -30,26 +30,26 @@
             <input type="submit" value=" 검 색 " class="search">
         </form>
     </div>
-<div class="table-responsive">
+<div class="table">
     <table class="table table-hover">
         <tr class="table-info">
-            <td>이미지</td>
-            <td id="sigun">시군</td>
-            <td id="dscvr">발견장소</td>
-            <td id="recept">접수일자</td>
-            <td id="species">품종</td>
-            <td id="state">상태</td>
-            <td id="crct">특징</td>
+            <td class="head" id="img_head">이미지</td>
+            <td class="head" id="sigun">시군</td>
+            <td class="head" id="dscvr">발견장소</td>
+            <td class="head" id="recept">접수일자</td>
+            <td class="head" id="species">품종</td>
+            <td class="head" id="state">상태</td>
+            <td class="head" id="crct">특징</td>
         </tr>
         <th:block th:each="info : ${response.list}">
             <tr class="table-info">
                 <td id="list_img"><a th:href="@{/animalBoard/animalBoard(ASEQ=${info.ASEQ})}"><img th:src="${info.IMAGE_COURS}" class="img" alt="#"></a></td>
-                <td class="table-default" th:text="${info.SIGUN_NM}">시군</td>
-                <td class="table-default" th:text="${info.DISCVRY_PLC_INFO}">발견장소</td>
-                <td class="table-default" th:text="${info.RECEPT_DE}">접수일자</td>
-                <td class="table-default" th:text="${info.SPECIES_NM}">품종</td>
-                <td class="table-default" th:text="${info.STATE_NM}">상태</td>
-                <td class="table-default info" th:text="${info.SFETR_INFO}">특징</td>
+                <td class="sigun" th:text="${info.SIGUN_NM}">시군</td>
+                <td class="plc_info" th:text="${info.DISCVRY_PLC_INFO}">발견장소</td>
+                <td class="recept" th:text="${info.RECEPT_DE}">접수일자</td>
+                <td class="nm" th:text="${info.SPECIES_NM}">품종</td>
+                <td class="state" th:text="${info.STATE_NM}">상태</td>
+                <td class="sfetr" th:text="${info.SFETR_INFO}">특징</td>
             </tr>
         </th:block>
 </table>

@@ -39,14 +39,14 @@
                 <div class="right_wrap">
                     <div class="sub_title">대분류</div> <!-- 카테고리 검색을 통해 선택하도록 함-->
                     <div class="value_box">
-                        <select id="major_cate">
+                        <select id="major_cate" class="select">
                         </select>
                     </div>
                 </div>
                 <div class="right_wrap">
                     <div class="sub_title">소분류</div>
                     <div class="value_box">
-                        <select id="sub_cate">
+                        <select id="sub_cate" class="select">
                         </select>
                     </div>
                 </div>
@@ -55,16 +55,32 @@
                     <div class="value_box"> <input type="text" id="title"></div>
                 </div>
                 <div class="right_wrap textarea">
-                    <div class="sub_title" id="sub_title_column">내용</div>
-                    <div class="value_box" id="value_box_column"> <textarea wrap="hard" placeholder="상품 기본설명입력" id="content"></textarea></div>
+                    <div class="sub_title sub_title_column">내용</div>
+                    <div class="value_box value_box_column"> <textarea wrap="hard" placeholder="상품 기본설명입력" id="content"></textarea></div>
+                </div>
+                <div class="right_wrap textarea memo">
+                    <div class="sub_title sub_title_column memo_title">메모</div>
+                    <div class="value_box value_box_column"> <textarea wrap="hard" placeholder="상품 기본설명입력" id="etc"></textarea></div>
+
                 </div>
                 <div class="right_wrap">
                     <div class="sub_title">가격</div>
                     <div class="value_box"> <input type="number" id="price" value="-1" title="숫자만 입력하세요"></div>
                 </div>
-                <div class="right_wrap">
-                    <div class="sub_title">재고</div>
-                    <div class="value_box"> <input type="number" value="0" min="1" id="stock"></div>
+                <div class="right_wrap" id="stock_wrap">
+                    <div class="sub_title" id="stock_subtitle">재고</div>
+                    <div class="value_box" id="stock_stat_wrap">
+                        <div class="stat_box">
+                            <ol class="ol" id="ol">
+                                <li>
+                                    <input type="text" class="size_name" placeholder="사이즈"><input type="number" class="size_qty" placeholder="수량"><button class="del_btn">삭제</button>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="stock_btn_bar">
+                        <button class="qty_add">사이즈 추가</button>
+                    </div>
                 </div>
                 <div class="right_wrap">
                     <div class="sub_title">상태</div>
@@ -88,12 +104,47 @@
     const major_cate = document.getElementById('major_cate');
     const sub_cate = document.getElementById('sub_cate');
     let category_id ='';
+    const qty_add = document.querySelector('.qty_add');
 
     window.addEventListener('DOMContentLoaded', () => {
         get_category();
     })
 
-    async function regProduct(){
+    function add_size(btn){
+        const ol = document.querySelector('ol'); //li의 부모
+        const li = document.createElement('li');
+        const del_btn = document.createElement('button');
+        const size_name = document.createElement('input');
+        const size_qty = document.createElement('input');
+        del_btn.innerText='삭제';
+        del_btn.classList.add('del_btn');
+        size_name.classList.add('size_name');
+        size_qty.classList.add('size_qty');
+        size_name.type='text';
+        size_qty.type='number';
+        size_name.setAttribute('placeholder', '사이즈');
+        size_qty.setAttribute('placeholder', '수량');
+        li.appendChild(size_name);
+        li.appendChild(size_qty);
+        li.appendChild(del_btn);
+        ol.appendChild(li);
+
+        del_btn.addEventListener('click', function(){
+            del_size(this);
+        })
+    }
+
+    function del_size(btn){
+        const li = btn.parentElement;
+        const ol = li.parentElement;
+        ol.removeChild(li);
+    }
+
+    qty_add.addEventListener('click', add_size);
+
+
+
+    async function reg_prod(){
         //category_id 값을 가져옴. 하위값이 있다면 하위값 id를 가져오고, 하위값이 없다면 상위값 id를 가져옴
         if(sub_cate.value==='x'){
             category_id = major_cate.selectedOptions[0].dataset.id;
@@ -104,9 +155,12 @@
         const title = document.getElementById('title').value;
         const content = document.getElementById('content').value;
         const price = document.getElementById('price').value;
-        const stock = document.getElementById('stock').value;
         const status = document.getElementById('status').value;
         const thumbnail_content = document.getElementById('thumbnail_content').value;
+        //재고
+        let name = document.querySelectorAll('.size_name');
+        let qty = document.querySelectorAll('.size_qty');
+        let stockArr = [];
 
         if(title.length===0){
             alert('제목을 입력하세요');
@@ -116,15 +170,26 @@
             return;
         }
 
+        name.forEach((s, idx)=>{
+            let stock = {
+                size : s.value,
+                qty : qty[idx].value
+            }
+            stockArr.push(stock);
+        });
+
+
         try{
             const product = {
                 title : title,
                 content : content,
                 price : price,
-                stock : stock,
+                stockArr : stockArr, //빈 등록해야함
                 status : status,
                 thumbnail_content : thumbnail_content,
-                category_id : category_id
+                category_id : category_id,
+                etc : document.getElementById('etc').value,
+
             }
             const file = upload_file.files;
             const formData = new FormData(document.getElementById('form'));
@@ -135,13 +200,13 @@
                     formData.append('file', f);
                 }
             }
-
             const resp = await fetch('/adminBoard/regProduct', {
                 method : 'POST',
                 body : formData,
             })
               if(resp.ok){
                 const result = await resp.json();
+                console.log(result);
                 if(result===1){
                     alert('상품이 등록완료 되었습니다.');
                     window.close();
@@ -155,7 +220,7 @@
     }
 
 
-    document.getElementById('reg_btn').addEventListener('click', regProduct);
+    document.getElementById('reg_btn').addEventListener('click', reg_prod);
 
     async function get_category(){
         //카테고리 데이터를 가져옴.

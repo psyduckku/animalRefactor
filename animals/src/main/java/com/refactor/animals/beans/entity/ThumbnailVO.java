@@ -6,9 +6,11 @@ import lombok.*;
 @Getter
 @ToString
 @AllArgsConstructor
-//@NoArgsConstructor
+@NoArgsConstructor
 public class ThumbnailVO {
 
     private int adt_id;
     private String store_file_name;
+    private String board;
+    private int id;
 }

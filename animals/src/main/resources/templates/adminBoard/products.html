@@ -13,36 +13,40 @@
 <div class="container">
   <div class="left">
       <div class="top">
-          <button id="add_product">상품등록</button>
-          <button id="del_product">삭제</button>
+          <div class="btn_bar">
+              <button id="add_product">상품등록</button>
+              <button id="show_input">삭제</button>
+              <button id="ok">확인</button>
+          </div>
       </div>
       <div class="mid">
           <div class="product_list">
               <table id="product_table">
                   <tr>
-                      <td class="hiding"></td>
-                      <td>번호</td>
-                      <td>상품명</td>
-                      <td>가격</td>
-                      <td>재고</td>
-                      <td>상태</td>
-                      <td>카테고리</td>
-                      <td>썸네일</td>
+                      <td></td>
+                      <td id="id" class="head">상품번호</td> <!-- product_id -->
+                      <td id="prod_name" class="head">상품명</td><!-- title -->
+                      <td id="price" class="head">가격</td> <!-- price -->
+                      <td id="size" class="head">사이즈</td> <!-- size -->
+                      <td id="qty" class="head">수량</td> <!-- qty -->
+                      <td id="stat" class="head">상태</td>
+                      <td id="cate" class="head">카테고리</td> <!-- code_name -->
+                      <td id="thumb" class="head">썸네일</td> <!-- upload_file_name -->
+                      <td id="reg_sale" class="head">판매등록</td>
                   </tr>
-
-
-
 
               </table>
           </div>
       </div>
       <div class="bottom">
-          <select>
-              <option>상태</option>
-              <option value="1">판매중</option>
-              <option value="2">중지</option>
-          </select>
-          <input type="search" id="keyword"> <button>검색</button>
+          <div class="btn_bar_bt">
+              <select>
+                  <option>상태</option>
+                  <option value="1">판매중</option>
+                  <option value="2">중지</option>
+              </select>
+              <input type="search" id="keyword"> <button>검색</button>
+          </div>
       </div>
   </div>
   <div class="right">
@@ -52,79 +56,116 @@
   </div>
 </div>
 <script th:inline="javascript">
-
+    let data
     window.addEventListener('DOMContentLoaded', async ()=> {
 
-        const resp = await fetch('/adminBoard/getProductList', {
+        const resp = await fetch('/adminBoard/getAdminProdList', {
             headers : {
                 'Content-Type' : 'application/json',
             },
             method: 'GET',
         })
         if(resp.ok){
-            const data = await resp.json();
+            data = await resp.json();
             const product_table = document.getElementById('product_table');
-            data.forEach((li)=>{
-                const tr = document.createElement('tr');
-                const product_id = document.createElement('td');
-                const title = document.createElement('td');
-                const price = document.createElement('td');
-                const stock = document.createElement('td');
-                const status = document.createElement('td'); //-- product
-                const code_name = document.createElement('td'); //category
-                const img_td = document.createElement('td'); // file_store
-                const img = document.createElement('img');
-                product_id.innerHTML =li.product_id;
-                title.innerHTML = `<a href='/market/detailPage'>${li.title}</a>`;
-                price.innerHTML = li.price;
-                stock.innerHTML = li.stock;
-                if(li.status===0){
-                    status.innerText ='중지';
-                }else{
-                    status.innerText ='판매중';
-                }
-                code_name.innerHTML = li.code_name;
-                img.src=`/adoptBoard/images/${li.store_file_name}`;
-                img_td.appendChild(img);
-                img_td.id = 'img_td';
-                tr.appendChild(product_id);
-                tr.appendChild(title);
-                tr.appendChild(price);
-                tr.appendChild(stock);
-                tr.appendChild(status);
-                tr.appendChild(code_name);
-                tr.appendChild(img_td);
+                            data.forEach((data)=>{
+                                const tr = document.createElement('tr');
+                                const check = document.createElement('td');
+                                const product_id = document.createElement('td');
+                                const title = document.createElement('td');
+                                const price = document.createElement('td');
+                                const size = document.createElement('td');
+                                const qty = document.createElement('td');
+                                const status = document.createElement('td'); //-- product
+                                const code_name = document.createElement('td'); //category
+                                const img_td = document.createElement('td'); // file_store
+                                const img = document.createElement('img');
+                                const ck_in = document.createElement('input');
+                                ck_in.type = 'checkbox';
+                                ck_in.classList.add('ck_in');
+                                ck_in.style.display='none';
+                                ck_in.value=data.product_id;
+                                ck_in.dataset.size = data.size;
+                                check.appendChild(ck_in);
+                                product_id.innerHTML =data.product_id;
+                                title.innerHTML = `<a href='/adminBoard/detail/${data.product_id}/${data.size}' target='_blank'> ${data.title}</a>`;
+                                price.innerHTML = data.price;
+                                size.innerHTML = data.size;
+                                qty.innerHTML = data.qty;
+                                if(data.status===1){
+                                    status.innerText ='판매중';
+                                }else{
+                                    status.innerText='판매중지';
+                                }
+                                code_name.innerHTML = data.code_name;
+                                img.src=`/adoptBoard/images/${data.store_file_name}`;
+                                img_td.appendChild(img);
+                                img_td.id = 'img_td';
+                                tr.appendChild(check);
+                                tr.appendChild(product_id);
+                                tr.appendChild(title);
+                                tr.appendChild(price);
+                                tr.appendChild(size);
+                                tr.appendChild(qty);
+                                tr.appendChild(status);
+                                tr.appendChild(code_name);
+                                tr.appendChild(img_td);
+                                product_table.appendChild(tr);
+                            })
 
-
-                product_table.appendChild(tr);
-            })
         }
     });
+
+    const show_check_input = document.getElementById('show_input');
+
+    show_check_input.addEventListener('click', show_check);
+    function show_check(){
+        const check_in = document.querySelectorAll('.ck_in');
+        check_in.forEach((c) => {
+            c.style.display = 'block';
+        });
+
+    }
+
 
     async function del_product(){
 
         const result = confirm("삭제 이후 복원이 불가능합니다. 삭제하시겠습니까?");
 
         if(result){
-            const product_ids = $('.checkbox:checked').map(function(){
-                return $(this).val();
-            }).get();
+            // const product_ids = $('.ck_in:checked').map(function(){
+            //     return $(this).val();
+            // }).get();
+            const product_ids = document.querySelectorAll('.ck_in:checked');
+            let product_arr = [];
+            product_ids.forEach((m)=>{
+                let product = {
+                    product_id : m.value,
+                    size : m.dataset.size,
+                };
+                product_arr.push(product);
+            });
+            /*  product_arr 서버로 보내기전에, 담을 vo 만들기 여러개가 보내지기 때문에 list에 담아야함.       */
 
             const resp= await fetch('/adminBoard/delProduct', {
                 headers:{
                     'Content-Type' : 'application/json',
                 },
                 method: 'POST',
-                body : JSON.stringify(product_ids),
+                body : JSON.stringify(product_arr),
             })
             if(resp.ok){
-                location.reload();
+                const result = await resp.json();
+                alert(`${result}건 삭제완료`)
+                // location.reload();
             }
         }
     }
 
 
-    document.getElementById('del_product').addEventListener('click', del_product);
+
+
+    document.getElementById('ok').addEventListener('click', del_product);
     document.getElementById('add_product').addEventListener('click', ()=>{
         const width = '1000';
         const height = '800';

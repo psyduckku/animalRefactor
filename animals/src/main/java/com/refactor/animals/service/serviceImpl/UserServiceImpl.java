@@ -35,10 +35,19 @@ public class UserServiceImpl implements UserService {
         }
         MemberVO finedMember = member.get();
         log.info("userImpl finedMember={}",finedMember);
+
         if(!encoder.matches(loginForm.getPassword(),finedMember.getPassword())){
             throw new UserException("비밀번호 불일치");
         }
-        return new MemberVO(finedMember.getLogin_id(), finedMember.getNickname(), finedMember.getGrade());
+
+        //여기서 필요한 정보만 골라내서 반환.
+//        id,login_id,update_info_password,nickname,access_time,access_ip,browse
+        MemberVO returnInfo = new MemberVO(finedMember.getId(), finedMember.getLogin_id(),finedMember.getUpdate_info_password(),
+                finedMember.getNickname(),finedMember.getAccess_time(),finedMember.getAccess_ip(),finedMember.getBrowser(), finedMember.getGrade());
+
+
+
+        return returnInfo;
     }
     @Override
     public HttpStatus join(JoinForm joinForm) {
@@ -59,6 +68,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isLoginIdDuplicate(String checkId) {
         return memberRepository.findMember(checkId).isPresent();
+    }
+
+    @Override
+    public void updateAccessTime(MemberVO vo) {
+        memberRepository.updateAccessTime(vo);
     }
 
 
