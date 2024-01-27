@@ -9,12 +9,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 </head>
 <body>
 <div id="overlay"></div>
-<div class="container-sm">
-<h1>분양후기 게시판</h1>
+<div class="container">
+    <div class="board_title">
+        <h1>분양후기 게시판</h1>
+    </div>
     <div id="option_container">
         <div id="option_wrap">
             <div class="option_bar" id="deleteBtn"><span>삭제하기</span></div>
-            <div calss="option_bar" id="updateBtn"><span>수정하기</span></div>
+            <div class="option_bar" id="updateBtn"><span>수정하기</span></div>
         </div>
     </div>
     <div id="option_icon_wrap"><span><img src="/img/icon/dots-vertical.png" style="width: 20px"> </span></div>
@@ -31,33 +33,33 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
             </svg>
         </a>
     </div>
-<div id="table_container">
-
-<table class="table">
-    <thead class="table-white">
-    <tr>
-        <td th:text="|작성자 ${board.login_id}|"></td>
-    </tr>
-    </thead>
-    <tr>
-        <td th:text="${board.title}"></td>
-    </tr>
-    <tr>
-        <td th:utext="${#strings.replace(board.content, '\n', '<br/>')}"></td>
-    </tr>
-</table>
-
-    <th:block th:each="file : ${files}">
-        <div>
-        <img th:src="|/adoptBoard/images/${file.getStore_file_name()}|" width="300"><!--property.application 정의 값 가져오기-->
-    <ul>
-        <a th:href="|/adoptBoard/attach/${file.getStore_id()}|">
-            <li th:text="|${file.getUpload_file_name()}(size: ${file.getFile_size()})|"> </li>
-        </a>
-    </ul>
+    <div id="post_box">
+        <table class="post_table">
+            <tr id="bd_title_tr"><td id="bd_title" th:text="${board.title}"></td></tr>
+            <tr id="writer_info_tr">
+                    <td id="writer_info">
+                        <p th:text="|작성자 ${board.login_id}|"/>
+                        <p th:text="${board.regdate}"/>
+            <tr>
+                <td id="bd_con" th:utext="${#strings.replace(board.content, '\n', '<br/>')}"></td></tr>
+        </table>
+        <div id="img_box">
+            <th:block th:if="${!files.isEmpty()}" th:each="file : ${files}">
+                <img th:src="|/adoptBoard/images/${file.getStore_file_name()}|" width="300"/><!--property.application 정의 값 가져오기-->
+            </th:block>
         </div>
-    </th:block>
-</div>
+
+        <div id="img_info_box">
+            <ul>
+            <th:block th:if="${!files.isEmpty()}" th:each="info : ${files}">
+                    <a th:href="|/adoptBoard/attach/${info.getStore_id()}|">
+                        <li th:text="|${info.getUpload_file_name()}(size:${info.getFile_size()})|"/>
+                    </a>
+            </th:block>
+            </ul>
+        </div>
+
+    </div>
     <table class="table table-hover" id="reply_table">
             <tr>
                 <td class="reply_head" id="head_content">내용</td>

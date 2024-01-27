@@ -24,9 +24,9 @@
     </select>
 
     <select id="getBoard" resultType="AdoptBoardVO" parameterType="AdoptBoardVO">
-        SELECT title, content, login_id, regdate, adt_id, cnt, bookmark
+        SELECT title, content, login_id, date_format(regdate,'%Y-%m-%d %H:%i') as regdate, adt_id, cnt, bookmark
         FROM ADOPT_BOARD
-        WHERE adt_id = #{adt_id}
+        WHERE adt_id =#{adt_id}
     </select>
 
     <select id="boardCount" resultType="int" parameterType="SearchDto">

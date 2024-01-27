@@ -1,6 +1,4 @@
-@charset "UTF-8";
-*{ margin: 0 auto; padding: 0; box-sizing: border-box;
-}
+
 #list_img img{
     width: 250px;
     height: 250px;
@@ -9,14 +7,11 @@
 #sigun, #state{
     width: 90px;
 }
-#dscvr{width: 120px;}
-#recept{width: 90px;}
-#crct{width: 300px;}
+/*#dscvr{width: 120px;}*/
+/*#recept{width: 90px;}*/
+/*#crct{width: 300px;}*/
 .table_container{
     width: 1300px;
-}
-.subnav{
-    height: 60px;
 }
 select{
     height: 40px;
@@ -89,4 +84,8 @@ option{
 }
 .table td{
     border-bottom: 1px solid #f2f2f2;
+}
+.list_title{
+    text-align:center;
+    margin: 30px;
 }

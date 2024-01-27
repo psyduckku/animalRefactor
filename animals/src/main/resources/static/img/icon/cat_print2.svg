@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<g id="레이어-1" vectornator:layerName="레이어 1"/>
+<g id="레이어-2" vectornator:layerName="레이어 2">
+<path d="M357.23 465.007C486.09 412.86 632.675 474.677 684.636 603.078C736.598 731.48 674.259 877.844 545.399 929.991C416.539 982.138 269.955 920.321 217.993 791.919C166.032 663.518 228.37 517.154 357.23 465.007Z" fill="#393632" fill-rule="nonzero" opacity="1" stroke="#f5f1eb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="10.3187" vectornator:layerName="타원 1"/>
+<path d="M299.809 222.226C345.278 203.826 398.152 228.484 417.907 277.301C437.663 326.118 416.818 380.609 371.349 399.009C325.881 417.409 273.006 392.751 253.251 343.934C233.496 295.117 254.34 240.626 299.809 222.226Z" fill="#3d3a37" fill-rule="nonzero" opacity="1" stroke="#fcfaf8" stroke-linecap="butt" stroke-linejoin="round" stroke-width="10.3187" vectornator:layerName="타원 2"/>
+<path d="M575.578 181.452C639.403 155.623 712.146 186.587 738.055 250.611C763.965 314.634 733.228 387.474 669.403 413.302C605.578 439.131 532.835 408.168 506.926 344.144C481.017 280.12 511.753 207.281 575.578 181.452Z" fill="#393632" fill-rule="nonzero" opacity="1" stroke="#fcfaf8" stroke-linecap="butt" stroke-linejoin="round" stroke-width="10.3187" vectornator:layerName="타원 3"/>
+<path d="M769.373 459.391C807.964 443.774 852.223 463.174 868.227 502.722C884.231 542.27 865.921 586.99 827.329 602.607C788.738 618.224 744.48 598.824 728.476 559.276C712.472 519.729 730.782 475.009 769.373 459.391Z" fill="#7f6544" fill-rule="nonzero" opacity="1" stroke="#f5f1eb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="10.3187" vectornator:layerName="타원 4"/>
+</g>
+</svg>

@@ -6,6 +6,12 @@
     font-weight: 400;
     font-style: normal;
 }
+@font-face {
+    font-family: 'MaplestoryOTFBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/MaplestoryOTFBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 a{text-decoration: none; color: black  }
 nav{
     display: flex;
@@ -15,25 +21,37 @@ nav{
     padding: 8px 30px;
     background-color: #f5e6d5;
 }
-nav ul li{
-    list-style: none;
+
+.menu_nav li{
     font-size: 25px;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Pretendard-Regular', sans-serif;
+    padding: 8px 12px;
+    list-style: none;
 }
 .logo_nav{
     font-size: 35px;
+    font-family: 'MaplestoryOTFBold', sans-serif; !important;
+}
+.logo_nav img{
+    width: 50px;
+    vertical-align: bottom;
 }
 .menu_nav{
     display: flex;
     padding-left: 0;
 }
-.menu_nav li{
-    padding: 8px 12px;
-}
 .menu_nav li:hover{
-    background-color: #e1edff;
-    border-radius: 4px;
+    /*background-color: #e1edff;*/
+    border-radius: 10px;
+    list-style: none;
+    padding-top: 3px;
+    border-bottom: 2px solid darkgoldenrod;
 }
+.login_bar li{
+    list-style:none;
+    font-size: 25px
+}
+
 
 .navbar_toggleBtn{
     position: absolute;
@@ -57,6 +75,7 @@ nav ul li{
     .menu_nav li{
         width: 100%;
         text-align: center;
+        list-style: none;
     }
     .navbar_toggleBtn{
         display: block;

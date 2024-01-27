@@ -1,7 +1,4 @@
 @charset "UTF-8";
-
-*{ margin: 0 auto; padding: 0; box-sizing: border-box;
-}
 footer{
     height: 250px;
     background-color: black;

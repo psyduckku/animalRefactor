@@ -1,5 +1,6 @@
 package com.refactor.animals.beans.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -8,8 +9,8 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class AdoptBoardVO {
-
     private int adt_id;
     private String login_id;
     private String regdate;
@@ -46,4 +47,7 @@ public class AdoptBoardVO {
         this.title = title;
         this.content = content;
     }
+
+    
+
 }

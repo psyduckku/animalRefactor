@@ -9,8 +9,7 @@
   <nav>
       <div class="logo_nav">
         <a href="/base/">
-          <i class="fa-solid fa-shield-dog"></i>
-          SaveAnimals
+          애니멀즈 <img src="/img/icon/cat_print2.svg"/>
         </a>
       </div>
       <div>
@@ -22,16 +21,21 @@
               <li th:if="${session.grade=='2'}"><a th:href="@{/adminBoard/index}" th:text="#{nav.adminPage}">관리자페이지</a></li>
             </ul>
       </div>
-      <div th:if="${session.login_id!=null}">
-        <ul class="login_bar">
-          <li class="login"><a href="#" id="logoutBtn">로그아웃</a></li>
-        </ul>
-      </div>
-      <div th:unless="${session.login_id!=null}">
-        <ul class="login_bar">
-          <li class="login"><a href="/base/login">로그인</a></li>
-        </ul>
-      </div>
+      <th:block th:if="${session.login_id!=null}">
+          <div class="login_bar">
+            <ul>
+              <li><a href="#" id="logoutBtn">로그아웃</a></li>
+            </ul>
+          </div>
+      </th:block>
+
+      <th:block th:unless="${session.login_id!=null}">
+          <div class="login_bar">
+            <ul>
+              <li><a href="/base/login">로그인</a></li>
+            </ul>
+          </div>
+      </th:block>
   </nav>
 </header>
 </div>

@@ -119,7 +119,7 @@ public class BaseController {
     @GetMapping("/updatePage")
     public String updatePage(){
 
-        return "animalApi";
+        return "/animalBoard/animalApi";
     }
 
 
