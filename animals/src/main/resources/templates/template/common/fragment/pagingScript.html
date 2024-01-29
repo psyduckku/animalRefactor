@@ -11,12 +11,17 @@
      * 게시글 numbering 완료. 검색 결과에 따른 페이지 이동버튼, 넘버 이동 로직 만들어야함.
      * 해당 script는 template fragment로 사용할 것
      */
-    window.
-        const pagination = [[${response.pagination}]
-        let num = pagination.totalRecordCou
-        let n
+    window.addEventListener('DOMContentLoaded', ()=>{
+      const list = [[${response.list}]];
+      const pagination = [[${response.pagination}]];
+      const params = [[${params}]];
+      let num = pagination.totalRecordCount - ((params.page - 1) * params.recordSize);
+      drawPage(pagination, params);
+
+
+      <!-- header 작동문제로 삽입-->
       let resp=null;
-      async functio
+      async function logout(event) {
         event.preventDefault();
 
         const confirmed = confirm('로그아웃 하시겠습니까?');
@@ -67,24 +72,24 @@
       }
       let html ='';
 
-      html =`<ul class="pagination justify-content-center">`;
+      html =`<ul class="pagination">`;
       if(pagination.existPrevPage){
         html += `
-                    <li class="page-item"><a href="javascript::void(0);" onclick="movePage(1)" class="page_bt first">처음</a></li>
-                    <li class="page-item"><a href="javascript::void(0);" onclick="movePage(${pagination.startPage - 1})" class="page_bt prev">◀</a></li>
+                    <li><a href="javascript::void(0);" onclick="movePage(1)">처음</a></li>
+                    <li><a href="javascript::void(0);" onclick="movePage(${pagination.startPage - 1})">◀</a></li>
                         `;
       }
 
       for(let i = pagination.startPage; i<=pagination.endPage; i++){
         html += (i !== params.page)
-                ? `<li class="page-item"><a href="javascript:void(0);" class="page-link" onclick="movePage(${i})">${i}</a></li>`
-                : `<li class="page-item"><span class="on page-link" style="color: gray">${i}</span></li>`;
+                ? `<li><a href="javascript:void(0);" onclick="movePage(${i})">${i}</a></li>`
+                : `<li><span>${i}</span></li>`;
       }
 
       if(pagination.existNextPage){
         html += `
-                    <li class="page-item"><a href="javascript:void();" onclick="movePage(${pagination.endPage + 1});" class="page_bt next">▶</a></li>
-                    <li class="page-item"><a href="javascript:void();" onclick="movePage(${pagination.totalPageCount});" class="page_bt last">끝</a></li>
+                    <li><a href="javascript:void();" onclick="movePage(${pagination.endPage + 1});">▶</a></li>
+                    <li><a href="javascript:void();" onclick="movePage(${pagination.totalPageCount});">끝</a></li>
                      `;
       }
       html +=`</ul>`;

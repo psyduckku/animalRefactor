@@ -7,7 +7,7 @@
         (#{login_id}, #{title}, #{content})
     </insert>
     <select id="boardList" resultType="AdoptBoardVO" parameterType="SearchDto">
-        SELECT adt_id, title, content, login_id, regdate, cnt FROM ADOPT_BOARD
+        SELECT adt_id, title, content, login_id, date_format(regdate, '%Y-%m-d %H:%i'), cnt FROM ADOPT_BOARD
         <where>
             <if test="searchType=='TITLE'">
                 and title like concat('%', #{keyword}, '%')

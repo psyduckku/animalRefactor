@@ -4,17 +4,18 @@
 <head>
     <link rel="stylesheet" th:href="@{/css/header.css}" href="/css/header.css"/>
     <link rel="stylesheet" th:href="@{/css/footer.css}" href="/css/footer.css"/>
+    <link rel="stylesheet" th:href="@{/css/pagingLayout.css}" href="/css/pagingLayout.css"/>
+    <style>
+    </style>
 <!--    <link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}" href="/bootstrap/bootstrap.min.css">-->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
     <title>Title</title>
 </head>
 <body>
 <div th:replace="~{/template/common/fragment/header :: header}"></div>
 <div id="content" layout:fragment="content"></div>
-<nav aria-label="Page navigation example">
     <div class="paging"></div>
-</nav>
 <div th:replace="~{/template/common/fragment/footer :: footer}"></div>
 </body>
 <!--<script scr="/js/header.js"></script>-->

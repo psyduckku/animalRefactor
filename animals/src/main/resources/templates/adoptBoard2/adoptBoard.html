@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/template/common/layout/defaultLayout.html}"
+      layout:fragment="content">
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/adoptBoard.css" th:href="@{/css/adoptBoard.css}">
+    <title>Insert title here</title>
+</head>
+<body>
+<div id="overlay"></div>
+<div class="container">
+    <div class="board_title">
+        <h1>분양후기 게시판</h1>
+    </div>
+    <div id="option_box">
+        <div id="option_icon_wrap"><span><img src="/img/icon/dots-vertical.png" style="width: 20px"> </span></div>
+        <div id="option_wrap">
+            <div><button class="option_button" id="deleteBtn">삭제하기</button></div>
+            <div><button class="option_button" id="updateBtn">수정하기</button></div>
+        </div>
+
+        <div class="bookmark_wrap">
+            <a th:if="${board.bookmark == false}" href="#" class="bookmark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                </svg>
+            </a>
+            <a th:if="${board.bookmark == true}" href="#" class="bookmark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bookmark-check" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                </svg>
+            </a>
+        </div>
+
+    </div>
+
+
+    <div id="post_box">
+        <table class="post_table">
+            <tr id="bd_title_tr"><td id="bd_title" th:text="${board.title}"></td></tr>
+            <tr id="writer_info_tr">
+                    <td id="writer_info">
+                        <p th:text="|작성자 ${board.login_id}|"/>
+                        <p th:text="${board.regdate}"/>
+            <tr>
+                <td id="bd_con" th:utext="${#strings.replace(board.content, '\n', '<br/>')}"></td>
+            </tr>
+        </table>
+        <div id="img_box">
+            <th:block th:if="${!files.isEmpty()}" th:each="file : ${files}">
+                <img th:src="|/adoptBoard/images/${file.getStore_file_name()}|" width="300"/><!--property.application 정의 값 가져오기-->
+            </th:block>
+        </div>
+
+        <div id="img_info_box">
+            <ul>
+            <th:block th:if="${!files.isEmpty()}" th:each="info : ${files}">
+                <li>
+                    <a th:href="|/adoptBoard/attach/${info.getStore_id()}|">
+                        <span th:text="|${info.getUpload_file_name()}(size:${info.getFile_size()})|"></span>
+                    </a>
+                </li>
+            </th:block>
+            </ul>
+        </div>
+
+    </div>
+    <table id="reply_table">
+            <tr id="rpl_tr_head">
+                <td class="reply_head" id="head_content">내용</td>
+                <td class="reply_head" id="head_del"></td>
+                <td class="reply_head" id="head_writer">작성자</td>
+                <td class="reply_head" id="head_regdate"></td>
+            </tr>
+    </table>
+
+    <form id="replyForm">
+        <table class="reply_table">
+            <tr>
+                <td>
+                    <div>
+                        <input type="text" name="content" id="content_a">
+<!--                        <small>댓글을 입력하세요</small>-->
+                        <button id="reply_btn" type="button">Submit</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+<script type="text/javascript" th:inline="javascript">
+const adt_id = [[${board.adt_id}]];
+let bookmark = [[${board.bookmark}]];
+const login_id = [[${session.login_id}]];
+const overlay = document.getElementById('overlay');
+const deleteBtn = document.getElementById('deleteBtn');
+const updateBtn = document.getElementById('updateBtn');
+const reply_table = document.getElementById('reply_table');
+
+window.addEventListener('DOMContentLoaded', ()=>{
+    get_list();
+})
+async function get_list(){
+//get은 어차피 쿼리스트링이니 헤더를 설정할 필요없음
+
+    const response = await fetch(`/adoptReplyBoard/${adt_id}`, {
+        headers : {
+            'Accept' : 'application/json',
+        }
+    })
+        if(response.ok){
+            const data = await response.json();
+
+            data.forEach((reply,index)=>{
+                resp(reply.content, reply.login_id, reply.regdate);
+            })
+        }
+}
+
+async function del_reply(reply_id){
+
+    const data = {reply_id}
+
+    try {
+        const response = await fetch(`/adoptReplyBoard/deleteReply`, {
+            headers : {
+                'Content-Type' : 'application/json',
+            },
+            method: 'POST',
+            body : JSON.stringify(data),
+        })
+        if(response.ok){
+            window.location.reload();
+        }
+    }catch (error){
+        console.error(error);
+    }
+
+}
+async function markUp(){
+
+    try{
+    const response = await fetch(`/adoptBoard/bookmark/${adt_id}`, {
+        headers: {
+            'Content-Type' : 'application/json',
+        },
+        method: 'POST',
+        body: bookmark,
+    })
+        if(response.ok){
+            let result = await response.json();
+            if(result===true){
+                alert('북마크가 등록 되었습니다.');
+            }else if(result==='over'){
+                alert('북마크가 최대치(4개)입니다. 북마크 해제 후 등록해주세요.');
+            }else{
+                alert('북마크가 해제되었습니다.');
+            }
+            window.location=`/adoptBoard/${adt_id}`;
+        }
+    }catch(error){
+        console.error(error);
+    }
+}
+
+document.querySelector('.bookmark').addEventListener('click', ()=>{
+    let result;
+    try {
+        if (bookmark) {
+            result = confirm('북마크를 해제하시겠습니까?');
+            if (result) {
+                bookmark = false;
+                markUp();
+            }
+        } else {
+            result = confirm('북마크를 등록하시겠습니까?');
+            if (result) {
+                bookmark = true;
+                markUp();
+            }
+        }
+    }catch(error){
+        console.error(error);
+    }
+});
+
+async function send_reply(){
+    const upper_id=''; //내 댓글의 부모
+    const content = document.getElementById('content_a').value;
+    if(content==''){
+        alert('내용을 입력하세요.');
+        return;
+    }
+    const replyParam = {
+        login_id : login_id,
+        adt_id : adt_id,
+        upper_id : upper_id,
+        content :content,
+    }
+    try{
+        const response = await fetch('/adoptReplyBoard/insertReply', {
+            headers : {
+                'Content-Type' : 'application/json',
+            },
+            method : 'POST',
+            body : JSON.stringify(replyParam),
+        });
+        if(response.ok){
+            const reply = await response.json();
+            resp(reply.content,reply.login_id, reply.creDate);
+        }
+
+    }catch(error){
+        console.error(error);
+    }
+}
+
+function resp(content, id, regdate){
+    const tr = document.createElement('tr');
+    const con_td= document.createElement('td');
+    const del_td= document.createElement('td');
+    const id_td= document.createElement('td');
+    const date_td= document.createElement('td');
+    tr.classList.add('reply_tr');
+    con_td.classList.add('reply_con');
+    del_td.classList.add('del_td');
+    id_td.classList.add('reply_writer');
+    con_td.innerText=content;
+    del_td.innerText='x';
+    id_td.innerText=id;
+    date_td.innerText=regdate;
+    tr.appendChild(con_td);
+    tr.appendChild(del_td);
+    tr.appendChild(id_td);
+    tr.appendChild(date_td);
+    reply_table.appendChild(tr);
+}
+
+document.getElementById('option_icon_wrap').addEventListener('click', ()=> {
+    // alert('a');
+    deleteBtn.style.display="block";
+    updateBtn.style.display="block";
+    overlay.style.display="block";
+})
+overlay.addEventListener('click', ()=>{
+    deleteBtn.style.display="none";
+    updateBtn.style.display="none";
+    overlay.style.display="none";
+})
+
+
+document.getElementById('deleteBtn').addEventListener('click', ()=> {
+    const result = confirm('삭제하시겠습니까?');
+    if(result){
+        location.href=`/adoptBoard/deleteBoard/${adt_id}`;
+    }
+})
+document.getElementById('updateBtn').addEventListener('click', ()=> {
+    location.href=`/adoptBoard/updateBoardForm/${adt_id}`;
+})
+
+document.getElementById('reply_btn').addEventListener('click', send_reply);
+</script>
+</html>

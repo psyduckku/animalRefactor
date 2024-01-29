@@ -1,4 +1,4 @@
-*{margin:0; padding:0; box-sizing:border-box}
+/**{margin:0 auto; padding:0; box-sizing:border-box}*/
 #container{
  width: 100%;
     display: flex;
@@ -6,9 +6,8 @@
     justify-content:center;
 }
 #contentTable{
-    display:flex;
-    justify-content: center;
-    align-items:center;
+    width: 52%;
+
 }
 
 .num{
@@ -31,4 +30,13 @@
 th, td{
     height: 22px;
     font-size: 16px;
+}
+tr{
+    height: 30px;
+}
+#board_tr{
+    height: 30px;
+}
+.td_cen{
+    text-align: center;
 }

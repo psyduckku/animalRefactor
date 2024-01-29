@@ -1,0 +1,14 @@
+.pagination{
+    list-style: none;
+    display:flex;
+}
+.paging {
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    display: flex;
+    justify-content: center;
+}
+.pagination li{
+    margin-right: 5px;
+}

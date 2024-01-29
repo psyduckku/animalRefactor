@@ -14,7 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -29,10 +32,18 @@ public class AdoptReplyBoardController {
     @ResponseBody
     @PostMapping("/insertReply")
     public ResponseEntity insertReply(@RequestBody ReplyParam param){
+
         log.info("param={}",param);
         int row = adoptReplyBoardService.insertReply(param);
+        if(row<1){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("insert failed");
+        }
+        LocalDateTime currDate = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("YYYY-mm-dd HH:mm:ss");
+        String regdate = currDate.format(format);
+        param.setCreDate(regdate);
 
-        return ResponseEntity.ok(row);
+        return ResponseEntity.ok(param);
     }
 
     @ResponseBody

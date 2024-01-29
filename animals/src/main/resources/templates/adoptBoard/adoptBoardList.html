@@ -10,46 +10,42 @@
 <body>
 <div id="container">
     <h1 align="center">분양후기게시판</h1>
-    <table class="table table-hover" id="contentTable">
+    <table id="contentTable">
 <!--        <th:block th:each="info : ">-->
-        <tr class="table-default">
-            <td class="num">번호</td><td class="title">제목</td><td class="writer">작성자</td><td class="written_day">작성일자</td><td class="cnt">조회수</td>
+        <colgroup>
+            <col style="width: 5%">
+            <col style="width: 40%">
+            <col style="width: 10%">
+            <col style="width: 10%">
+            <col style="width: 10%">
+        </colgroup>
+        <tr>
+            <td class="td_cen">번호</td><td class="title">제목</td><td class="td_cen">작성자</td><td class="td_cen">작성일자</td><td class="td_cen">조회수</td>
         </tr>
 
         <th:block th:each="info : ${response.list}">
-            <tr>
-                <td><a th:text="${info.adt_id}"></a></td>
+            <tr id="board_tr">
+                <td class="td_cen" ><a th:text="${info.adt_id}"></a></td>
                 <td><a th:text="${info.title}" th:href="@{|/adoptBoard/${info.adt_id}|}"></a></td>
-                <td th:text="${info.login_id}"></td>
-                <td th:text="${info.regdate}"></td>
-                <td th:text="${info.cnt}"></td>
+                <td class="td_cen" th:text="${info.login_id}"></td>
+                <td class="td_cen" th:text="${info.regdate}"></td>
+                <td class="td_cen" th:text="${info.cnt}"></td>
             </tr>
         </th:block>
     </table>
-
-    <form th:object="${params}" method="get" th:action="@{/adoptBoard/adoptBoardList}">
-        <table class="table" style='width: 1000px';>
-            <tr>
-                <td align="center">
-                    <select name="searchType" th:field="*{searchType}">
-                        <option value="TITLE">제목</option>
-                        <option value="CONTENT">내용</option>
-                        <option value="WRITER">작성자</option>
-                    </select>
-                    <input type="text" th:field="*{keyword}" name="searchKeyword">
-                    <input type="submit" value="검색">
-                </td>
-            </tr>
-<!--            <c:if test="${loginUser!=null}">-->
-                <tr>
-                    <td><input type="button" th:onclick="|location.href='@{add}'|" value="글쓰기"></td>
-                </tr>
-<!--            </c:if>-->
-        </table>
-    </form>
-    <nav aria-label="Page navigation example">
+        <div id="search_wrap">
+            <form th:object="${params}" method="get" th:action="@{/adoptBoard/adoptBoardList}">
+                <select name="searchType" th:field="*{searchType}">
+                    <option value="TITLE">제목</option>
+                    <option value="CONTENT">내용</option>
+                    <option value="WRITER">작성자</option>
+                </select>
+                <input type="text" th:field="*{keyword}" name="searchKeyword">
+                <input type="submit" value="검색">
+                <input type="button" th:onclick="|location.href='@{add}'|" value="글쓰기">
+            </form>
+        </div>
         <div class="paging"></div>
-    </nav>
 </div>
 </body>
 </html>

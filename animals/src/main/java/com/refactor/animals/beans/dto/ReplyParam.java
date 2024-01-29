@@ -2,6 +2,8 @@ package com.refactor.animals.beans.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class ReplyParam {
 
@@ -16,5 +18,6 @@ public class ReplyParam {
     private int good_count;
     private int bad_count;
     private String upper_id;
+    private String creDate;
 
 }

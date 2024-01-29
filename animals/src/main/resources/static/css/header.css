@@ -13,7 +13,7 @@
     font-style: normal;
 }
 a{text-decoration: none; color: black  }
-nav{
+#head_nav{
     display: flex;
     height: 80px;
     justify-content: space-between;
