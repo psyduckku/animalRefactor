@@ -21,7 +21,7 @@
         </collection>
     </resultMap>
 
-    <resultMap id="productVO" type="ProductVO" autoMapping="true">
+    <resultMap id="productVO" type="ProductVO">
         <id column="product_id" property="product_id" javaType="int"/>
         <result column="title" property="title" javaType="String"/>
         <result column="content" property="content" javaType="String"/>
@@ -35,7 +35,7 @@
         <result column="etc" property="etc" javaType="String"/>
 
         <!-- 업로드된 이미지파일 -->
-        <collection property="files" ofType="com.refactor.animals.beans.entity.UploadFileVO" javaType="list" autoMapping="true">
+        <collection property="files" ofType="com.refactor.animals.beans.entity.UploadFileVO" javaType="list">
             <id column="store_id" property="store_id" javaType="int"/>
             <result column="board" property="board" javaType="String"/>
             <result column="id" property="id" javaType="int"/>
@@ -45,7 +45,7 @@
             <result column="file_size" property="file_size" javaType="double"/>
         </collection>
         <!-- 재고 -->
-        <collection property="stockArr" ofType="com.refactor.animals.beans.entity.market.Stock" javaType="list" autoMapping="true">
+        <collection property="stockArr" ofType="com.refactor.animals.beans.entity.market.Stock" javaType="list">
             <id property="stock_id" column="stock_id" javaType="int"/>
             <result column="size" property="size" javaType="String"/>
             <result column="qty" property="qty" javaType="int"/>
@@ -199,7 +199,7 @@
     <insert id="regStock" parameterType="Stock">
         INSERT INTO stock(product_id, size, qty)
         values(
-        #{product_id} #{size}, #{qty}
+        #{product_id}, #{size}, #{qty}
         )
 
 
